@@ -6,7 +6,7 @@
 #    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/08 08:39:46 by pmarquis          #+#    #+#              #
-#    Updated: 2023/01/30 14:41:14 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/01/30 20:20:24 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,8 +59,11 @@ DEFINES += -DLINUX
 endif
 
 INCLUDES = -I$(INCDIR) -I$(LIBFTDIR)/arr -I$(LIBFTDIR)/gnl \
-		   -I$(LIBFTDIR)/printf -I$(LIBFTDIR) \
-		   -I/Users/$(USER)/.brew/opt/readline/include
+		   -I$(LIBFTDIR)/printf -I$(LIBFTDIR)
+
+ifeq ($(OPT_LINUX),0)
+INCLUDES += -I/Users/$(USER)/.brew/opt/readline/include
+endif
 
 ARCHIVES = $(LIBFTDIR)/arr/libftarr.a $(LIBFTDIR)/gnl/libftgnl.a \
 		   $(LIBFTDIR)/printf/libftprintf.a $(LIBFTDIR)/libft.a

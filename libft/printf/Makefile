@@ -6,7 +6,7 @@
 #    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/28 22:27:26 by pmarquis          #+#    #+#              #
-#    Updated: 2022/12/26 08:12:19 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/01/30 20:22:38 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ LIBFTDIR = ..
 CC = gcc
 
 ifeq ($(OPT_DEBUG),1)
-CFLAGS = -Wall -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Wextra -g -fsanitize=address -fno-omit-frame-pointer
 else
 CFLAGS = -Wall -Wextra -Werror
 endif

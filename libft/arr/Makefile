@@ -6,7 +6,7 @@
 #    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/22 22:03:28 by pmarquis          #+#    #+#              #
-#    Updated: 2022/12/26 08:02:33 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/01/30 20:21:34 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ export OPT_DEBUG
 CC = gcc
 
 ifeq ($(OPT_DEBUG),1)
-CFLAGS = -Wall -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Wextra -g -fsanitize=address -fno-omit-frame-pointer
 else
 CFLAGS = -Wall -Wextra -Werror
 endif
