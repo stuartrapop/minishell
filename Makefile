@@ -6,12 +6,9 @@
 #    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/08 08:39:46 by pmarquis          #+#    #+#              #
-#    Updated: 2023/01/30 20:20:24 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/01/30 21:35:44 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
-
-  # export LDFLAGS="-L/Users/pmarquis/.brew/opt/readline/lib"
-  # export CPPFLAGS="-I/Users/pmarquis/.brew/opt/readline/include"
 
 .PHONY: all clean fclean mrproper re
 
