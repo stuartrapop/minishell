@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sighandler.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 22:51:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/01/29 23:38:42 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/01/30 15:45:07 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	_sig_int(void)
 {
-	if (kill(0, SIGINT))
-		error(0, "kill");
+	// if (kill(0, SIGINT))
+	// 	error(0, "kill");
 	rl_replace_line("", 1);
 	ft_putstr("\n" PS1, 1);
 	rl_on_new_line_with_prompt();
