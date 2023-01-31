@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/01/30 14:37:37 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/01/31 16:27:56 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@
 typedef enum e_toktype
 {
 	tok_var = 0,
-	tok_squote,
-	tok_dquote,
 	tok_lparen,
 	tok_rparen,
 	tok_and,
@@ -40,7 +38,8 @@ typedef enum e_toktype
 	tok_outfile,
 	tok_inheredoc,
 	tok_outappend,
-	tok_pipe
+	tok_pipe,
+	tok_string
 }	t_toktype;
 
 typedef struct s_token

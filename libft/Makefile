@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
+#    By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/12 22:29:10 by pmarquis          #+#    #+#              #
-#    Updated: 2023/01/07 02:28:26 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/01/30 16:27:35 by srapopor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ export OPT_DEBUG
 OPT_PREALLOC ?= 0
 export OPT_PREALLOC
 
-OPT_MEMLIST ?= 1
+# OPT_MEMLIST ?= 1
+OPT_MEMLIST ?= 0
 export OPT_MEMLIST
 
 OPT_LINUX ?= 1
