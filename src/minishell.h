@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/01/31 16:27:56 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:03:27 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ typedef enum e_ndtype
 }	t_ndtype;
 
 typedef struct s_node	t_node;
-
+typedef struct s_cmdline t_cmdline;
 struct s_node
 {
 	t_ndtype	tp;
 	t_node		*parent;
-	void		*data;
-	void		*data2;
+	t_node		*left;
+	t_node		*right;
+	t_cmdline	*cmdline;
 };
 
 typedef enum e_opt
@@ -81,21 +82,20 @@ struct s_cmd
 	char	*cmd;
 	char	**args;
 	char	**env;
-	int		stdin_opt;
-	char	*infile;
-	int		stdout_opt;
-	char	*outfile;
-	int		stderr_opt;
-	char	*errfile;
-	int		io[3];
+	t_arr	command_tokens;
+	t_arr 	heredoc;
+	t_arr	input;
+	t_arr	output;
+	t_arr 	append;
+	int 	_io[2];
 };
 
-typedef struct s_cmdline
+struct s_cmdline
 {
 	t_arr	cmds;
-	int		pipes_in[2];
-	int		pipes_out[2];
-}	t_cmdline;
+	int		_pipes_in[2];
+	int		_pipes_out[2];
+};
 
 int		cmd_fini(t_cmd *cl);
 int		cmd_init(t_cmd *cl);

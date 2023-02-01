@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 19:04:17 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/01 14:11:20 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:01:50 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,16 @@ typedef struct s_scan {
 	int	within_double_quotes;
 }	t_scan;
 
-int	is_sep(char c, t_scan scan)
+int	is_sep(char c, t_scan *scan)
 {
 	if (ft_strchr(" |<>()&", c) \
-	&& (!scan.within_single_quotes && !scan.within_double_quotes))
+	&& (!scan->within_single_quotes && !scan->within_double_quotes))
 		return (1);
 	return (0);
 }
 
 int	treat_quotes(char c, t_scan *scan)
 {
-
 	if (c == '\'' && !scan->within_double_quotes)
 	{
 		scan->within_single_quotes = !scan->within_single_quotes;
@@ -51,7 +50,7 @@ static char	*_tokenize_var(const char *s, t_token *tok)
 
 	ft_memset(&scan, 0, sizeof(scan));
 	// printf("_tokenize_var=%s\n", s);
-	while (*s && !is_sep(*s, scan))
+	while (*s && !is_sep(*s, &scan))
 	{
 		treat_quotes(*s, &scan);
 		++s;
