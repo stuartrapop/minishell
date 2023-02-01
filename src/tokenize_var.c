@@ -6,38 +6,39 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 19:04:17 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/01/31 16:06:56 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/01 14:11:20 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-typedef struct s_parse {
+typedef struct s_scan {
 	int	count;
 	int	index;
 	int	within_piece;
 	int	within_single_quotes;
 	int	within_double_quotes;
-}	t_parse;
+}	t_scan;
 
-int	is_sep(char c, t_parse parse)
+int	is_sep(char c, t_scan scan)
 {
 	if (ft_strchr(" |<>()&", c) \
-	&& (!parse.within_single_quotes && !parse.within_double_quotes))
+	&& (!scan.within_single_quotes && !scan.within_double_quotes))
 		return (1);
 	return (0);
 }
 
-int	treat_quotes(char c, t_parse *parse)
+int	treat_quotes(char c, t_scan *scan)
 {
-	if (c == '\'' && !parse->within_double_quotes) 
+
+	if (c == '\'' && !scan->within_double_quotes)
 	{
-		parse->within_single_quotes = !parse->within_single_quotes;
+		scan->within_single_quotes = !scan->within_single_quotes;
 		return (1);
 	}
-	if (c == '\"' && !parse->within_single_quotes) 
+	if (c == '\"' && !scan->within_single_quotes)
 	{
-		parse->within_double_quotes = !parse->within_double_quotes;
+		scan->within_double_quotes = !scan->within_double_quotes;
 		return (1);
 	}
 	return (0);
@@ -46,13 +47,13 @@ int	treat_quotes(char c, t_parse *parse)
 static char	*_tokenize_var(const char *s, t_token *tok)
 {
 	const char	*start = s;
-	t_parse 	parse;
+	t_scan 	scan;
 
-	ft_memset(&parse, 0, sizeof(parse));
+	ft_memset(&scan, 0, sizeof(scan));
 	// printf("_tokenize_var=%s\n", s);
-	while (*s && !is_sep(*s, parse))
+	while (*s && !is_sep(*s, scan))
 	{
-		treat_quotes(*s, &parse);
+		treat_quotes(*s, &scan);
 		++s;
 	}
 	tok->data = ft_strndup(start, s - start );
@@ -79,7 +80,7 @@ char	*tokenize_var(const char *s, t_token *tok)
 // {
 // 	const char	*start = s;
 
-// 	// printf("_tokenize_var=%s\n", s); 
+// 	// printf("_tokenize_var=%s\n", s);
 // 	while (*s && !ft_isspace(*s))
 // 		++s;
 // 	tok->data = ft_strndup(start, s - start + 1);
