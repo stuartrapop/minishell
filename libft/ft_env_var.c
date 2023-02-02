@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 15:55:13 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/01 14:10:58 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/02 01:28:22 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ char	*ft_env_var(const char *varname, char *env[])
 		var[vsz] = '=';
 		var[vsz + 1] = 0;
 	}
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
 		if (ft_startswith(env[i], var))
 			return (ft_strchr(env[i], '=') + 1);
-		++i;
 	}
 	return (0);
 }
