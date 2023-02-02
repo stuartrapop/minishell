@@ -6,11 +6,11 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 15:03:26 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 14:35:40 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/02 14:19:45 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "main.h"
 
 int	token_fini(t_token *tok)
 {

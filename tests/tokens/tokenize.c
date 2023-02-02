@@ -6,11 +6,11 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 02:17:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 14:36:57 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/02 14:33:46 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "main.h"
 
 typedef struct s_tokspec
 {
@@ -35,7 +35,7 @@ char	*tokenize(const char *s, t_token *tok)
 	};
 	t_tokspec	*spec;
 
-	/* printf("tokenize='%s'\n", s); */
+	/* printf("tokenize=%s\n", s); */
 	if (!skip_spaces(&s))
 		return (0);
 	spec = (t_tokspec *) &tokspecs[0];

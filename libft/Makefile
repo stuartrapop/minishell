@@ -6,7 +6,7 @@
 #    By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/12 22:29:10 by pmarquis          #+#    #+#              #
-#    Updated: 2023/01/30 16:27:35 by srapopor         ###   ########.fr        #
+#    Updated: 2023/02/02 10:39:07 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,7 @@ export OPT_DEBUG
 OPT_PREALLOC ?= 0
 export OPT_PREALLOC
 
-# OPT_MEMLIST ?= 1
-OPT_MEMLIST ?= 0
+OPT_MEMLIST ?= 1
 export OPT_MEMLIST
 
 OPT_LINUX ?= 1

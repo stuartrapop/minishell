@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/01 15:03:27 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/02 02:06:16 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef enum e_toktype
 typedef struct s_token
 {
 	t_toktype	tp;
-	void		*data;
+	char		*data;
 }	t_token;
 
 typedef enum e_ndtype

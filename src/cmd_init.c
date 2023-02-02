@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 20:01:09 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/01/26 19:23:05 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/02 14:39:13 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 int	cmd_init(t_cmd *cl)
 {
 	ft_memset(cl, 0, sizeof(t_cmd));
-	ft_memset(&cl->io, -1, sizeof(int) * 3);
+	/* ft_memset(&cl->io, -1, sizeof(int) * 3); */
 	return (1);
 }
