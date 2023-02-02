@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 01:36:29 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 14:34:03 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/02 15:03:22 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(void)
 	t_token	tok;
 	char	*s;
 
-	s = "(abcd && efgh) || (ijkl && mnop)";
+	s = "(abcd && \"efgh $hey\") || (ijkl && 'mnop $var')";
 
 	while (s && *s)
 	{
