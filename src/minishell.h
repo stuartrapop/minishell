@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 02:06:16 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/02 15:25:52 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,22 @@
 
 # define PS1	">>> "
 
+/*
+ *	lexer
+ */
+
 typedef enum e_toktype
 {
 	tok_var = 0,
-	tok_lparen,
-	tok_rparen,
-	tok_and,
-	tok_or,
 	tok_infile,
 	tok_outfile,
 	tok_inheredoc,
 	tok_outappend,
 	tok_pipe,
-	tok_string
+	tok_lparen,
+	tok_rparen,
+	tok_and,
+	tok_or
 }	t_toktype;
 
 typedef struct s_token
@@ -47,6 +50,10 @@ typedef struct s_token
 	t_toktype	tp;
 	char		*data;
 }	t_token;
+
+/*
+ *	syntax tree
+ */
 
 typedef enum e_ndtype
 {
@@ -56,7 +63,9 @@ typedef enum e_ndtype
 }	t_ndtype;
 
 typedef struct s_node	t_node;
+
 typedef struct s_cmdline t_cmdline;
+
 struct s_node
 {
 	t_ndtype	tp;
@@ -65,6 +74,10 @@ struct s_node
 	t_node		*right;
 	t_cmdline	*cmdline;
 };
+
+/*
+ *	...
+ */
 
 typedef enum e_opt
 {
@@ -113,8 +126,6 @@ int		root_node_fini(t_node *nd);
 int		skip_spaces(const char **s);
 int		token_fini(t_token *tok);
 char	*tokenize(const char *s, t_token *tok);
-char	*tokenize_dquote(const char *s, t_token *tok);
-char	*tokenize_squote(const char *s, t_token *tok);
 char	*tokenize_var(const char *s, t_token *tok);
 
 #endif
