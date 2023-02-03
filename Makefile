@@ -6,11 +6,13 @@
 #    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/08 08:39:46 by pmarquis          #+#    #+#              #
-#    Updated: 2023/01/30 21:35:44 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/02/03 16:02:40 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all clean fclean mrproper re
+
+OPT_STUART ?= 0
 
 OPT_DEBUG ?= 1
 export OPT_DEBUG
@@ -59,16 +61,25 @@ INCLUDES = -I$(INCDIR) -I$(LIBFTDIR)/arr -I$(LIBFTDIR)/gnl \
 		   -I$(LIBFTDIR)/printf -I$(LIBFTDIR)
 
 ifeq ($(OPT_LINUX),0)
+ifeq ($(OPT_STUART),1)
+INCLUDES += -I/usr/local/opt/readline/include
+else
 INCLUDES += -I/Users/$(USER)/.brew/opt/readline/include
+endif
 endif
 
 ARCHIVES = $(LIBFTDIR)/arr/libftarr.a $(LIBFTDIR)/gnl/libftgnl.a \
 		   $(LIBFTDIR)/printf/libftprintf.a $(LIBFTDIR)/libft.a
 
-ifeq ($(OPT_LINUX),1)
-LIBS = -lreadline
+ifeq ($(OPT_LINUX),0)
+ifeq($(OPT_STUART),1)
+LIBS = -L/usr/local/opt/readline/lib -lreadline
 else
 LIBS = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
+endif
+
+ifeq ($(OPT_LINUX),1)
+LIBS = -lreadline
 endif
 
 .c.o:
