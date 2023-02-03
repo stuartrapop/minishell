@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
+#    By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/08 08:39:46 by pmarquis          #+#    #+#              #
-#    Updated: 2023/02/03 16:02:40 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/02/03 16:06:43 by srapopor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all clean fclean mrproper re
 
-OPT_STUART ?= 0
+OPT_STUART ?= 1
 
 OPT_DEBUG ?= 1
 export OPT_DEBUG
@@ -72,10 +72,11 @@ ARCHIVES = $(LIBFTDIR)/arr/libftarr.a $(LIBFTDIR)/gnl/libftgnl.a \
 		   $(LIBFTDIR)/printf/libftprintf.a $(LIBFTDIR)/libft.a
 
 ifeq ($(OPT_LINUX),0)
-ifeq($(OPT_STUART),1)
+ifeq ($(OPT_STUART),1)
 LIBS = -L/usr/local/opt/readline/lib -lreadline
 else
 LIBS = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
+endif
 endif
 
 ifeq ($(OPT_LINUX),1)
