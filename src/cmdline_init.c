@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   node_fini.c                                        :+:      :+:    :+:   */
+/*   cmdline_init.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 22:32:48 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 21:44:33 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/02 21:03:37 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/03 01:17:03 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	_node_fini(t_node *nd)
+int	cmdline_init(t_cmdline *cl)
 {
-	if (nd->tp == nd_cmd)
-	{
-		if (nd->cmdline)
-		{
-			cmdline_fini(nd->cmdline);
-			nd->cmdline = 0;
-		}
-	}
-	return (0);
-}
-
-int	node_fini(t_node *nd)
-{
-	if (nd->left)
-		node_fini(nd->left);
-	if (nd->right)
-		node_fini(nd->right);
-	return (_node_fini(nd));
+	if (!ft_arr_init(&cl->cmds, 1, sizeof(t_cmd *)))
+		return (0);
+	return (1);
 }

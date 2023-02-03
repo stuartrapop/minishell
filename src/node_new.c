@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   node_fini.c                                        :+:      :+:    :+:   */
+/*   node_new.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 22:32:48 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 21:44:33 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/03 02:59:53 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/03 03:17:33 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	_node_fini(t_node *nd)
+t_node	*node_new(t_node *parent)
 {
-	if (nd->tp == nd_cmd)
-	{
-		if (nd->cmdline)
-		{
-			cmdline_fini(nd->cmdline);
-			nd->cmdline = 0;
-		}
-	}
-	return (0);
-}
+	t_node	*nd;
 
-int	node_fini(t_node *nd)
-{
-	if (nd->left)
-		node_fini(nd->left);
-	if (nd->right)
-		node_fini(nd->right);
-	return (_node_fini(nd));
+	nd = ft_calloc(1, sizeof(t_node));
+	if (!nd)
+		return (0);
+	ft_memset(nd, 0, sizeof(t_node));
+	if (parent)
+		nd->parent = parent;
+	return (nd);
 }

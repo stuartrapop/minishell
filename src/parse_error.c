@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   node_fini.c                                        :+:      :+:    :+:   */
+/*   parse_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 22:32:48 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 21:44:33 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/02 23:35:21 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/02 23:36:30 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	_node_fini(t_node *nd)
+int	parse_error(const char *title, const char *msg, t_node **nd)
 {
-	if (nd->tp == nd_cmd)
-	{
-		if (nd->cmdline)
-		{
-			cmdline_fini(nd->cmdline);
-			nd->cmdline = 0;
-		}
-	}
-	return (0);
-}
-
-int	node_fini(t_node *nd)
-{
-	if (nd->left)
-		node_fini(nd->left);
-	if (nd->right)
-		node_fini(nd->right);
-	return (_node_fini(nd));
+	*nd = 0;
+	return (error(title, msg));
 }

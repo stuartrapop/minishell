@@ -6,20 +6,23 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 19:52:11 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 14:39:01 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/03 01:04:37 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_fini(t_cmd *cl)
+void	cmd_fini(void *command)
 {
-	/* size_t	i; */
+	t_cmd	*cmd;
 
-	/* i = -1; */
-	/* while (++i < 3) */
-	/* 	if (cl->io[i] != -1) */
-	/* 		close(cl->io[i]); */
-	(void) cl;
-	return (0);
+	cmd = (t_cmd *) command;
+	ft_arr_fini(&cmd->args, &ft_del);
+	ft_arr_fini(&cmd->inputs, &ft_del);
+	ft_arr_fini(&cmd->outputs, &ft_del);
+	ft_arr_fini(&cmd->heredocs, &ft_del);
+	ft_arr_fini(&cmd->appends, &ft_del);
+	ft_del_arr(&cmd->env);
+	close(cmd->_io[0]);
+	close(cmd->_io[1]);
 }

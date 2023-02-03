@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 14:40:16 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/03 01:05:47 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,11 @@ static int	_noexec(t_cmd *cmd)
 int	exec_cmd(t_cmd *cmd, char *env[])
 {
 	/* printf("exec=%s\n", cmd->outfile); */
-	if (cmd->cmd)
-		return (_exec_cmd(cmd, env));
-	else
-		return (_noexec(cmd));
+	/* if (cmd->cmd) */
+	/* 	return (_exec_cmd(cmd, env)); */
+	/* else */
+	/* 	return (_noexec(cmd)); */
+	(void) cmd;
+	(void) env;
 	return (0);
 }
