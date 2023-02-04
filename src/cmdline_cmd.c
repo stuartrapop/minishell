@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 10:38:41 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/03 10:41:27 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/04 01:40:34 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ t_cmd	*cmdline_cmd(t_cmdline *cl)
 		cmd = cmd_new();
 		if (!cmd)
 		{
-			error("cmd_new", "nomem");
+			error(0, "nomem");
 			return (0);
 		}
-		if (!ft_arr_append(&cl->cmds, cmd, 0))
+		if (!ft_arr_append(&cl->cmds, &cmd, 0))
 		{
 			ft_free(cmd);
-			error("ft_arr_append", "nomem");
+			error(0, "nomem");
 			return (0);
 		}
 	}

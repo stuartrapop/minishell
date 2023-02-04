@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/03 14:41:27 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/04 13:01:05 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int			open_file_heredoc(const char *eof);
 int			open_file_ro(const char *path);
 int			open_file_wa(const char *path);
 int			open_file_wo(const char *path);
-int			parse(t_token *tok, t_node **root);
+int			parse(t_token *tok, t_node **nd, t_node **root);
 int			parse_cmd(t_node **nd, t_token *tok, t_node **root);
 int			parse_error(const char *title, const char *msg, t_node **nd);
 int			parse_undef(t_node **nd, t_token *tok);
@@ -128,5 +128,9 @@ int			skip_spaces(const char **s);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);
 char		*tokenize_var(const char *s, t_token *tok);
+
+# ifndef NDEBUG
+void		ast_debug(const t_node *nd, int i);
+# endif
 
 #endif

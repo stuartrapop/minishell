@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 23:01:05 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/03 15:25:35 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/03 17:26:12 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	parse_cmd(t_node **nd, t_token *tok, t_node **root)
 		if (!(*nd)->parent || !cmd_valid(cmdline_cmd((*nd)->cmdline)))
 			return (parse_error(0, "syntax", nd));
 		*nd = _next_node(*nd);
+		;
 	}
 	else if (tok->tp == tok_and || tok->tp == tok_or)
 	{

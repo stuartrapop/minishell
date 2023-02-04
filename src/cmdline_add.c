@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 23:46:32 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/03 10:56:56 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/04 01:50:09 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,31 @@ static int	_cmdline_add_pipe(t_cmdline *cl)
 	cmd = cmd_new();
 	if (!cmd)
 		return (error(0, "nomem"));
-	if (!ft_arr_append(&cl->cmds, cmd, 0))
+	if (!ft_arr_append(&cl->cmds, &cmd, 0))
 		return (error(0, "nomem") + cmd_del(&cmd));
 	return (1);
 }
 
-static int	_cmdline_add_var(t_cmdline *cl, char *var)
+static int	_cmdline_add_var(t_cmdline *cl, t_token *tok)
 {
 	t_cmd	*cmd;
+	char	*var;
 
 	cmd = cmdline_cmd(cl);
 	if (!cmd)
 		return (0);
-	if (cmd->expect == 0 && !ft_arr_append(&cmd->args, var, 0))
+	var = tok->data;
+	if (cmd->expect == 0 && !ft_arr_append(&cmd->args, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_infile && !ft_arr_append(&cmd->inputs, var, 0))
+	if (cmd->expect == tok_infile && !ft_arr_append(&cmd->inputs, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_outfile && !ft_arr_append(&cmd->outputs, var, 0))
+	if (cmd->expect == tok_outfile && !ft_arr_append(&cmd->outputs, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_inheredoc && !ft_arr_append(&cmd->heredocs, var, 0))
+	if (cmd->expect == tok_inheredoc && !ft_arr_append(&cmd->heredocs, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_outappend && !ft_arr_append(&cmd->appends, var, 0))
+	if (cmd->expect == tok_outappend && !ft_arr_append(&cmd->appends, &var, 0))
 		return (error(0, "nomem"));
+	tok->data = 0;
 	cmd->expect = 0;
 	return (1);
 }
@@ -67,10 +70,11 @@ static int	_cmdline_add_chevron(t_cmdline *cl, t_toktype tp)
 
 int	cmdline_add(t_cmdline *cl, t_token *tok)
 {
+	/* assert(cl); */
 	assert(tok->tp <= 5);
 	if (tok->tp == tok_pipe)
 		return (_cmdline_add_pipe(cl));
 	if (tok->tp == tok_var)
-		return (_cmdline_add_var(cl, tok->data));
+		return (_cmdline_add_var(cl, tok));
 	return (_cmdline_add_chevron(cl, tok->tp));
 }

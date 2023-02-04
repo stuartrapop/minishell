@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   ast_debug.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 21:51:08 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/04 13:00:34 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/03 22:26:13 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/04 12:40:15 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse(t_token *tok, t_node **nd, t_node **root)
+void	ast_debug(const t_node *nd, int i)
 {
-	if ((*nd)->tp == nd_undef)
-		return (parse_undef(nd, tok));
-	else if ((*nd)->tp == nd_cmd)
-		return (parse_cmd(nd, tok, root));
-	else
-		assert(0);
-	return (0);
+	printf("===node(%d)===\n", i);
+	printf(" ptr    = %p\n", nd);
+	printf(" tp     = %d\n", nd->tp);
+	printf(" parent = %p\n", nd->parent);
+	printf(" left   = %p\n", nd->left);
+	printf(" right  = %p\n", nd->right);
+
+	if (nd->left)
+		ast_debug(nd->left, ++i);
+	if (nd->right)
+		ast_debug(nd->right, ++i);
 }

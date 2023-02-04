@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 22:59:57 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/03 03:20:22 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/04 12:52:31 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	parse_undef(t_node **nd, t_token *tok)
 		(*nd)->tp = nd_cmd;
 		(*nd)->cmdline = cmdline_new();
 		if (!(*nd)->cmdline)
-			return (parse_error("cmdline_new", "nomem", nd));
+			return (parse_error(0, "nomem", nd));
 		if (!cmdline_add((*nd)->cmdline, tok))
 			return (parse_error(0, "syntax", nd));
 	}
@@ -31,7 +31,7 @@ int	parse_undef(t_node **nd, t_token *tok)
 		(*nd)->tp = nd_paren;
 		nd2 = node_new(*nd);
 		if (!nd2)
-			return (parse_error("node_new", "nomem", nd));
+			return (parse_error(0, "nomem", nd));
 		(*nd)->left = nd2;
 		*nd = nd2;
 	}
