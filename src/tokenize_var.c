@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 19:04:17 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 14:37:44 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/05 20:49:00 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,16 @@ static void	_treat_quotes(char c, t_scan *scan)
 		scan->within_double_quotes = !scan->within_double_quotes;
 }
 
-static char	*_tokenize_var(const char *s, t_token *tok)
+char	*tokenize_var(const char *s, t_token *tok)
 {
 	const char	*start = s;
 	t_scan		scan;
 
-	// printf("_tokenize_var='%s'\n", s);
+	if (!skip_spaces(&s))
+	{
+		token_fini(tok);
+		return (0);
+	}
 	ft_memset(&scan, 0, sizeof(scan));
 	while (*s && !_is_sep(*s, &scan))
 	{
@@ -52,19 +56,8 @@ static char	*_tokenize_var(const char *s, t_token *tok)
 	tok->data = ft_strndup(start, s - start);
 	if (!tok->data)
 	{
-		error("ft_strndup", "nomem");
+		error(0, "nomem");
 		return (0);
 	}
 	return ((char *) s);
-}
-
-char	*tokenize_var(const char *s, t_token *tok)
-{
-	/* printf("tokenize_var='%s'\n", s); */
-	if (!skip_spaces(&s))
-	{
-		token_fini(tok);
-		return (0);
-	}
-	return (_tokenize_var(s, tok));
 }
