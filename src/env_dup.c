@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 17:46:55 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 19:21:18 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/05 19:49:02 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,14 @@ static int	_copy(t_arr *env, char *environ[])
 	while (environ[i])
 	{
 		s = ft_strdup(environ[i]);
-		if (!s || !ft_arr_append(env, &s, 0))
+		if (!s)
 		{
+			ft_arr_fini(env, &ft_del);
+			return (0);
+		}
+		if (!ft_arr_append(env, &s, 0))
+		{
+			ft_free(s);
 			ft_arr_fini(env, &ft_del);
 			return (0);
 		}
@@ -48,12 +54,8 @@ t_arr	*env_dup(char *environ[])
 	env = ft_calloc(1, sizeof(t_arr));
 	if (!env)
 		return (0);
-	if (!ft_arr_init(env, _count(environ), sizeof(char *)))
-	{
-		ft_free(env);
-		return (0);
-	}
-	if (!_copy(env, environ))
+	if (!ft_arr_init(env, _count(environ), sizeof(char *))
+		|| !_copy(env, environ))
 	{
 		ft_free(env);
 		return (0);
