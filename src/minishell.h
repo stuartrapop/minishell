@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 10:49:08 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/05 19:38:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,12 @@ int			cmdline_fini(t_cmdline *cl);
 int			cmdline_init(t_cmdline *cl);
 t_cmdline	*cmdline_new(void);
 int			comp_hd(const char *line, const char *hd);
+t_arr		*env_dup(char *environ[]);
+char		*env_get(const t_arr *env, const char *varname);
+size_t		env_indexof(const t_arr *env, const char *varname);
+int			env_set(t_arr *env, const char *varname, const char *value);
 int			error(const char *title, const char *msg);
+void		exec(t_node *root, char *env[]);
 int			exec_cmd(t_cmd *cmd, char *env[]);
 int			install_sighandler(void);
 int			interp(const char *line, char *env[]);

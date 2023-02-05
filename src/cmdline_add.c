@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 23:46:32 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/04 01:50:09 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/05 18:22:10 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	_cmdline_add_chevron(t_cmdline *cl, t_toktype tp)
 
 int	cmdline_add(t_cmdline *cl, t_token *tok)
 {
-	/* assert(cl); */
+	assert(cl);
 	assert(tok->tp <= 5);
 	if (tok->tp == tok_pipe)
 		return (_cmdline_add_pipe(cl));

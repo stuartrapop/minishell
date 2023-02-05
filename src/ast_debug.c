@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 22:26:13 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 01:22:52 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/05 18:19:20 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ static const char	*_tp2str(t_ndtype tp)
 
 void	ast_debug(const t_node *nd, int i)
 {
-	printf("===node(lvl:%d)===\n", i);
-	printf(" ptr    = %p\n", nd);
-	printf(" tp     = %s\n", _tp2str(nd->tp));
-	printf(" parent = %p\n", nd->parent);
-	printf(" left   = %p\n", nd->left);
-	printf(" right  = %p\n", nd->right);
+	printf("===node(lvl:%d)===\n"
+	       " ptr    = %p\n"
+	       " tp     = %s\n"
+	       " parent = %p\n"
+	       " left   = %p\n"
+	       " right  = %p\n",
+		   i, nd, _tp2str(nd->tp), nd->parent, nd->left, nd->right);
 
 	if (nd->left)
 		ast_debug(nd->left, i + 1);
