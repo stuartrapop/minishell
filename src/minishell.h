@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 01:55:18 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/05 10:49:08 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ struct s_cmdline
 	t_arr	cmds;
 };
 
+int			ast_check(const t_node *nd);
 int			cmd_del(t_cmd **cmd);
 void		cmd_fini(void *cl);
 int			cmd_init(t_cmd *cl);
