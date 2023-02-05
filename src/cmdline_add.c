@@ -43,13 +43,13 @@ static int	_cmdline_add_var(t_cmdline *cl, t_token *tok)
 	var = tok->data;
 	if (cmd->expect == 0 && !ft_arr_append(&cmd->args, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_infile && !ft_arr_append(&cmd->inputs, &var, 0))
+	if (cmd->expect == tok_input && !ft_arr_append(&cmd->inputs, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_outfile && !ft_arr_append(&cmd->outputs, &var, 0))
+	if (cmd->expect == tok_output && !ft_arr_append(&cmd->outputs, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_inheredoc && !ft_arr_append(&cmd->heredocs, &var, 0))
+	if (cmd->expect == tok_heredoc && !ft_arr_append(&cmd->heredocs, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_outappend && !ft_arr_append(&cmd->appends, &var, 0))
+	if (cmd->expect == tok_append && !ft_arr_append(&cmd->appends, &var, 0))
 		return (error(0, "nomem"));
 	tok->data = 0;
 	cmd->expect = 0;

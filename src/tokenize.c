@@ -23,13 +23,13 @@ char	*tokenize(const char *s, t_token *tok)
 {
 	static const t_tokspec	tokspecs[] = {
 		{"&&", 2, tok_and},
-		{"<<", 2, tok_outappend},
-		{">>", 2, tok_inheredoc},
+		{"<<", 2, tok_append},
+		{">>", 2, tok_heredoc},
 		{"||", 2, tok_or},
 		{"(", 1, tok_lparen},
 		{")", 1, tok_rparen},
-		{"<", 1, tok_outfile},
-		{">", 1, tok_infile},
+		{"<", 1, tok_output},
+		{">", 1, tok_input},
 		{"|", 1, tok_pipe},
 		{0}
 	};

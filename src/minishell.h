@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/04 13:01:05 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/05 01:55:18 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@
 typedef enum e_toktype
 {
 	tok_var = 0,
-	tok_infile,
-	tok_outfile,
-	tok_inheredoc,
-	tok_outappend,
+	tok_input,
+	tok_output,
+	tok_heredoc,
+	tok_append,
 	tok_pipe,
 	tok_lparen,
 	tok_rparen,
@@ -116,6 +116,8 @@ int			install_sighandler(void);
 int			interp(const char *line, char *env[]);
 int			node_fini(t_node *nd);
 t_node		*node_new(t_node *parent);
+void		node_remove(t_node *nd, t_node *child, t_node **root);
+void		node_subst(t_node *nd, t_node *nd2, int leftside, t_node **root);
 int			open_file_heredoc(const char *eof);
 int			open_file_ro(const char *path);
 int			open_file_wa(const char *path);
@@ -123,6 +125,8 @@ int			open_file_wo(const char *path);
 int			parse(t_token *tok, t_node **nd, t_node **root);
 int			parse_cmd(t_node **nd, t_token *tok, t_node **root);
 int			parse_error(const char *title, const char *msg, t_node **nd);
+int			parse_logop(t_node **nd, t_token *tok, t_node **root);
+int			parse_paren(t_node **nd, t_token *tok, t_node **root);
 int			parse_undef(t_node **nd, t_token *tok);
 int			skip_spaces(const char **s);
 int			token_fini(t_token *tok);

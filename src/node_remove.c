@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   node_remove.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 21:51:08 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 01:41:55 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/05 01:16:50 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/05 01:20:23 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse(t_token *tok, t_node **nd, t_node **root)
+void	node_remove(t_node *nd, t_node *child, t_node **root)
 {
-	if ((*nd)->tp == nd_undef)
-		return (parse_undef(nd, tok));
-	else if ((*nd)->tp == nd_cmd)
-		return (parse_cmd(nd, tok, root));
-	else if ((*nd)->tp == nd_and || (*nd)->tp == nd_or)
-		return (parse_logop(nd, tok, root));
-	else
+	assert(nd->left == child || nd->right == child);
+	child->parent = nd->parent;
+	if (nd->parent)
 	{
-		printf("tp = %d\n", (*nd)->tp);
-		assert(0);
+		if (nd->parent->left == nd)
+			nd->parent->left = child;
+		else
+			nd->parent->right = child;
 	}
-	return (0);
+	else
+		*root = child;
 }
