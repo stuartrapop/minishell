@@ -28,6 +28,9 @@ int	main(void)
 	ft_arr_append(&a, &i, 0);
 	ft_arr_trav(&a, (t_fn1) &_print);
 
+	i = *(int *)ft_arr_get(&a, 0);
+	assert(i == 42);
+
 	i = 52;
 	ft_arr_append(&a, &i, 0);
 	ft_arr_trav(&a, (t_fn1) &_print);

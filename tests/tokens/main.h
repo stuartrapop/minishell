@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 01:38:01 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 14:26:36 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/06 11:34:10 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
