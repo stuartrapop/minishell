@@ -6,13 +6,11 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 17:43:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/06 17:04:19 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/06 21:52:24 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 static const char	*_tp2str(t_ndtype tp)
 {
@@ -52,77 +50,87 @@ char	*get_full_command(char *str, char *paths[])
 	return (NULL);
 }
 
-int	ft_waitallpids(t_cmd **cmds)
+int	ft_waitallpids(t_arr *cmds)
 {
+	int		index;
+	t_cmd	*command;
 	int		status;
 	int		status_code;
 
 	status_code = 0;
-	while (*cmds)
+	index = 0;
+	while (index < ft_arr_len((cmds)))
 	{
-		waitpid((*cmds)->pid, &status, 0);
+		command = *(t_cmd **)ft_arr_get((cmds), index);
+		waitpid(command, &status, 0);
 		if (WIFEXITED(status))
-		{
 			status_code = WEXITSTATUS(status);
-		}
 		else
 			status_code = 0;
-		*cmds++;
+		index++;
 	}
 	return (status_code);
 }
 
-int	exec_cmd(t_cmd *cmd)
+int	exec_cmd(t_cmd *cmds, int idx_cmd, t_minishell *minishell)
 {
 	char	**cmd_args;
 	int		idx_arg;
+	char	*full_path;
 
-	cmd_args = (char **)ft_arr_get(&(cmd->args), 0);
+	printf("command number %d\n", idx_cmd);
+	cmd_args = (char **)ft_arr_get(&(cmds[0]).args, 0);
 	idx_arg = 0;
-	cmd->full_path = get_full_command(cmd_args[0], cmd->paths);
-	if (!cmd->full_path)
-		return(127);
-	while (idx_arg < ft_arr_len(&(cmd->args)))
+	full_path = get_full_command(cmd_args[0], minishell->paths);
+	printf("first path %s\n", minishell->paths[0]);
+	if (!full_path)
+		return (127);
+	while (idx_arg < ft_arr_len(&((cmds)[idx_cmd].args)))
 	{
 		printf("arg %d: %s\n", idx_arg + 1, cmd_args[idx_arg]);
 		idx_arg++;
 	}
-	printf("full path %s\n", cmd->full_path);
-	execve(cmd->full_path, &cmd_args[1], cmd->env);
+	dup2(minishell->tmp_fd, STDIN_FILENO);
+	close(minishell->tmp_fd);
+	printf("full path %s\n", full_path);
+	execve(full_path, &cmd_args[0], minishell->env);
 	printf("after exec\n");
 }
 
+
 void	exec_cmd_line(const t_node *nd, t_arr *env)
 {
-	t_cmd	**commands;
-	int		idx_cmd;
-	char	**environ;
-	char	**paths;
+	t_cmd		**commands;
+	int			idx_cmd;
+	t_minishell	minishell;
 
 	printf("num commands %zu\n", ft_arr_len(&(nd->cmdline->cmds)));
-	environ = (char **)ft_arr_get(env, 0);
-	paths = ft_split(ft_env_var("PATH", environ), ':');
+	minishell.env = (char **)ft_arr_get(env, 0);
+	printf("num commands  num 2 %zu\n", ft_arr_len(&(nd->cmdline->cmds)));
+	minishell.paths = ft_split(ft_env_var("PATH", minishell.env), ':');
 	commands = (t_cmd **)ft_arr_get(&(nd->cmdline->cmds), 0);
+	if (pipe(minishell._io) == -1)
+	{
+		exit (error(0, "pipe error"));
+	}
 	idx_cmd = 0;
 	while (idx_cmd < ft_arr_len(&(nd->cmdline->cmds)))
 	{
-		commands[idx_cmd]->paths = paths;
-		commands[idx_cmd]->env = environ;
 		commands[idx_cmd]->pid = fork();
 		if (commands[idx_cmd]->pid == -1)
 			exit (error(0, "fork error"));
 		if (commands[idx_cmd]->pid == 0)
-			exec_cmd(commands[idx_cmd]);
+			exec_cmd(*commands, idx_cmd, &minishell);
 		idx_cmd++;
 	}
-	ft_waitallpids(commands);
+	ft_waitallpids(&(nd->cmdline->cmds));
 	printf("after pid waits\n");
 }
 
 void	exec(t_node *root, char *environ[])
 {
-	static t_arr	*env;
-	t_node			*current;
+	t_arr	*env;
+	t_node	*current;
 
 	//static was not working for me - env was not valid on second pass.
 	env = env_dup(environ);

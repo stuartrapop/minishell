@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/06 16:26:13 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/06 20:59:44 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,19 @@ typedef struct s_cmd
 	t_arr	outputs;
 	t_arr	heredocs;
 	t_arr	appends;
-	char	**paths;
 	char	**env;
 	char	*full_path;
 	int		_io[2];
 	int		pid;
 }	t_cmd;
+
+typedef struct s_minishell
+{
+	char	**paths;
+	char	**env;
+	int		_io[2];
+	int		tmp_fd;
+} t_minishell;
 
 struct s_cmdline
 {
