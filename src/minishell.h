@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/06 20:59:44 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/05 19:38:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,18 +91,8 @@ typedef struct s_cmd
 	t_arr	heredocs;
 	t_arr	appends;
 	char	**env;
-	char	*full_path;
 	int		_io[2];
-	int		pid;
 }	t_cmd;
-
-typedef struct s_minishell
-{
-	char	**paths;
-	char	**env;
-	int		_io[2];
-	int		tmp_fd;
-} t_minishell;
 
 struct s_cmdline
 {
@@ -127,7 +117,7 @@ size_t		env_indexof(const t_arr *env, const char *varname);
 int			env_set(t_arr *env, const char *varname, const char *value);
 int			error(const char *title, const char *msg);
 void		exec(t_node *root, char *env[]);
-// int			exec_cmd(t_cmd *cmd, char *env[]);
+int			exec_cmd(t_cmd *cmd, char *env[]);
 int			install_sighandler(void);
 int			interp(const char *line, char *env[]);
 int			node_fini(t_node *nd);
