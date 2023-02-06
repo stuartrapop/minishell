@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 17:43:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/06 21:52:24 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/06 21:56:28 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	exec_cmd(t_cmd *cmds, int idx_cmd, t_minishell *minishell)
 	char	*full_path;
 
 	printf("command number %d\n", idx_cmd);
-	cmd_args = (char **)ft_arr_get(&(cmds[0]).args, 0);
+	cmd_args = (char **)ft_arr_get(&(cmds[idx_cmd]).args, 0);
 	idx_arg = 0;
 	full_path = get_full_command(cmd_args[0], minishell->paths);
 	printf("first path %s\n", minishell->paths[0]);
