@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 19:38:27 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/07 01:38:50 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct s_cmdline	t_cmdline;
 
 struct s_node
 {
-	int			expect;
 	t_ndtype	tp;
 	t_node		*parent;
 	t_node		*left;
@@ -84,13 +83,12 @@ struct s_node
 
 typedef struct s_cmd
 {
-	int		expect;
 	t_arr	args;
 	t_arr	inputs;
 	t_arr	outputs;
 	t_arr	heredocs;
 	t_arr	appends;
-	char	**env;
+	int		_expect;
 	int		_io[2];
 }	t_cmd;
 
@@ -98,6 +96,20 @@ struct s_cmdline
 {
 	t_arr	cmds;
 };
+
+/*
+ *	shell info
+ */
+
+typedef struct s_shell
+{
+	t_arr	env;
+	int		retval;
+}	t_shell;
+
+/*
+ *	functions
+ */
 
 int			ast_check(const t_node *nd);
 int			cmd_del(t_cmd **cmd);
@@ -111,13 +123,14 @@ int			cmdline_fini(t_cmdline *cl);
 int			cmdline_init(t_cmdline *cl);
 t_cmdline	*cmdline_new(void);
 int			comp_hd(const char *line, const char *hd);
-t_arr		*env_dup(char *environ[]);
+int			env_dup(t_arr *env, char *environ[]);
 char		*env_get(const t_arr *env, const char *varname);
 size_t		env_indexof(const t_arr *env, const char *varname);
 int			env_set(t_arr *env, const char *varname, const char *value);
 int			error(const char *title, const char *msg);
 void		exec(t_node *root, char *env[]);
-int			exec_cmd(t_cmd *cmd, char *env[]);
+int			exec_builtin(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+int			exec_cmd(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
 int			install_sighandler(void);
 int			interp(const char *line, char *env[]);
 int			node_fini(t_node *nd);
@@ -134,6 +147,8 @@ int			parse_error(const char *title, const char *msg, t_node **nd);
 int			parse_logop(t_node **nd, t_token *tok, t_node **root);
 int			parse_paren(t_node **nd, t_token *tok, t_node **root);
 int			parse_undef(t_node **nd, t_token *tok);
+int			shell_init(t_shell *sh, char *environ[]);
+t_shell		*shell_new(char *environ[]);
 int			skip_spaces(const char **s);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);

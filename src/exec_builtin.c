@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_valid.c                                        :+:      :+:    :+:   */
+/*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/03 14:39:56 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 00:47:12 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/07 01:37:52 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/07 01:39:50 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//	return 1 if cmd is complete: has one argument + is not expecting more info
-
-int	cmd_valid(const t_cmd *cmd)
+int	exec_builtin(t_cmdline *cl, t_cmd *cmd, t_shell *sh)
 {
-	if (cmd->_expect || cmd->args.nelem == 0)
-		return (0);
+	printf("exec_builtin\n");
 	return (1);
 }

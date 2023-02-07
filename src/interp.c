@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:42:18 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/06 14:16:02 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/07 01:12:30 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	interp(const char *s, char *env[])
 		node_fini(root);
 		return (error(0, "syntax"));
 	}
-	ast_debug(root, 0);
+	/* ast_debug(root, 0); */
 	exec(root, env);
 	node_fini(root);
 	return (1);

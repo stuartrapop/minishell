@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 23:46:32 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 18:22:10 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/07 00:47:37 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	_cmdline_add_pipe(t_cmdline *cl)
 	else
 	{
 		cmd = *(t_cmd **) ft_arr_get(&cl->cmds, cl->cmds.nelem - 1);
-		if (cmd->expect || cmd->args.nelem == 0)
+		if (cmd->_expect || cmd->args.nelem == 0)
 			return (0);
 	}
 	cmd = cmd_new();
@@ -41,18 +41,18 @@ static int	_cmdline_add_var(t_cmdline *cl, t_token *tok)
 	if (!cmd)
 		return (0);
 	var = tok->data;
-	if (cmd->expect == 0 && !ft_arr_append(&cmd->args, &var, 0))
+	if (cmd->_expect == 0 && !ft_arr_append(&cmd->args, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_input && !ft_arr_append(&cmd->inputs, &var, 0))
+	if (cmd->_expect == tok_input && !ft_arr_append(&cmd->inputs, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_output && !ft_arr_append(&cmd->outputs, &var, 0))
+	if (cmd->_expect == tok_output && !ft_arr_append(&cmd->outputs, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_heredoc && !ft_arr_append(&cmd->heredocs, &var, 0))
+	if (cmd->_expect == tok_heredoc && !ft_arr_append(&cmd->heredocs, &var, 0))
 		return (error(0, "nomem"));
-	if (cmd->expect == tok_append && !ft_arr_append(&cmd->appends, &var, 0))
+	if (cmd->_expect == tok_append && !ft_arr_append(&cmd->appends, &var, 0))
 		return (error(0, "nomem"));
 	tok->data = 0;
-	cmd->expect = 0;
+	cmd->_expect = 0;
 	return (1);
 }
 
@@ -62,9 +62,9 @@ static int	_cmdline_add_chevron(t_cmdline *cl, t_toktype tp)
 
 	assert(tp >= 1 && tp <= 4);
 	cmd = cmdline_cmd(cl);
-	if (!cmd || cmd->expect)
+	if (!cmd || cmd->_expect)
 		return (0);
-	cmd->expect = tp;
+	cmd->_expect = tp;
 	return (1);
 }
 

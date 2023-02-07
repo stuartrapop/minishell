@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_valid.c                                        :+:      :+:    :+:   */
+/*   shell_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/03 14:39:56 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 00:47:12 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/07 00:16:25 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/07 00:17:50 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//	return 1 if cmd is complete: has one argument + is not expecting more info
-
-int	cmd_valid(const t_cmd *cmd)
+t_shell	*shell_new(char *environ[])
 {
-	if (cmd->_expect || cmd->args.nelem == 0)
+	t_shell	*sh;
+
+	sh = ft_calloc(1, sizeof(t_shell));
+	if (!sh)
 		return (0);
-	return (1);
+	if (!shell_init(sh, environ))
+	{
+		ft_free(sh);
+		return (0);
+	}
+	return (sh);
 }

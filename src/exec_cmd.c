@@ -6,65 +6,52 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 18:24:24 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/07 01:47:50 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* static int	_exec_cmd(t_cmd *cmd, char *env[]) */
-/* { */
-/* 	if (cmd->stdin_opt == 1) */
-/* 		cmd->io[0] = open_file_ro(cmd->infile); */
-/* 	else if (cmd->stdin_opt == 2) */
-/* 		cmd->io[0] = open_file_heredoc(cmd->infile); */
-/* 	if (cmd->stdout_opt == 1) */
-/* 		cmd->io[1] = open_file_wo(cmd->outfile); */
-/* 	else if (cmd->stdout_opt == 2) */
-/* 		cmd->io[1] = open_file_wa(cmd->outfile); */
-/* 	else */
-/* 	{ */
-/* 		if (pipe(cmd->pipes1) < 0) */
-/* 			return (error(0, "pipe1")); */
-/* 		cmd->io[1] = cmd->pipes1[1]; */
-/* 	} */
-/* 	if (cmd->stderr_opt == 1) */
-/* 		cmd->io[2] = open_file_wo(cmd->errfile); */
-/* 	else if (cmd->stderr_opt == 2) */
-/* 		cmd->io[2] = open_file_wa(cmd->errfile); */
-/* 	else */
-/* 	{ */
-/* 		if (pipe(cmd->pipes2) < 0) */
-/* 			return (error(0, "pipes2")); */
-/* 		cmd->io[2] = cmd->pipes2[1]; */
-/* 	} */
-/* 	(void) cmd; */
-/* 	(void) env; */
-/* 	return (0); */
-/* } */
+static int	_is_builtin(const char *cmd)
+{
+	static const char	*builtins[] = {
+		"export",
+		0
+	};
+	char				**s;
 
-/* static int	_noexec(t_cmd *cmd) */
-/* { */
-/* 	if (cmd->stdin_opt == 1) */
-/* 		close(open_file_ro(cmd->infile)); */
-/* 	else if (cmd->stdin_opt == 2) */
-/* 		close(open_file_heredoc(cmd->infile)); */
-/* 	if (cmd->stdout_opt == 1) */
-/* 		close(open_file_wo(cmd->outfile)); */
-/* 	else if (cmd->stdout_opt == 2) */
-/* 		close(open_file_wa(cmd->outfile)); */
-/* 	(void) cmd; */
-/* 	return (0); */
-/* } */
+	s = (char **) &builtins[0];
+	while (*s)
+	{
+		if (!ft_strcmp(*s, cmd))
+			return (1);
+		++s;
+	}
+	return (0);
+}
 
-/* int	exec_cmd(t_cmd *cmd, char *env[]) */
-/* { */
-/* 	printf("exec=%s\n", cmd->outfile); */
-/* 	if (cmd->cmd) */
-/* 		return (_exec_cmd(cmd, env)); */
-/* 	else */
-/* 		return (_noexec(cmd)); */
-/* 	(void) cmd; */
-/* 	(void) env; */
-/* 	return (0); */
-/* } */
+/*
+	hint:
+
+	args = &((char **) cmd->args.data)[1]
+ */
+
+int	exec_cmd(t_cmdline *cl, t_cmd *cmd, t_shell *sh)
+{
+	size_t	i;
+	char	*s;
+
+	s = *(char **) ft_arr_get(&cmd->args, 0);
+	assert(s);
+	if (_is_builtin(s))
+		return (exec_builtin(cl, cmd, sh));
+	i = -1;
+	while (++i < cmd->args.nelem)
+	{
+		s = *(char **) ft_arr_get(&cmd->args, i);
+		assert(s);
+		printf("%zu:'%s' ", i, s);
+	}
+	printf("%s", "\n");
+	return (1);
+}
