@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 01:38:50 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/07 05:17:20 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,14 @@ typedef struct s_shell
  */
 
 int			ast_check(const t_node *nd);
+int			builtin_cd(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+int			builtin_echo(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+int			builtin_env(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+int			builtin_exit(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+int			builtin_export(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+int			builtin_pwd(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+int			builtin_unset(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+int			cmd_builtin(const char *cmd);
 int			cmd_del(t_cmd **cmd);
 void		cmd_fini(void *cl);
 int			cmd_init(t_cmd *cl);
