@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 01:47:50 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/07 01:59:18 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int	_is_builtin(const char *cmd)
 /*
 	hint:
 
-	args = &((char **) cmd->args.data)[1]
+	char **args = &((char **) cmd->args.data)[1]
+	char **env = (char **) sh->env.data
  */
 
 int	exec_cmd(t_cmdline *cl, t_cmd *cmd, t_shell *sh)
