@@ -6,40 +6,68 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 05:01:00 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 17:57:23 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//	returned string must be ft_free'd
+
+static char	*_get_abspath(const char *cmd)
+{
+	char	*path;
+	char	**dirs;
+
+	if (g_shell->_path)
+		dirs = g_shell->_path;
+	else
+	{
+		path = ft_env_var("PATH", g_shell->env.data);
+		if (!path)
+			return (0);
+		dirs = ft_split(path, ':');
+		if (!dirs)
+		{
+			enomem();
+			return (0);
+		}
+		g_shell->_path = dirs;
+	}
+	return (ft_abspath_of_cmd(cmd, dirs));
+}
+
 /*
-	hints:
-
-	put in t_shell* what must survive between each user-input
-	put in t_cmdline* what must survive between each 'cmd' (pipes etc)
-
-	for cmds:
-
-	char **args = &((char **) cmd->args.data)[1]
-	char **env = (char **) sh->env.data
+ *	1) try open/read files
+ *	2) try get absolute path
+ *	3) fork
  */
 
-int	exec_cmd(t_cmdline *cl, t_cmd *cmd, t_shell *sh)
+int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 {
-	size_t	i;
-	char	*s;
+	char	**args;
+	char	*abspath;
 
-	s = *(char **) ft_arr_get(&cmd->args, 0);
-	assert(s);
-	if (cmd_builtin(s))
-		return (exec_builtin(cl, cmd, sh));
-	i = -1;
-	while (++i < cmd->args.nelem)
+	args = (char **) cmd->args.data;
+	abspath = 0;
+	if (!cmd_redir(cmd))
+		return (0);
+	if (!cmd_builtin(args[0]))
 	{
-		s = *(char **) ft_arr_get(&cmd->args, i);
-		assert(s);
-		printf("%zu:'%s' ", i, s);
+		abspath = _get_abspath(args[0]);
+		if (!abspath)
+			ft_dprintf(2, "%s: command not found\n", args[0]);
 	}
-	printf("%s", "\n");
+	cmd->_pid = fork();
+	if (cmd->_pid == 0)
+	{
+		_treat_pipes(cgrp, cmd, num);
+		if (cmd_builtin(args[0]))
+			exit(exec_builtin(cgrp, cmd));
+		execve(abspath, args, (char **) g_shell->env.data);
+		exit(127);
+	}
+	if (abspath)
+		ft_free(abspath);
 	return (1);
 }

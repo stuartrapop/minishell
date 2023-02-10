@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 23:01:05 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 01:21:39 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 09:54:06 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	_add_right_node(t_node *p, t_node **nd)
 {
 	p->right = node_new(p);
 	if (!p->right)
-		return (parse_error(0, "nomem", nd));
+		return (enomem());
 	*nd = p->right;
 	return (1);
 }
@@ -51,7 +51,7 @@ static int	_promote(t_node **nd, t_token *tok, t_node **root)
 	assert(tok->tp == tok_and || tok->tp == tok_or);
 	nd2 = node_new((*nd)->parent);
 	if (!nd2)
-		return (parse_error(0, "nomem", nd));
+		return (enomem());
 	if (tok->tp == tok_and)
 		nd2->tp = nd_and;
 	else
@@ -65,24 +65,24 @@ int	parse_cmd(t_node **nd, t_token *tok, t_node **root)
 	assert((*nd)->tp == nd_cmd);
 	if (tok->tp <= 5)
 	{
-		if (!cmdline_add((*nd)->cmdline, tok))
-			return (parse_error(0, "syntax", nd));
+		if (!cmdgrp_add((*nd)->cmdgrp, tok))
+			return (error(0, "syntax"));
 	}
 	else if (tok->tp == tok_rparen)
 	{
-		if (!(*nd)->parent || !cmd_valid(cmdline_cmd((*nd)->cmdline)))
-			return (parse_error(0, "syntax", nd));
+		if (!(*nd)->parent || !cmd_valid(cmdgrp_cmd((*nd)->cmdgrp)))
+			return (error(0, "syntax"));
 		*nd = _close_paren(*nd, root);
 		if (!*nd)
-			return (parse_error(0, "syntax", nd));
+			return (error(0, "syntax"));
 	}
 	else if (tok->tp == tok_and || tok->tp == tok_or)
 	{
-		if (!cmd_valid(cmdline_cmd((*nd)->cmdline)))
-			return (parse_error(0, "syntax", nd));
+		if (!cmd_valid(cmdgrp_cmd((*nd)->cmdgrp)))
+			return (error(0, "syntax"));
 		return (_promote(nd, tok, root));
 	}
 	else
-		return (parse_error(0, "syntax", nd));
+		return (error(0, "syntax"));
 	return (1);
 }

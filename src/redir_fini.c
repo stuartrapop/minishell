@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmdline_new.c                                      :+:      :+:    :+:   */
+/*   redir_fini.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 23:27:06 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/03 10:22:15 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/10 13:25:48 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/10 14:18:37 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmdline	*cmdline_new(void)
+void	redir_fini(void *redirect)
 {
-	t_cmdline	*cl;
+	t_redir	*redir;
 
-	cl = ft_calloc(1, sizeof(t_cmdline));
-	if (!cl)
-		return (0);
-	if (!cmdline_init(cl))
-	{
-		ft_free(cl);
-		return (0);
-	}
-	return (cl);
+	redir = (t_redir *) redirect;
+	redir->tp = redir_undef;
+	if (redir->str)
+		ft_del(&redir->str);
 }

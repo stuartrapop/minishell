@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_init.c                                       :+:      :+:    :+:   */
+/*   cmdgrp_fini.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 00:06:15 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 00:08:48 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/02 20:53:42 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/02 20:59:58 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	shell_init(t_shell *sh, char *environ[])
+int	cmdgrp_fini(t_cmdgrp *cl)
 {
-	ft_memset(sh, 0, sizeof(t_shell));
-	if (!env_dup(&sh->env, environ))
-		return (0);
-	return (1);
+	ft_arr_fini(&cl->cmds, &cmd_fini);
+	return (0);
 }

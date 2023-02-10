@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 01:37:52 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 05:16:47 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 16:02:26 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,23 @@
 typedef struct s_builtin
 {
 	char	*str;
-	int		(*f)(t_cmdline *, t_cmd *, t_shell *);
+	int		(*f)(t_cmdgrp *, t_cmd *);
 }	t_builtin;
 
-int	exec_builtin(t_cmdline *cl, t_cmd *cmd, t_shell *sh)
+//	return exit status of builtin command
+
+int	exec_builtin(t_cmdgrp *cl, t_cmd *cmd)
 {
 	char					*s;
 	t_builtin				*p;
 	static const t_builtin	builtins[] = {
-		{"echo", &builtin_echo},
 		{"cd", &builtin_cd},
-		{"pwd", &builtin_pwd},
-		{"export", &builtin_export},
-		{"unset", &builtin_unset},
+		{"echo", &builtin_echo},
 		{"env", &builtin_env},
 		{"exit", &builtin_exit},
+		{"export", &builtin_export},
+		{"pwd", &builtin_pwd},
+		{"unset", &builtin_unset},
 		{0}
 	};
 
@@ -37,8 +39,10 @@ int	exec_builtin(t_cmdline *cl, t_cmd *cmd, t_shell *sh)
 	p = (t_builtin *) &builtins[0];
 	while (p->str)
 	{
-		if (!ft_strcmp(s, p->str))
-			return ((*p->f)(cl, cmd, sh));
+		if (*p->str == *s && !ft_strcmp(p->str, s))
+			return ((*p->f)(cl, cmd));
+		++p;
 	}
-	return (0);
+	assert(0);
+	return (127);
 }

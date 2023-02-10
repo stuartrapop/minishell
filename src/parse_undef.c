@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 22:59:57 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 00:58:49 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 09:12:46 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,22 @@ int	parse_undef(t_node **nd, t_token *tok)
 	if (tok->tp <= 5)
 	{
 		(*nd)->tp = nd_cmd;
-		(*nd)->cmdline = cmdline_new();
-		if (!(*nd)->cmdline)
-			return (parse_error(0, "nomem", nd));
-		if (!cmdline_add((*nd)->cmdline, tok))
-			return (parse_error(0, "syntax", nd));
+		(*nd)->cmdgrp = cmdgrp_new();
+		if (!(*nd)->cmdgrp)
+			return (enomem());
+		if (!cmdgrp_add((*nd)->cmdgrp, tok))
+			return (error(0, "syntax"));
 	}
 	else if (tok->tp == tok_lparen)
 	{
 		(*nd)->tp = nd_paren;
 		nd2 = node_new(*nd);
 		if (!nd2)
-			return (parse_error(0, "nomem", nd));
+			return (enomem());
 		(*nd)->left = nd2;
 		*nd = nd2;
 	}
 	else
-		return (parse_error(0, "syntax", nd));
+		return (error(0, "syntax"));
 	return (1);
 }

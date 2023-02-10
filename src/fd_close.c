@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_error.c                                      :+:      :+:    :+:   */
+/*   fd_close.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 23:35:21 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 23:36:30 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/10 17:42:03 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/10 17:42:57 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_error(const char *title, const char *msg, t_node **nd)
+int	fd_close(int *fd)
 {
-	*nd = 0;
-	return (error(title, msg));
+	int	i;
+
+	i = close(*fd);
+	*fd = -1;
+	return (i);
 }

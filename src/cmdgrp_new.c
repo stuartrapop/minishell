@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmdline_cmd.c                                      :+:      :+:    :+:   */
+/*   cmdgrp_new.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/03 10:38:41 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/04 01:40:34 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/02 23:27:06 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/10 08:29:25 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// return the last cmd in the list (or create one)
-
-t_cmd	*cmdline_cmd(t_cmdline *cl)
+static int	cmdgrp_init(t_cmdgrp *cl)
 {
-	t_cmd	*cmd;
+	if (!ft_arr_init(&cl->cmds, 1, sizeof(t_cmd *)))
+		return (0);
+	return (1);
+}
 
-	if (cl->cmds.nelem == 0)
+t_cmdgrp	*cmdgrp_new(void)
+{
+	t_cmdgrp	*cl;
+
+	cl = ft_calloc(1, sizeof(t_cmdgrp));
+	if (!cl)
+		return (0);
+	if (!cmdgrp_init(cl))
 	{
-		cmd = cmd_new();
-		if (!cmd)
-		{
-			error(0, "nomem");
-			return (0);
-		}
-		if (!ft_arr_append(&cl->cmds, &cmd, 0))
-		{
-			ft_free(cmd);
-			error(0, "nomem");
-			return (0);
-		}
+		ft_free(cl);
+		return (0);
 	}
-	else
-		cmd = *(t_cmd **) ft_arr_get(&cl->cmds, cl->cmds.nelem - 1);
-	return (cmd);
+	return (cl);
 }

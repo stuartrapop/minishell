@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 05:17:20 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 17:43:30 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <stdio.h>
 # include <signal.h>
 
-# define PS1	">>> "
+# define PS1	"minishell>>> "
 
 /*
  *	lexer
@@ -66,7 +66,7 @@ typedef enum e_ndtype
 
 typedef struct s_node		t_node;
 
-typedef struct s_cmdline	t_cmdline;
+typedef struct s_cmdgrp		t_cmdgrp;
 
 struct s_node
 {
@@ -74,8 +74,27 @@ struct s_node
 	t_node		*parent;
 	t_node		*left;
 	t_node		*right;
-	t_cmdline	*cmdline;
+	t_cmdgrp	*cmdgrp;
 };
+
+/*
+ *	redirections
+ */
+
+typedef enum e_redirtp
+{
+	redir_undef = 0,
+	redir_input,
+	redir_output,
+	redir_heredoc,
+	redir_append
+}	t_redirtp;
+
+typedef struct s_redir
+{
+	t_redirtp	tp;
+	char		*str;
+}	t_redir;
 
 /*
  *	commands
@@ -84,15 +103,19 @@ struct s_node
 typedef struct s_cmd
 {
 	t_arr	args;
-	t_arr	inputs;
-	t_arr	outputs;
-	t_arr	heredocs;
-	t_arr	appends;
+	t_arr	redirs;
 	int		_expect;
+	int		_input_or_heredoc;
+	int		_output_or_append;
+	int		_input_fd;
+	int		_heredoc_fd;
+	int		_output_fd;
+	int		_append_fd;
 	int		_io[2];
+	int		_pid;
 }	t_cmd;
 
-struct s_cmdline
+struct s_cmdgrp
 {
 	t_arr	cmds;
 };
@@ -105,42 +128,49 @@ typedef struct s_shell
 {
 	t_arr	env;
 	int		retval;
+	char	**_path;
 }	t_shell;
+
+extern
+t_shell * g_shell;
 
 /*
  *	functions
  */
 
 int			ast_check(const t_node *nd);
-int			builtin_cd(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
-int			builtin_echo(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
-int			builtin_env(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
-int			builtin_exit(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
-int			builtin_export(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
-int			builtin_pwd(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
-int			builtin_unset(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+int			builtin_cd(t_cmdgrp *cl, t_cmd *cmd);
+int			builtin_echo(t_cmdgrp *cl, t_cmd *cmd);
+int			builtin_env(t_cmdgrp *cl, t_cmd *cmd);
+int			builtin_exit(t_cmdgrp *cl, t_cmd *cmd);
+int			builtin_export(t_cmdgrp *cl, t_cmd *cmd);
+int			builtin_pwd(t_cmdgrp *cl, t_cmd *cmd);
+int			builtin_unset(t_cmdgrp *cl, t_cmd *cmd);
 int			cmd_builtin(const char *cmd);
 int			cmd_del(t_cmd **cmd);
 void		cmd_fini(void *cl);
-int			cmd_init(t_cmd *cl);
 t_cmd		*cmd_new(void);
+int			cmd_redir(t_cmd *cmd);
+int			cmd_redir_append(t_cmd *cmd, t_redir *redir);
+int			cmd_redir_input(t_cmd *cmd, t_redir *redir);
+int			cmd_redir_output(t_cmd *cmd, t_redir *redir);
 int			cmd_valid(const t_cmd *cmd);
-int			cmdline_add(t_cmdline *cl, t_token *tok);
-t_cmd		*cmdline_cmd(t_cmdline *cl);
-int			cmdline_fini(t_cmdline *cl);
-int			cmdline_init(t_cmdline *cl);
-t_cmdline	*cmdline_new(void);
-int			comp_hd(const char *line, const char *hd);
-int			env_dup(t_arr *env, char *environ[]);
+int			cmdgrp_add(t_cmdgrp *cl, t_token *tok);
+t_cmd		*cmdgrp_cmd(t_cmdgrp *cl);
+int			cmdgrp_fini(t_cmdgrp *cl);
+t_cmdgrp	*cmdgrp_new(void);
+int			enomem(void);
 char		*env_get(const t_arr *env, const char *varname);
 size_t		env_indexof(const t_arr *env, const char *varname);
 int			env_set(t_arr *env, const char *varname, const char *value);
 int			error(const char *title, const char *msg);
-void		exec(t_node *root, char *env[]);
-int			exec_builtin(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
-int			exec_cmd(t_cmdline *cl, t_cmd *cmd, t_shell *sh);
+void		exec(t_node *root);
+int			exec_builtin(t_cmdgrp *cl, t_cmd *cmd);
+int			exec_cmd(t_cmdgrp *cl, t_cmd *cmd, size_t num);
+int			exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
+int			fd_close(int *fd);
 int			install_sighandler(void);
-int			interp(const char *line, char *env[]);
+int			interp(const char *s);
 int			node_fini(t_node *nd);
 t_node		*node_new(t_node *parent);
 void		node_remove(t_node *nd, t_node *child, t_node **root);
@@ -151,19 +181,21 @@ int			open_file_wa(const char *path);
 int			open_file_wo(const char *path);
 int			parse(t_token *tok, t_node **nd, t_node **root);
 int			parse_cmd(t_node **nd, t_token *tok, t_node **root);
-int			parse_error(const char *title, const char *msg, t_node **nd);
 int			parse_logop(t_node **nd, t_token *tok, t_node **root);
 int			parse_paren(t_node **nd, t_token *tok, t_node **root);
 int			parse_undef(t_node **nd, t_token *tok);
-int			shell_init(t_shell *sh, char *environ[]);
+void		redir_fini(void *redir);
 t_shell		*shell_new(char *environ[]);
+void		shell_reset(t_shell *sh);
 int			skip_spaces(const char **s);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);
 char		*tokenize_var(const char *s, t_token *tok);
 
 # ifndef NDEBUG
+
 void		ast_debug(const t_node *nd, int i);
+
 # endif
 
 #endif

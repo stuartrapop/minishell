@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmdline_init.c                                     :+:      :+:    :+:   */
+/*   shell_reset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 21:03:37 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/03 01:17:03 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/10 00:46:27 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/10 00:55:06 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmdline_init(t_cmdline *cl)
+void	shell_reset(t_shell *sh)
 {
-	if (!ft_arr_init(&cl->cmds, 1, sizeof(t_cmd *)))
-		return (0);
-	return (1);
+	if (sh->_path)
+		ft_del_arr(&sh->_path);
 }

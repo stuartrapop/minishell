@@ -16,10 +16,10 @@ static int	_node_fini(t_node *nd)
 {
 	if (nd->tp == nd_cmd)
 	{
-		if (nd->cmdline)
+		if (nd->cmdgrp)
 		{
-			cmdline_fini(nd->cmdline);
-			nd->cmdline = 0;
+			cmdgrp_fini(nd->cmdgrp);
+			nd->cmdgrp = 0;
 		}
 	}
 	return (0);

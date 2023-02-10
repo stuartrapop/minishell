@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 21:51:08 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 01:41:55 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 09:01:01 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	parse(t_token *tok, t_node **nd, t_node **root)
 		return (parse_logop(nd, tok, root));
 	else
 	{
-		printf("tp = %d\n", (*nd)->tp);
+		ft_dprintf(2, "error: parse: nd->tp = %d\n", (*nd)->tp);
 		assert(0);
 	}
 	return (0);

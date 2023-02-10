@@ -6,11 +6,61 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:16:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 00:17:50 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 00:52:36 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static size_t	_count(char *env[])
+{
+	size_t	i;
+
+	i = 0;
+	while (env[i])
+		++i;
+	return (i);
+}
+
+static int	_copy(t_arr *env, char *environ[])
+{
+	size_t	i;
+	char	*s;
+
+	i = 0;
+	while (environ[i])
+	{
+		s = ft_strdup(environ[i]);
+		if (!s)
+		{
+			ft_arr_fini(env, &ft_del);
+			return (0);
+		}
+		if (!ft_arr_append(env, &s, 0))
+		{
+			ft_free(s);
+			ft_arr_fini(env, &ft_del);
+			return (0);
+		}
+		++i;
+	}
+	return (1);
+}
+
+static int	_env_dup(t_arr *env, char *environ[])
+{
+	if (!ft_arr_init(env, _count(environ), sizeof(char *))
+		|| !_copy(env, environ))
+		return (0);
+	return (1);
+}
+
+static int	_shell_init(t_shell *sh, char *environ[])
+{
+	if (!_env_dup(&sh->env, environ))
+		return (0);
+	return (1);
+}
 
 t_shell	*shell_new(char *environ[])
 {
@@ -19,7 +69,7 @@ t_shell	*shell_new(char *environ[])
 	sh = ft_calloc(1, sizeof(t_shell));
 	if (!sh)
 		return (0);
-	if (!shell_init(sh, environ))
+	if (!_shell_init(sh, environ))
 	{
 		ft_free(sh);
 		return (0);

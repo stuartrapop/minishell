@@ -6,75 +6,80 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 17:43:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 01:07:42 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 18:00:23 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_exec(t_node *nd, t_shell *sh);
+static int	_create_pipes(t_cmdgrp *cgrp)
+{
+	size_t	i;
+	t_cmd	*cmd;
 
-static void	_exec_cmd(t_node *nd, t_shell *sh)
+	i = -1;
+	while (++i < cgrp->cmds.nelem)
+	{
+		cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, i);
+		assert(cmd);
+		if (pipe(cmd->_io) == -1)
+			return (error("pipe", strerror(errno)));
+	}
+	return (1);
+}
+
+static void	_exec_cmd(t_node *nd)
 {
 	size_t		i;
-	t_cmdline	*cl;
+	t_cmdgrp	*cgrp;
 	t_cmd		*cmd;
 
 	assert(nd->tp == nd_cmd);
-	cl = nd->cmdline;
-	i = -1;
-	while (++i < cl->cmds.nelem)
+	cgrp = nd->cmdgrp;
+	cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, 0);
+	if (cgrp->cmds.nelem == 1 && cmd_builtin(((char **) cmd->args.data)[0]))
 	{
-		cmd = *(t_cmd **) ft_arr_get(&cl->cmds, i);
+		g_shell->retval = exec_simple_builtin(cgrp, cmd);
+		return ;
+	}
+	if (!_create_pipes(cgrp))
+		return ;
+	i = -1;
+	while (++i < cgrp->cmds.nelem)
+	{
+		cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, i);
 		assert(cmd);
-		if (!exec_cmd(cl, cmd, sh))
-			break ;
+		exec_cmd(cgrp, cmd, i);
 	}
 }
 
-static void	_exec_and(t_node *nd, t_shell *sh)
+static void	_exec_and(t_node *nd)
 {
 	assert(nd->tp == nd_and);
-	_exec(nd->left, sh);
-	if (sh->retval == 0)
-		_exec(nd->right, sh);
+	exec(nd->left);
+	if (g_shell->retval == 0)
+		exec(nd->right);
 }
 
-static void	_exec_or(t_node *nd, t_shell *sh)
+static void	_exec_or(t_node *nd)
 {
 	assert(nd->tp == nd_or);
-	_exec(nd->left, sh);
-	if (sh->retval != 0)
-		_exec(nd->right, sh);
+	exec(nd->left);
+	if (g_shell->retval != 0)
+		exec(nd->right);
 }
 
-static void	_exec(t_node *nd, t_shell *sh)
+void	exec(t_node *nd)
 {
 	if (nd->tp == nd_cmd)
-		_exec_cmd(nd, sh);
+		_exec_cmd(nd);
 	else if (nd->tp == nd_and)
-		_exec_and(nd, sh);
+		_exec_and(nd);
 	else if (nd->tp == nd_or)
-		_exec_or(nd, sh);
+		_exec_or(nd);
 	else
 	{
-		printf("nd->tp = %d\n", nd->tp);
+		ft_dprintf(2, "error: exec: nd->tp = %d\n", nd->tp);
 		assert(0);
 	}
-}
-
-void	exec(t_node *root, char *environ[])
-{
-	static t_shell	*sh;
-
-	if (!sh)
-	{
-		sh = shell_new(environ);
-		if (!sh)
-		{
-			error(0, "nomem");
-			return ;
-		}
-	}
-	_exec(root, sh);
 }

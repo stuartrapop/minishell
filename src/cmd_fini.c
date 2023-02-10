@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 19:52:11 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 00:46:59 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 14:38:50 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	cmd_fini(void *command)
 
 	cmd = *(t_cmd **) command;
 	ft_arr_fini(&cmd->args, &ft_del);
-	ft_arr_fini(&cmd->inputs, &ft_del);
-	ft_arr_fini(&cmd->outputs, &ft_del);
-	ft_arr_fini(&cmd->heredocs, &ft_del);
-	ft_arr_fini(&cmd->appends, &ft_del);
+	ft_arr_fini(&cmd->redirs, &redir_fini);
 	close(cmd->_io[0]);
 	close(cmd->_io[1]);
 }

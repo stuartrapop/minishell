@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 22:51:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/01/30 15:45:07 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/10 08:49:20 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int	install_sighandler(void)
 	ft_memset(&siga, 0, sizeof(struct sigaction));
 	siga.sa_handler = &_sig_handler;
 	if (sigaction(SIGINT, &siga, 0))
-		return (error(0, "sigaction"));
+		return (error("sigaction", strerror(errno)));
 	return (1);
 }

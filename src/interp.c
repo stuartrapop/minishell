@@ -6,13 +6,21 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:42:18 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/07 01:12:30 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 15:07:22 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	interp(const char *s, char *env[])
+static int	_exec(t_node *root)
+{
+	exec(root);
+	node_fini(root);
+	shell_reset(g_shell);
+	return (1);
+}
+
+int	interp(const char *s)
 {
 	t_token	tok;
 	t_node	*root;
@@ -20,7 +28,7 @@ int	interp(const char *s, char *env[])
 
 	root = node_new(0);
 	if (!root)
-		return (error(0, "nomem"));
+		return (enomem());
 	nd = root;
 	while (s && *s)
 	{
@@ -35,8 +43,6 @@ int	interp(const char *s, char *env[])
 		node_fini(root);
 		return (error(0, "syntax"));
 	}
-	/* ast_debug(root, 0); */
-	exec(root, env);
-	node_fini(root);
-	return (1);
+	ast_debug(root, 0);
+	return (_exec(root));
 }

@@ -6,11 +6,13 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 22:28:22 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 12:07:10 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_shell	*g_shell;
 
 static void	_add_history(const char *s)
 {
@@ -20,7 +22,7 @@ static void	_add_history(const char *s)
 	arg = ft_strip(s);
 	if (!arg)
 	{
-		error("ft_strip", "nomem");
+		enomem();
 		return ;
 	}
 	if (prev)
@@ -53,7 +55,7 @@ static char	*_readline(void)
 			_add_history(s);
 			ret = ft_strdup(s);
 			if (!ret)
-				error("ft_strdup", "nomem");
+				enomem();
 			free(s);
 			return (ret);
 		}
@@ -61,25 +63,41 @@ static char	*_readline(void)
 	}
 }
 
+static int	_finish(int i)
+{
+	ft_memtrash();
+	rl_clear_history();
+	return (i);
+}
+
+static int	_init(int argc, char *argv[], char *env[])
+{
+	(void) argc;
+	(void) argv;
+	g_shell = shell_new(env);
+	if (!g_shell)
+		return (enomem());
+	if (!install_sighandler())
+		return (0);
+	return (1);
+}
+
 int	main(int argc, char *argv[], char *env[])
 {
 	char	*s;
 
-	(void) argc;
-	(void) argv;
-	install_sighandler();
+	if (!_init(argc, argv, env))
+		return (_finish(1));
 	while (1)
 	{
 		s = _readline();
 		if (s)
 		{
-			interp(s, env);
+			interp(s);
 			ft_free(s);
 			continue ;
 		}
 		break ;
 	}
-	ft_memtrash();
-	rl_clear_history();
-	return (0);
+	return (_finish(0));
 }
