@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 12:07:10 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 00:30:40 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ static void	_add_history(const char *s)
 
 	arg = ft_strip(s);
 	if (!arg)
-	{
 		enomem();
-		return ;
-	}
 	if (prev)
 	{
 		if (*arg != *prev || ft_strcmp(arg, prev))

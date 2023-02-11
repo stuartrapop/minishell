@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 19:16:51 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 00:43:28 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 	char	**args;
 	char	*abspath;
 
+	g_shell->cmdgrp = cgrp;
 	args = (char **) cmd->args.data;
 	abspath = 0;
 	cmd->_pid = fork();

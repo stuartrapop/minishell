@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 19:15:14 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 00:57:18 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,10 @@ struct s_cmdgrp
 
 typedef struct s_shell
 {
-	t_arr	env;
-	int		retval;
-	char	**_path;
+	t_arr		env;
+	int			retval;
+	t_cmdgrp	*cmdgrp;
+	char		**_path;
 }	t_shell;
 
 extern
@@ -149,7 +150,6 @@ int			builtin_export(t_cmdgrp *cl, t_cmd *cmd);
 int			builtin_pwd(t_cmdgrp *cl, t_cmd *cmd);
 int			builtin_unset(t_cmdgrp *cl, t_cmd *cmd);
 int			cmd_builtin(const char *cmd);
-int			cmd_del(t_cmd **cmd);
 int			cmd_fildes(t_cmdgrp *cgrp, t_cmd *cmd, size_t num);
 void		cmd_fini(void *cl);
 int			cmd_link(t_cmd *cmd);
@@ -167,6 +167,7 @@ int			enomem(void);
 char		*env_get(const t_arr *env, const char *varname);
 size_t		env_indexof(const t_arr *env, const char *varname);
 int			env_set(t_arr *env, const char *varname, const char *value);
+int			env_unset(t_arr *env, const char *varname);
 int			error(const char *title, const char *msg);
 void		exec(t_node *root);
 int			exec_builtin(t_cmdgrp *cl, t_cmd *cmd);

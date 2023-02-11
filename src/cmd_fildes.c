@@ -6,21 +6,30 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 21:24:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 19:09:01 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 00:01:06 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_close_pipe(t_cmd *cmd)
+static void	_close_fildes(t_cmd *cmd)
 {
 	fd_close(&cmd->_pipe[0]);
 	fd_close(&cmd->_pipe[1]);
+	if (cmd->_input_or_heredoc == redir_input)
+		fd_close(&cmd->_input_fd);
+	else if (cmd->_input_or_heredoc == redir_heredoc)
+		fd_close(&cmd->_heredoc_fd);
+	if (cmd->_output_or_append == redir_output)
+		fd_close(&cmd->_output_fd);
+	else if (cmd->_output_or_append == redir_append)
+		fd_close(&cmd->_append_fd);
 }
 
 static int	_stdin(t_cmd *cmd, t_cmd *prev)
 {
-	fd_close(&prev->_pipe[1]);
+	if (prev)
+		fd_close(&prev->_pipe[1]);
 	if (cmd->_input_or_heredoc)
 	{
 		if (prev)
@@ -40,7 +49,8 @@ static int	_stdin(t_cmd *cmd, t_cmd *prev)
 		return (prev->_pipe[0]);
 	else
 	{
-		fd_close(&prev->_pipe[0]);
+		if (prev)
+			fd_close(&prev->_pipe[0]);
 		return (-1);
 	}
 }
@@ -85,15 +95,17 @@ static int	_cmd_fildes(t_cmdgrp *cgrp, t_cmd *command, size_t num)
 	{
 		cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, i);
 		if (i > (int) num)
-			_close_pipe(cmd);
+			_close_fildes(cmd);
 		else if (i == (int) num)
+		{
 			cmd->_io[1] = _stdout(cmd, i == (int) cgrp->cmds.nelem - 1);
+			if (i == 0)
+				cmd->_io[0] = _stdin(cmd, 0);
+		}
 		else if (i + 1 == (int) num)
 			prev->_io[0] = _stdin(prev, cmd);
-		else if (i == 0 && num == 0)
-			cmd->_io[0] = _stdin(cmd, 0);
 		else
-			_close_pipe(cmd);
+			_close_fildes(cmd);
 		prev = cmd;
 	}
 	return (cmd_link(command));

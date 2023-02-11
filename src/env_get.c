@@ -6,11 +6,13 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 19:34:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 19:36:58 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/11 20:45:44 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//	returned string is const and belongs to the env array
 
 char	*env_get(const t_arr *env, const char *varname)
 {

@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:42:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 19:07:43 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 00:42:47 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,13 @@ int	fd_close(int *fd)
 {
 	int	i;
 
-	i = close(*fd);
-	*fd = -1;
+	i = 0;
+	if (*fd != -1)
+	{
+		i = close(*fd);
+		if (i == -1)
+			error("close", strerror(errno));
+		*fd = -1;
+	}
 	return (i);
 }

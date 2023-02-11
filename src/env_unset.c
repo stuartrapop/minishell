@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_del.c                                          :+:      :+:    :+:   */
+/*   env_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/03 10:49:15 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/03 10:50:17 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/11 20:36:11 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/11 21:03:30 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_del(t_cmd **cmd)
+int	env_unset(t_arr *env, const char *varname)
 {
-	cmd_fini(*cmd);
-	ft_free(*cmd);
-	*cmd = 0;
-	return (0);
+	size_t	i;
+
+	i = env_indexof(env, varname);
+	if (i == (size_t) -1)
+		return (1);
+	if (!ft_arr_unset(env, i, 0))
+		return (0);
+	return (1);
 }
