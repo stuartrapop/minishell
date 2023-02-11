@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 02:24:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 17:46:48 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/11 19:10:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	_treat_heredocs(t_cmd *cmd)
 		if (redir->tp == redir_heredoc)
 		{
 			if (cmd->_heredoc_fd != -1)
-				close(cmd->_heredoc_fd);
+				fd_close(&cmd->_heredoc_fd);
 			cmd->_heredoc_fd = open_file_heredoc(redir->str);
 			if (cmd->_heredoc_fd < 0)
 				return (0);

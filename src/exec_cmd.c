@@ -6,13 +6,11 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 17:57:23 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/11 19:16:51 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//	returned string must be ft_free'd
 
 static char	*_get_abspath(const char *cmd)
 {
@@ -28,20 +26,32 @@ static char	*_get_abspath(const char *cmd)
 			return (0);
 		dirs = ft_split(path, ':');
 		if (!dirs)
-		{
 			enomem();
-			return (0);
-		}
 		g_shell->_path = dirs;
 	}
 	return (ft_abspath_of_cmd(cmd, dirs));
 }
 
-/*
- *	1) try open/read files
- *	2) try get absolute path
- *	3) fork
- */
+static void	_treat_arg0(const char *cmd, char **abspath)
+{
+	if (ft_strchr(cmd, '/'))
+	{
+		if (!ft_file_exists(cmd))
+			ft_dprintf(2, "error: %s: no such file or directory\n", cmd);
+		else if (!ft_file_executable(cmd))
+			ft_dprintf(2, "error: %s: permission denied\n", cmd);
+		else
+			*abspath = (char *) cmd;
+	}
+	else
+	{
+		*abspath = _get_abspath(cmd);
+		if (!*abspath)
+			ft_dprintf(2, "error: %s: command not found\n", cmd);
+	}
+}
+
+//	returned value is ignored
 
 int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 {
@@ -50,24 +60,17 @@ int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 
 	args = (char **) cmd->args.data;
 	abspath = 0;
-	if (!cmd_redir(cmd))
-		return (0);
-	if (!cmd_builtin(args[0]))
-	{
-		abspath = _get_abspath(args[0]);
-		if (!abspath)
-			ft_dprintf(2, "%s: command not found\n", args[0]);
-	}
 	cmd->_pid = fork();
 	if (cmd->_pid == 0)
 	{
-		_treat_pipes(cgrp, cmd, num);
+		if (!cmd_fildes(cgrp, cmd, num))
+			exit(1);
 		if (cmd_builtin(args[0]))
 			exit(exec_builtin(cgrp, cmd));
+		_treat_arg0(args[0], &abspath);
 		execve(abspath, args, (char **) g_shell->env.data);
-		exit(127);
+		//ft_dprintf(2, "error: %s\n", strerror(errno));
+		exit(1);
 	}
-	if (abspath)
-		ft_free(abspath);
 	return (1);
 }

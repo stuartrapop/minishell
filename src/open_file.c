@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 16:08:27 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 15:40:40 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/11 19:23:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	open_file_ro(const char *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
-		error("open", strerror(errno));
+		ft_dprintf(2, "error: %s: %s\n", path, strerror(errno));
 		return (-1);
 	}
 	return (fd);
@@ -32,7 +32,7 @@ int	open_file_wa(const char *path)
 	fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd < 0)
 	{
-		error("open", strerror(errno));
+		ft_dprintf(2, "error: %s: %s\n", path, strerror(errno));
 		return (-1);
 	}
 	return (fd);
@@ -45,7 +45,7 @@ int	open_file_wo(const char *path)
 	fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		error("open", strerror(errno));
+		ft_dprintf(2, "error: %s: %s\n", path, strerror(errno));
 		return (-1);
 	}
 	return (fd);
@@ -68,18 +68,18 @@ static int	_comp_hd(const char *line, const char *hd)
 int	open_file_heredoc(const char *eof)
 {
 	char	*line;
-	int		pipes[2];
+	int		fds[2];
 
-	if (pipe(pipes) == -1)
+	if (pipe(fds) == -1)
 		return (-1 + error("pipe", strerror(errno)));
 	while (1)
 	{
 		line = ft_getnextline(0);
 		if (!line || _comp_hd(line, eof))
 			break ;
-		if (!ft_putstr(line, pipes[1]))
+		if (!ft_putstr(line, fds[1]))
 			return (-1 + error("write", strerror(errno)));
 	}
-	close(pipes[1]);
-	return (pipes[0]);
+	close(fds[1]);
+	return (fds[0]);
 }

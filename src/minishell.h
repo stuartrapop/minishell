@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 17:43:30 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/11 19:15:14 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 # include <errno.h>
 # include <stdio.h>
 # include <signal.h>
+# include <sys/wait.h>
 
-# define PS1	"minishell>>> "
+# define PS1	"minishell--> "
 
 /*
  *	lexer
@@ -111,6 +112,7 @@ typedef struct s_cmd
 	int		_heredoc_fd;
 	int		_output_fd;
 	int		_append_fd;
+	int		_pipe[2];
 	int		_io[2];
 	int		_pid;
 }	t_cmd;
@@ -148,7 +150,9 @@ int			builtin_pwd(t_cmdgrp *cl, t_cmd *cmd);
 int			builtin_unset(t_cmdgrp *cl, t_cmd *cmd);
 int			cmd_builtin(const char *cmd);
 int			cmd_del(t_cmd **cmd);
+int			cmd_fildes(t_cmdgrp *cgrp, t_cmd *cmd, size_t num);
 void		cmd_fini(void *cl);
+int			cmd_link(t_cmd *cmd);
 t_cmd		*cmd_new(void);
 int			cmd_redir(t_cmd *cmd);
 int			cmd_redir_append(t_cmd *cmd, t_redir *redir);
@@ -191,6 +195,7 @@ int			skip_spaces(const char **s);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);
 char		*tokenize_var(const char *s, t_token *tok);
+int			waitpids(const t_arr *cmds);
 
 # ifndef NDEBUG
 

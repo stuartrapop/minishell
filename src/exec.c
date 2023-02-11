@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 17:43:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 18:00:23 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/11 17:28:23 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	_create_pipes(t_cmdgrp *cgrp)
 	{
 		cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, i);
 		assert(cmd);
-		if (pipe(cmd->_io) == -1)
+		if (pipe(cmd->_pipe) == -1)
 			return (error("pipe", strerror(errno)));
 	}
 	return (1);
@@ -48,9 +48,9 @@ static void	_exec_cmd(t_node *nd)
 	while (++i < cgrp->cmds.nelem)
 	{
 		cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, i);
-		assert(cmd);
 		exec_cmd(cgrp, cmd, i);
 	}
+	waitpids(&cgrp->cmds);
 }
 
 static void	_exec_and(t_node *nd)

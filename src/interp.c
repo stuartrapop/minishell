@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:42:18 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 15:07:22 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/11 17:42:11 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	_exec(t_node *root)
 	shell_reset(g_shell);
 	return (1);
 }
+
+//	returned value is ignored
 
 int	interp(const char *s)
 {
@@ -43,6 +45,6 @@ int	interp(const char *s)
 		node_fini(root);
 		return (error(0, "syntax"));
 	}
-	ast_debug(root, 0);
+	/* ast_debug(root, 0); */
 	return (_exec(root));
 }

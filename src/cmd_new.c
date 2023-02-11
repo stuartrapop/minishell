@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 01:06:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 15:22:17 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/10 19:55:37 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	cmd_init(t_cmd *cmd)
 	cmd->_heredoc_fd = -1;
 	cmd->_output_fd = -1;
 	cmd->_append_fd = -1;
+	ft_memset(&cmd->_pipe, -1, sizeof(int) * 2);
 	ft_memset(&cmd->_io, -1, sizeof(int) * 2);
 	if (!ft_arr_init(&cmd->args, 1, sizeof(char *))
 		|| !ft_arr_init(&cmd->redirs, 0, sizeof(t_redir)))

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 02:17:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 14:36:57 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/11 19:24:15 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ char	*tokenize(const char *s, t_token *tok)
 {
 	static const t_tokspec	tokspecs[] = {
 		{"&&", 2, tok_and},
-		{"<<", 2, tok_append},
-		{">>", 2, tok_heredoc},
+		{">>", 2, tok_append},
+		{"<<", 2, tok_heredoc},
 		{"||", 2, tok_or},
 		{"(", 1, tok_lparen},
 		{")", 1, tok_rparen},
-		{"<", 1, tok_output},
-		{">", 1, tok_input},
+		{">", 1, tok_output},
+		{"<", 1, tok_input},
 		{"|", 1, tok_pipe},
 		{0}
 	};

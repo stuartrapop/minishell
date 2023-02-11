@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 01:37:52 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 16:02:26 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/11 16:30:11 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,40 @@ int	exec_builtin(t_cmdgrp *cl, t_cmd *cmd)
 		++p;
 	}
 	assert(0);
-	return (127);
+	return (1);
+}
+
+static int	_clone(int *stdin_clone, int *stdout_clone)
+{
+	*stdin_clone = dup(0);
+	*stdout_clone = dup(1);
+	if (*stdin_clone == -1 || *stdout_clone == -1)
+		return (error("dup", strerror(errno)));
+	return (1);
+}
+
+static void	_restore(int stdin_clone, int stdout_clone)
+{
+	if (dup2(stdin_clone, 0) == -1 || dup2(stdout_clone, 1) == -1)
+		error("dup2", strerror(errno));
+}
+
+//	return exit status of the builtin command
+
+int	exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
+{
+	int	stdin_clone;
+	int	stdout_clone;
+	int	i;
+
+	if (!_clone(&stdin_clone, &stdout_clone))
+		return (1);
+	if (!cmd_redir(cmd))
+	{
+		_restore(stdin_clone, stdout_clone);
+		return (1);
+	}
+	i = exec_builtin(cgrp, cmd);
+	_restore(stdin_clone, stdout_clone);
+	return (i);
 }
