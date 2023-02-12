@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 00:57:18 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 02:31:38 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ int			parse_cmd(t_node **nd, t_token *tok, t_node **root);
 int			parse_logop(t_node **nd, t_token *tok, t_node **root);
 int			parse_paren(t_node **nd, t_token *tok, t_node **root);
 int			parse_undef(t_node **nd, t_token *tok);
+char		*ps1(void);
 void		redir_fini(void *redir);
 t_shell		*shell_new(char *environ[]);
 void		shell_reset(t_shell *sh);

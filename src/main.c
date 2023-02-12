@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 00:30:40 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 02:29:24 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*_readline(void)
 
 	while (1)
 	{
-		s = readline(PS1);
+		s = readline(ps1());
 		if (s)
 		{
 			if (ft_strisspace(s))

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 22:51:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 23:57:24 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 02:54:52 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static void	_sig_int(void)
 	else
 	{
 		rl_replace_line("", 1);
-		ft_putstr("\n" PS1, 1);
+		ft_putstr("\n", 1);
+		ft_putstr(ps1(), 1);
 		rl_on_new_line_with_prompt();
 	}
 }
