@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 22:37:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/01/13 21:04:34 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 18:27:56 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <limits.h>
 # include <stddef.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include <unistd.h>
 
 # ifndef NDEBUG
@@ -71,6 +72,7 @@ char		*ft_env_var(const char *varname, char *env[]);
 t_ullong	ft_fibonacci(size_t n);
 int			ft_file_executable(const char *path);
 int			ft_file_exists(const char *path);
+int			ft_file_directory(const char *path);
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);
 int			ft_isascii(int c);

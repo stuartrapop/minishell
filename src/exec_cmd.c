@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 04:38:51 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 18:13:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	_treat_arg0(const char *cmd, char **abspath)
 			ft_dprintf(2, "error: %s: no such file or directory\n", cmd);
 		else if (!ft_file_executable(cmd))
 			ft_dprintf(2, "error: %s: permission denied\n", cmd);
+		else if (ft_file_directory(cmd))
+			ft_dprintf(2, "error: %s: is a directory\n", cmd);
 		else
 			*abspath = (char *) cmd;
 	}
