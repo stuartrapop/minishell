@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 03:33:36 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 04:30:32 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,6 @@ static char	*_readline(void)
 	}
 }
 
-static int	_finish(int i)
-{
-	ft_memtrash();
-	rl_clear_history();
-	return (i);
-}
-
 static int	_init(int argc, char *argv[], char *env[])
 {
 	(void) argc;
@@ -84,7 +77,9 @@ int	main(int argc, char *argv[], char *env[])
 	char	*s;
 
 	if (!_init(argc, argv, env))
-		return (_finish(1));
+		return (finish(1));
+	if (argc > 1)
+		return (interp_args(argc - 1, &argv[1]));
 	while (1)
 	{
 		s = _readline();
@@ -96,5 +91,5 @@ int	main(int argc, char *argv[], char *env[])
 		}
 		break ;
 	}
-	return (_finish(0));
+	return (finish(0));
 }

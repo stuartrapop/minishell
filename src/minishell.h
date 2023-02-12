@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 03:50:57 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 04:29:49 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,9 @@ int			exec_builtin(t_cmdgrp *cl, t_cmd *cmd);
 int			exec_cmd(t_cmdgrp *cl, t_cmd *cmd, size_t num);
 int			exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
 int			fd_close(int *fd);
+int			finish(int i);
 int			interp(const char *s);
+int			interp_args(int argc, char *argv[]);
 int			node_fini(t_node *nd);
 t_node		*node_new(t_node *parent);
 void		node_remove(t_node *nd, t_node *child, t_node **root);

@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 03:41:41 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 04:38:51 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 {
 	char	**args;
 	char	*abspath;
+	char	*arg0;
 
 	g_shell->_cmdgrp = cgrp;
 	args = (char **) cmd->args.data;
@@ -66,9 +67,13 @@ int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 	{
 		if (!cmd_fildes(cgrp, cmd, num))
 			exit(1);
-		if (cmd_builtin(args[0]))
+		if (*args[0] == '\\')
+			arg0 = &args[0][1];
+		else
+			arg0 = args[0];
+		if (cmd_builtin(arg0))
 			exit(exec_builtin(cgrp, cmd));
-		_treat_arg0(args[0], &abspath);
+		_treat_arg0(arg0, &abspath);
 		execve(abspath, args, (char **) g_shell->env.data);
 		//ft_dprintf(2, "error: %s\n", strerror(errno));
 		exit(1);
