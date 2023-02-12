@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 19:24:15 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 21:27:56 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ int			fd_close(int *fd);
 int			finish(int i);
 int			interp(const char *s);
 int			interp_args(int argc, char *argv[]);
+t_arr		*make_args(const t_arr *args);
 int			node_fini(t_node *nd);
 t_node		*node_new(t_node *parent);
 void		node_remove(t_node *nd, t_node *child, t_node **root);
@@ -199,6 +200,7 @@ void		shell_reset(t_shell *sh);
 int			sig_install(void);
 int			sig_remove(void);
 int			skip_spaces(const char **s);
+char		*string(char **s);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);
 char		*tokenize_var(const char *s, t_token *tok);

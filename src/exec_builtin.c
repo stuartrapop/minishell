@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 01:37:52 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 19:52:55 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 21:24:29 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
 		{0}
 	};
 
+	make_args(&cmd->args);
 	s = unbs(*(char **) ft_arr_get(&cmd->args, 0));
 	p = (t_builtin *) &builtins[0];
 	while (p->str)
