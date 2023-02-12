@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:16:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 00:52:36 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 04:00:13 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,8 @@ static int	_copy(t_arr *env, char *environ[])
 	while (environ[i])
 	{
 		s = ft_strdup(environ[i]);
-		if (!s)
-		{
-			ft_arr_fini(env, &ft_del);
+		if (!s || !ft_arr_append(env, &s, 0))
 			return (0);
-		}
-		if (!ft_arr_append(env, &s, 0))
-		{
-			ft_free(s);
-			ft_arr_fini(env, &ft_del);
-			return (0);
-		}
 		++i;
 	}
 	return (1);
@@ -67,12 +58,7 @@ t_shell	*shell_new(char *environ[])
 	t_shell	*sh;
 
 	sh = ft_calloc(1, sizeof(t_shell));
-	if (!sh)
-		return (0);
-	if (!_shell_init(sh, environ))
-	{
-		ft_free(sh);
-		return (0);
-	}
+	if (!sh || !_shell_init(sh, environ))
+		enomem();
 	return (sh);
 }

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 02:31:38 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 03:50:57 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,11 @@ struct s_cmdgrp
 
 typedef struct s_shell
 {
-	t_arr		env;
-	int			retval;
-	t_cmdgrp	*cmdgrp;
-	char		**_path;
+	t_arr				env;
+	int					retval;
+	struct sigaction	*orig_sigint;
+	t_cmdgrp			*_cmdgrp;
+	char				**_path;
 }	t_shell;
 
 extern
@@ -174,7 +175,6 @@ int			exec_builtin(t_cmdgrp *cl, t_cmd *cmd);
 int			exec_cmd(t_cmdgrp *cl, t_cmd *cmd, size_t num);
 int			exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
 int			fd_close(int *fd);
-int			install_sighandler(void);
 int			interp(const char *s);
 int			node_fini(t_node *nd);
 t_node		*node_new(t_node *parent);
@@ -193,6 +193,8 @@ char		*ps1(void);
 void		redir_fini(void *redir);
 t_shell		*shell_new(char *environ[]);
 void		shell_reset(t_shell *sh);
+int			sighandlers_install(void);
+int			sighandlers_remove(void);
 int			skip_spaces(const char **s);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);

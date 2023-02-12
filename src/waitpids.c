@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:28:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 00:39:02 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 03:43:21 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ int	waitpids(const t_arr *cmds)
 		cmd->_pid = -1;
 	}
 	g_shell->retval = res;
-	g_shell->cmdgrp = 0;
+	g_shell->_cmdgrp = 0;
 	return (res);
 }

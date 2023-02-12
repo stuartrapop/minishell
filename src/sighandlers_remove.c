@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_reset.c                                      :+:      :+:    :+:   */
+/*   sighandlers_remove.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 00:46:27 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 03:41:59 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/12 03:27:19 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/12 03:53:23 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	shell_reset(t_shell *sh)
+int	sighandlers_remove(void)
 {
-	if (sh->_path)
-		ft_del_arr(&sh->_path);
-	assert(sh->_cmdgrp == 0);
+	assert(g_shell->orig_sigint);
+	if (sigaction(SIGINT, g_shell->orig_sigint, 0))
+		return (error("sigaction", strerror(errno)));
+	return (1);
 }

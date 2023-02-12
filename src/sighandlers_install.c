@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sighandler.c                                       :+:      :+:    :+:   */
+/*   sighandlers_install.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 22:51:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 02:54:52 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 03:50:57 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static void	_sig_int(void)
 	size_t	i;
 	t_cmd	*cmd;
 
-	if (g_shell->cmdgrp)
+	if (g_shell->_cmdgrp)
 	{
 		i = -1;
-		while (++i < g_shell->cmdgrp->cmds.nelem)
+		while (++i < g_shell->_cmdgrp->cmds.nelem)
 		{
-			cmd = *(t_cmd **) ft_arr_get(&g_shell->cmdgrp->cmds, i);
+			cmd = *(t_cmd **) ft_arr_get(&g_shell->_cmdgrp->cmds, i);
 			if (cmd->_pid == -1)
 				continue ;
 			if (kill(cmd->_pid, SIGINT) == -1)
@@ -44,13 +44,19 @@ static void	_sig_handler(int i)
 		_sig_int();
 }
 
-int	install_sighandler(void)
+int	sighandlers_install(void)
 {
 	struct sigaction	siga;
 
+	if (!g_shell->orig_sigint)
+	{
+		g_shell->orig_sigint = ft_calloc(1, sizeof(struct sigaction));
+		if (!g_shell->orig_sigint)
+			return (enomem());
+	}
 	ft_memset(&siga, 0, sizeof(struct sigaction));
 	siga.sa_handler = &_sig_handler;
-	if (sigaction(SIGINT, &siga, 0))
+	if (sigaction(SIGINT, &siga, g_shell->orig_sigint))
 		return (error("sigaction", strerror(errno)));
 	return (1);
 }

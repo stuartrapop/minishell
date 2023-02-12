@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 02:24:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 19:10:27 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 03:33:10 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ static int	_treat_heredocs(t_cmd *cmd)
 		{
 			if (cmd->_heredoc_fd != -1)
 				fd_close(&cmd->_heredoc_fd);
+			if (!sighandlers_remove())
+				return (0);
 			cmd->_heredoc_fd = open_file_heredoc(redir->str);
+			if (!sighandlers_install())
+				return (0);
 			if (cmd->_heredoc_fd < 0)
 				return (0);
 		}
