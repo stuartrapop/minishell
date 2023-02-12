@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 01:37:52 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 16:30:11 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 19:29:42 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct s_builtin
 
 //	return exit status of builtin command
 
-int	exec_builtin(t_cmdgrp *cl, t_cmd *cmd)
+int	exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
 {
 	char					*s;
 	t_builtin				*p;
@@ -35,12 +35,12 @@ int	exec_builtin(t_cmdgrp *cl, t_cmd *cmd)
 		{0}
 	};
 
-	s = *(char **) ft_arr_get(&cmd->args, 0);
+	s = unbs(*(char **) ft_arr_get(&cmd->args, 0));
 	p = (t_builtin *) &builtins[0];
 	while (p->str)
 	{
 		if (*p->str == *s && !ft_strcmp(p->str, s))
-			return ((*p->f)(cl, cmd));
+			return ((*p->f)(cgrp, cmd));
 		++p;
 	}
 	assert(0);

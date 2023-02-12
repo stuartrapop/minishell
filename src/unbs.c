@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ps1.c                                              :+:      :+:    :+:   */
+/*   unbs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 02:29:33 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 19:12:34 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/12 19:22:57 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/12 19:30:35 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ps1(void)
+char	*unbs(const char *cmd)
 {
-	char		*ps1;
-	static char	buf[32];
-
-	ft_putstr("\e[0m", 1);
-	ps1 = ft_env_var("PS1", g_shell->env.data);
-	if (!ps1 || !*ps1 || ft_strisspace(ps1))
-	{
-		buf[0] = '(';
-		ft_itoa(g_shell->retval, &buf[1]);
-		ft_strcatchr(buf, ')', 1);
-		ft_strcpy(ft_strchr(buf, 0), PS1);
-		ps1 = buf;
-	}
-	return (ps1);
+	if (cmd[0] == '\\')
+		return ((char *) &cmd[1]);
+	return ((char *) cmd);
 }

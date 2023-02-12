@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 18:13:27 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 19:25:42 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 	{
 		if (!cmd_fildes(cgrp, cmd, num))
 			exit(1);
-		if (*args[0] == '\\')
-			arg0 = &args[0][1];
-		else
-			arg0 = args[0];
+		arg0 = unbs(args[0]);
 		if (cmd_builtin(arg0))
 			exit(exec_builtin(cgrp, cmd));
 		_treat_arg0(arg0, &abspath);

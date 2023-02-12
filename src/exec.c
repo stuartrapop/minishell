@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 17:43:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 17:29:19 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 19:27:01 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ static void	_exec_cmd(t_node *nd)
 	size_t		i;
 	t_cmdgrp	*cgrp;
 	t_cmd		*cmd;
+	char		**args;
 
 	assert(nd->tp == nd_cmd);
 	cgrp = nd->cmdgrp;
 	cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, 0);
-	if (cgrp->cmds.nelem == 1 && cmd_builtin(((char **) cmd->args.data)[0])
-		&& !cgrp->_subshell)
+	args = (char **) cmd->args.data;
+	if (cgrp->cmds.nelem == 1 && cmd_builtin(unbs(args[0])) && !cgrp->_subshell)
 	{
 		g_shell->retval = exec_simple_builtin(cgrp, cmd);
 		return ;
