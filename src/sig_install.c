@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sighandlers_install.c                              :+:      :+:    :+:   */
+/*   sig_install.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 22:51:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 03:50:57 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 18:43:01 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	_sig_handler(int i)
 		_sig_int();
 }
 
-int	sighandlers_install(void)
+int	sig_install(void)
 {
 	struct sigaction	siga;
 

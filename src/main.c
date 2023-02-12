@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 04:30:32 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 18:43:44 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	_init(int argc, char *argv[], char *env[])
 	g_shell = shell_new(env);
 	if (!g_shell)
 		return (enomem());
-	if (!sighandlers_install())
+	if (!sig_install())
 		return (0);
 	return (1);
 }

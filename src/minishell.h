@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 05:01:38 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 18:43:26 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,8 +196,8 @@ char		*ps1(void);
 void		redir_fini(void *redir);
 t_shell		*shell_new(char *environ[]);
 void		shell_reset(t_shell *sh);
-int			sighandlers_install(void);
-int			sighandlers_remove(void);
+int			sig_install(void);
+int			sig_remove(void);
 int			skip_spaces(const char **s);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);
