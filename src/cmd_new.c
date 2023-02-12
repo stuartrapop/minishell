@@ -6,13 +6,13 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 01:06:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 19:55:37 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 18:54:36 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	cmd_init(t_cmd *cmd)
+static int	_cmd_init(t_cmd *cmd)
 {
 	cmd->_input_fd = -1;
 	cmd->_heredoc_fd = -1;
@@ -33,7 +33,7 @@ t_cmd	*cmd_new(void)
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 		return (0);
-	if (!cmd_init(cmd))
+	if (!_cmd_init(cmd))
 	{
 		ft_free(cmd);
 		return (0);

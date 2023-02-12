@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 18:43:26 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 18:58:48 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,13 +144,13 @@ t_shell * g_shell;
  */
 
 int			ast_check(const t_node *nd);
-int			builtin_cd(t_cmdgrp *cl, t_cmd *cmd);
-int			builtin_echo(t_cmdgrp *cl, t_cmd *cmd);
-int			builtin_env(t_cmdgrp *cl, t_cmd *cmd);
-int			builtin_exit(t_cmdgrp *cl, t_cmd *cmd);
-int			builtin_export(t_cmdgrp *cl, t_cmd *cmd);
-int			builtin_pwd(t_cmdgrp *cl, t_cmd *cmd);
-int			builtin_unset(t_cmdgrp *cl, t_cmd *cmd);
+int			builtin_cd(t_cmdgrp *cgrp, t_cmd *cmd);
+int			builtin_echo(t_cmdgrp *cgrp, t_cmd *cmd);
+int			builtin_env(t_cmdgrp *cgrp, t_cmd *cmd);
+int			builtin_exit(t_cmdgrp *cgrp, t_cmd *cmd);
+int			builtin_export(t_cmdgrp *cgrp, t_cmd *cmd);
+int			builtin_pwd(t_cmdgrp *cgrp, t_cmd *cmd);
+int			builtin_unset(t_cmdgrp *cgrp, t_cmd *cmd);
 int			cmd_builtin(const char *cmd);
 int			cmd_fildes(t_cmdgrp *cgrp, t_cmd *cmd, size_t num);
 void		cmd_fini(void *cl);
@@ -161,9 +161,9 @@ int			cmd_redir_append(t_cmd *cmd, t_redir *redir);
 int			cmd_redir_input(t_cmd *cmd, t_redir *redir);
 int			cmd_redir_output(t_cmd *cmd, t_redir *redir);
 int			cmd_valid(const t_cmd *cmd);
-int			cmdgrp_add(t_cmdgrp *cl, t_token *tok);
-t_cmd		*cmdgrp_cmd(t_cmdgrp *cl);
-int			cmdgrp_fini(t_cmdgrp *cl);
+int			cmdgrp_add(t_cmdgrp *cgrp, t_token *tok);
+t_cmd		*cmdgrp_cmd(t_cmdgrp *cgrp);
+int			cmdgrp_fini(t_cmdgrp *cgrp);
 t_cmdgrp	*cmdgrp_new(void);
 int			enomem(void);
 char		*env_get(const t_arr *env, const char *varname);
@@ -172,8 +172,8 @@ int			env_set(t_arr *env, const char *varname, const char *value);
 int			env_unset(t_arr *env, const char *varname);
 int			error(const char *title, const char *msg);
 void		exec(t_node *root);
-int			exec_builtin(t_cmdgrp *cl, t_cmd *cmd);
-int			exec_cmd(t_cmdgrp *cl, t_cmd *cmd, size_t num);
+int			exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
+int			exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num);
 int			exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
 int			fd_close(int *fd);
 int			finish(int i);
