@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 04:29:49 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 05:01:38 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct s_cmd
 struct s_cmdgrp
 {
 	t_arr	cmds;
+	int		_subshell;
 };
 
 /*

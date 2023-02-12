@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 23:01:05 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 09:54:06 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 05:04:57 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_node	*_close_paren(t_node *nd, t_node **root)
 			nd->left = 0;
 			nd->right = 0;
 			node_fini(nd);
+			child->cmdgrp->_subshell = 1;
 			return (child);
 		}
 	}

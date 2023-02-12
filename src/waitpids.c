@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:28:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 03:43:21 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/12 17:12:36 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	_close_all(const t_arr *cmds)
 }
 
 //	returned value is ignored
-//	waitpid error is ignored (ctrl-c interrupt)
+//	waitpid error is ignored (signal interrupts)
 
 int	waitpids(const t_arr *cmds)
 {
