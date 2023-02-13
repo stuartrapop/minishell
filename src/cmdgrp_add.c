@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 23:46:32 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 14:55:40 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 19:17:47 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static int	_cmdgrp_add_var(t_cmdgrp *cgrp, t_token *tok)
 		return (enomem());
 	if (!cmd->_expect)
 	{
+		if (cgrp->_subshell)
+			return (0);
 		if (!ft_arr_append(&cmd->args, &tok->data, 0))
 			return (enomem());
 	}

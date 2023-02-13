@@ -6,11 +6,13 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 02:24:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 18:44:21 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 19:08:24 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//	remove/reinstall signal handlers during heredocs
 
 static int	_treat_heredocs(t_cmd *cmd)
 {
@@ -28,9 +30,7 @@ static int	_treat_heredocs(t_cmd *cmd)
 			if (!sig_remove())
 				return (0);
 			cmd->_heredoc_fd = open_file_heredoc(redir->str);
-			if (!sig_install())
-				return (0);
-			if (cmd->_heredoc_fd < 0)
+			if (!sig_install() || cmd->_heredoc_fd < 0)
 				return (0);
 		}
 	}

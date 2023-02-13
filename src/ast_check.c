@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 10:46:27 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 17:29:53 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 18:58:08 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ static int	_check_cmdgrp(const t_node *nd)
 int	ast_check(const t_node *nd)
 {
 	if (nd->tp == nd_cmd)
-		return (_check_cmdgrp(nd));
-	if (nd->tp == nd_paren)
+	{
+		if (!_check_cmdgrp(nd))
+			return (0);
+	}
+	else if (nd->tp == nd_paren)
 		return (0);
 	if (nd->left && !ast_check(nd->left))
 		return (0);

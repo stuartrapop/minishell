@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:12:00 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 19:15:14 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 19:04:48 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int	cmd_link(t_cmd *cmd)
 {
-	if (cmd->_io[0] != -1)
+	int	i;
+
+	i = -1;
+	while (++i < 2)
 	{
-		if (dup2(cmd->_io[0], 0) == -1)
-			return (error("dup2", strerror(errno)));
-		fd_close(&cmd->_io[0]);
-	}
-	if (cmd->_io[1] != -1)
-	{
-		if (dup2(cmd->_io[1], 1) == -1)
-			return (error("dup2", strerror(errno)));
-		fd_close(&cmd->_io[1]);
+		if (cmd->_io[i] != -1)
+		{
+			if (dup2(cmd->_io[i], i) == -1)
+				return (error("dup2", strerror(errno)));
+			fd_close(&cmd->_io[i]);
+		}
 	}
 	return (1);
 }
