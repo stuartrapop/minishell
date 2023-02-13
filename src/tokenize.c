@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 02:17:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 19:24:15 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 21:19:02 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,18 @@ typedef struct s_tokspec
 	t_toktype	tp;
 }	t_tokspec;
 
+static int	_skip_spaces(const char **s)
+{
+	while (**s && ft_isspace(**s))
+		++(*s);
+	if (!(**s))
+		return (0);
+	return (1);
+}
+
 char	*tokenize(const char *s, t_token *tok)
 {
+	t_tokspec				*spec;
 	static const t_tokspec	tokspecs[] = {
 		{"&&", 2, tok_and},
 		{">>", 2, tok_append},
@@ -31,13 +41,13 @@ char	*tokenize(const char *s, t_token *tok)
 		{">", 1, tok_output},
 		{"<", 1, tok_input},
 		{"|", 1, tok_pipe},
+		{";", 1, tok_semicolon},
+		{"&", 1, tok_ampersand},
 		{0}
 	};
-	t_tokspec	*spec;
 
-	/* printf("tokenize='%s'\n", s); */
-	if (!skip_spaces(&s))
-		return (0);
+	if (!_skip_spaces(&s))
+		return ((char *) s);
 	spec = (t_tokspec *) &tokspecs[0];
 	while (spec->str)
 	{
@@ -49,6 +59,5 @@ char	*tokenize(const char *s, t_token *tok)
 		}
 		++spec;
 	}
-	tok->tp = tok_var;
 	return (tokenize_var(s, tok));
 }

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 19:39:44 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 21:02:07 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ typedef enum e_toktype
 	tok_lparen,
 	tok_rparen,
 	tok_and,
-	tok_or
+	tok_or,
+	tok_semicolon,
+	tok_ampersand
 }	t_toktype;
 
 typedef struct s_token
@@ -132,6 +134,8 @@ typedef struct s_shell
 	t_arr				env;
 	int					retval;
 	struct sigaction	*orig_sigint;
+	char				*_input;
+	char				*_ptr;
 	t_cmdgrp			*_cmdgrp;
 	char				**_path;
 }	t_shell;
@@ -200,7 +204,6 @@ t_shell		*shell_new(char *environ[]);
 void		shell_reset(t_shell *sh);
 int			sig_install(void);
 int			sig_remove(void);
-int			skip_spaces(const char **s);
 char		*string(char **s);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);
