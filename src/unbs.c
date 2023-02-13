@@ -6,11 +6,13 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:22:57 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 01:04:26 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 19:48:34 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//	remove leading backslash
 
 char	*unbs(char **cmd)
 {
