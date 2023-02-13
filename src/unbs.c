@@ -6,15 +6,24 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:22:57 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 19:30:35 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 01:04:26 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*unbs(const char *cmd)
+char	*unbs(char **cmd)
 {
-	if (cmd[0] == '\\')
-		return ((char *) &cmd[1]);
-	return ((char *) cmd);
+	char	*p;
+
+	assert(*cmd);
+	if (**cmd == '\\')
+	{
+		p = *cmd;
+		*cmd = ft_strdup(&(*cmd)[1]);
+		if (!*cmd)
+			enomem();
+		ft_free(p);
+	}
+	return (*cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:42:18 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 17:42:11 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 01:55:14 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	_exec(t_node *root)
 {
 	exec(root);
-	node_fini(root);
+	node_del(&root);
 	shell_reset(g_shell);
 	return (1);
 }
@@ -37,12 +37,12 @@ int	interp(const char *s)
 		ft_memset(&tok, 0, sizeof(t_token));
 		s = tokenize(s, &tok);
 		if (!parse(&tok, &nd, &root))
-			return (token_fini(&tok) + node_fini(root));
+			return (token_fini(&tok) + node_del(&root));
 		token_fini(&tok);
 	}
 	if (!ast_check(root))
 	{
-		node_fini(root);
+		node_del(&root);
 		return (error(0, "syntax"));
 	}
 	/* ast_debug(root, 0); */

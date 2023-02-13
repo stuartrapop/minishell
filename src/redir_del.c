@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_args.c                                        :+:      :+:    :+:   */
+/*   redir_del.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 21:22:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 01:04:26 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/10 13:25:48 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/13 02:04:17 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_arr	*make_args(const t_arr *args)
+static void	_redir_fini(t_redir *redir)
 {
-	size_t	i;
-	char	**arg;
+	if (redir->str)
+		ft_del(&redir->str);
+}
 
-	i = 0;
-	while (++i < args->nelem - 1)
-	{
-		arg = ft_arr_get(args, i);
-		if (!string(arg))
-			enomem();
-	}
-	return ((t_arr *) args);
+void	redir_del(void *redirect)
+{
+	t_redir	**redir;
+
+	redir = redirect;
+	assert(*redir);
+	_redir_fini(*redir);
+	ft_free(*redir);
+	*redir = 0;
 }

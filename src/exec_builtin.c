@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 01:37:52 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 21:24:29 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 01:00:18 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,13 @@ int	exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
 {
 	char					*s;
 	t_builtin				*p;
-	static const t_builtin	builtins[] = {
-		{"cd", &builtin_cd},
-		{"echo", &builtin_echo},
-		{"env", &builtin_env},
-		{"exit", &builtin_exit},
-		{"export", &builtin_export},
-		{"pwd", &builtin_pwd},
-		{"unset", &builtin_unset},
-		{0}
-	};
+	static const t_builtin	builtins[] = {{"cd", &builtin_cd},
+	{"echo", &builtin_echo}, {"env", &builtin_env}, {"exit", &builtin_exit},
+	{"export", &builtin_export}, {"memusage", &builtin_memusage},
+	{"pwd", &builtin_pwd}, {"unset", &builtin_unset}, {0}};
 
 	make_args(&cmd->args);
-	s = unbs(*(char **) ft_arr_get(&cmd->args, 0));
+	s = unbs(ft_arr_get(&cmd->args, 0));
 	p = (t_builtin *) &builtins[0];
 	while (p->str)
 	{

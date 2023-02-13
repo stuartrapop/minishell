@@ -6,20 +6,25 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 02:59:53 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/03 19:27:27 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 01:59:39 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	*node_new(t_node *parent)
+static void	_node_init(t_node *nd, const t_node *parent)
+{
+	if (parent)
+		nd->parent = (t_node *) parent;
+}
+
+t_node	*node_new(const t_node *parent)
 {
 	t_node	*nd;
 
 	nd = ft_calloc(1, sizeof(t_node));
 	if (!nd)
 		return (0);
-	if (parent)
-		nd->parent = parent;
+	_node_init(nd, parent);
 	return (nd);
 }

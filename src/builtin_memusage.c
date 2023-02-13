@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_fini.c                                       :+:      :+:    :+:   */
+/*   builtin_memusage.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 13:25:48 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/10 14:18:37 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/13 00:55:50 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/13 00:57:47 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	redir_fini(void *redirect)
+int	builtin_memusage(t_cmdgrp *cgrp, t_cmd *cmd)
 {
-	t_redir	*redir;
-
-	redir = (t_redir *) redirect;
-	redir->tp = redir_undef;
-	if (redir->str)
-		ft_del(&redir->str);
+	(void) cgrp;
+	(void) cmd;
+	ft_printf("%zu\n", ft_memusage());
+	return (0);
 }

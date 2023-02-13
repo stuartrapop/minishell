@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 21:27:56 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 02:00:28 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 
-# define PS1	"minishell--> "
+# define PS1	"Minishell--> "
 
 /*
  *	lexer
@@ -149,11 +149,12 @@ int			builtin_echo(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_env(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_exit(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_export(t_cmdgrp *cgrp, t_cmd *cmd);
+int			builtin_memusage(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_pwd(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_unset(t_cmdgrp *cgrp, t_cmd *cmd);
 int			cmd_builtin(const char *cmd);
+void		cmd_del(void *command);
 int			cmd_fildes(t_cmdgrp *cgrp, t_cmd *cmd, size_t num);
-void		cmd_fini(void *cl);
 int			cmd_link(t_cmd *cmd);
 t_cmd		*cmd_new(void);
 int			cmd_redir(t_cmd *cmd);
@@ -163,7 +164,7 @@ int			cmd_redir_output(t_cmd *cmd, t_redir *redir);
 int			cmd_valid(const t_cmd *cmd);
 int			cmdgrp_add(t_cmdgrp *cgrp, t_token *tok);
 t_cmd		*cmdgrp_cmd(t_cmdgrp *cgrp);
-int			cmdgrp_fini(t_cmdgrp *cgrp);
+int			cmdgrp_del(t_cmdgrp **cgrp);
 t_cmdgrp	*cmdgrp_new(void);
 int			enomem(void);
 char		*env_get(const t_arr *env, const char *varname);
@@ -180,8 +181,8 @@ int			finish(int i);
 int			interp(const char *s);
 int			interp_args(int argc, char *argv[]);
 t_arr		*make_args(const t_arr *args);
-int			node_fini(t_node *nd);
-t_node		*node_new(t_node *parent);
+int			node_del(t_node **nd);
+t_node		*node_new(const t_node *parent);
 void		node_remove(t_node *nd, t_node *child, t_node **root);
 void		node_subst(t_node *nd, t_node *nd2, int leftside, t_node **root);
 int			open_file_heredoc(const char *eof);
@@ -194,7 +195,7 @@ int			parse_logop(t_node **nd, t_token *tok, t_node **root);
 int			parse_paren(t_node **nd, t_token *tok, t_node **root);
 int			parse_undef(t_node **nd, t_token *tok);
 char		*ps1(void);
-void		redir_fini(void *redir);
+void		redir_del(void *redirect);
 t_shell		*shell_new(char *environ[]);
 void		shell_reset(t_shell *sh);
 int			sig_install(void);
@@ -204,7 +205,7 @@ char		*string(char **s);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);
 char		*tokenize_var(const char *s, t_token *tok);
-char		*unbs(const char *cmd);
+char		*unbs(char **cmd);
 int			waitpids(const t_arr *cmds);
 
 # ifndef NDEBUG

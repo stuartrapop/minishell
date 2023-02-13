@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   node_fini.c                                        :+:      :+:    :+:   */
+/*   cmdgrp_del.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 22:32:48 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/02 21:44:33 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/02 20:53:42 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/13 02:03:10 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	_node_fini(t_node *nd)
+static void	_cmdgrp_fini(t_cmdgrp *cgrp)
 {
-	if (nd->tp == nd_cmd)
-	{
-		if (nd->cmdgrp)
-		{
-			cmdgrp_fini(nd->cmdgrp);
-			nd->cmdgrp = 0;
-		}
-	}
-	return (0);
+	ft_arr_fini(&cgrp->cmds, &cmd_del);
 }
 
-int	node_fini(t_node *nd)
+int	cmdgrp_del(t_cmdgrp **cgrp)
 {
-	if (nd->left)
-		node_fini(nd->left);
-	if (nd->right)
-		node_fini(nd->right);
-	return (_node_fini(nd));
+	assert(*cgrp);
+	_cmdgrp_fini(*cgrp);
+	ft_free(*cgrp);
+	*cgrp = 0;
+	return (0);
 }

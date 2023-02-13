@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 21:30:35 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 00:41:32 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,19 @@ int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 	char	*arg0;
 
 	g_shell->_cmdgrp = cgrp;
-	args = (char **) cmd->args.data;
+	args = cmd->args.data;
 	abspath = 0;
 	cmd->_pid = fork();
 	if (cmd->_pid == 0)
 	{
 		if (!cmd_fildes(cgrp, cmd, num))
 			exit(1);
-		arg0 = unbs(args[0]);
+		arg0 = unbs(&args[0]);
 		if (cmd_builtin(arg0))
 			exit(exec_builtin(cgrp, cmd));
 		_treat_arg0(arg0, &abspath);
 		make_args(&cmd->args);
-		execve(abspath, args, (char **) g_shell->env.data);
-		//ft_dprintf(2, "error: %s\n", strerror(errno));
+		execve(abspath, args, g_shell->env.data);
 		exit(1);
 	}
 	return (1);
