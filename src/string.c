@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 21:09:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 21:27:56 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 14:55:06 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,19 @@ static char	*_dquote(char **s)
 	return (0);
 }
 
+static char	*_expand(char **s)
+{
+	(void) s;
+	return (0);
+}
+
+// maybe change name. is used to expand redirections
+
 char	*string(char **s)
 {
 	if (**s == '\'')
 		return (_squote(s));
 	if (**s == '\"')
 		return (_dquote(s));
-	return (*s);
+	return (_expand(s));
 }

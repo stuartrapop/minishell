@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 02:00:28 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 14:56:03 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ int			fd_close(int *fd);
 int			finish(int i);
 int			interp(const char *s);
 int			interp_args(int argc, char *argv[]);
-t_arr		*make_args(const t_arr *args);
+t_arr		*make_args(t_arr *args);
 int			node_del(t_node **nd);
 t_node		*node_new(const t_node *parent);
 void		node_remove(t_node *nd, t_node *child, t_node **root);
