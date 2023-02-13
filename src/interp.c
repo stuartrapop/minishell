@@ -6,20 +6,14 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:42:18 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 21:13:45 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 21:52:08 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	_exec(t_node *root)
+static inline int	_exec(t_node *root)
 {
-	if (!ast_check(root))
-	{
-		node_del(&root);
-		return (error(0, "syntax"));
-	}
-	/* ast_debug(root, 0); */
 	exec(root);
 	node_del(&root);
 	return (1);
@@ -41,15 +35,14 @@ static int	_interp(void)
 		g_shell->_ptr = tokenize(g_shell->_ptr, &tok);
 		if (tok.tp == tok_semicolon)
 			break ;
-		else if (tok.tp == tok_ampersand)
-		{
-			error(0, "syntax");
-			return (token_fini(&tok) + node_del(&root));
-		}
+		if (tok.tp == tok_ampersand)
+			return (error(0, "syntax") + token_fini(&tok) + node_del(&root));
 		if (!parse(&tok, &nd, &root))
 			return (token_fini(&tok) + node_del(&root));
 		token_fini(&tok);
 	}
+	if (!ast_check(root))
+		return (error(0, "syntax") + node_del(&root));
 	return (_exec(root));
 }
 

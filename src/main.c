@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 20:33:14 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 21:47:18 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,9 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		s = _readline();
 		if (s)
-		{
 			interp(s);
-			continue ;
-		}
-		break ;
+		else
+			break ;
 	}
 	return (finish(0));
 }
