@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 19:52:11 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 01:22:38 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 17:25:33 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static inline void	_fd_close(int fd)
 static void	_cmd_fini(t_cmd *cmd)
 {
 	ft_arr_fini(&cmd->args, &ft_del);
-	ft_arr_fini(&cmd->redirs, &redir_del);
+	ft_arr_fini(&cmd->redirs, &redir_fini);
 	_fd_close(cmd->_pipe[0]);
 	_fd_close(cmd->_pipe[1]);
 	_fd_close(cmd->_heredoc_fd);

@@ -6,14 +6,31 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 10:46:27 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 10:48:51 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/13 17:29:53 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	_check_cmdgrp(const t_node *nd)
+{
+	t_arr	*cmds;
+	size_t	i;
+
+	cmds = &nd->cmdgrp->cmds;
+	i = -1;
+	while (++i < cmds->nelem)
+	{
+		if (!cmd_valid(*(t_cmd **) ft_arr_get(cmds, i)))
+			return (0);
+	}
+	return (1);
+}
+
 int	ast_check(const t_node *nd)
 {
+	if (nd->tp == nd_cmd)
+		return (_check_cmdgrp(nd));
 	if (nd->tp == nd_paren)
 		return (0);
 	if (nd->left && !ast_check(nd->left))
