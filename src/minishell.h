@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 15:06:49 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 19:13:20 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 
 # define PS1	"Minishell--> "
+# define HISTFILE	".minishell_history"
 
 /*
  *	lexer
@@ -186,6 +187,9 @@ int			exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
 int			fatal(const char *title, const char *msg);
 int			fd_close(int *fd);
 int			finish(int i);
+int			histfile_add(const char *line);
+int			histfile_load(void);
+int			histfile_open(int append);
 int			interp(const char *s);
 int			interp_args(int argc, char *argv[]);
 char		*make_arg0(t_cmd *cmd);

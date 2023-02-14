@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   finish.c                                           :+:      :+:    :+:   */
+/*   ft_file_writable.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 04:24:51 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 19:12:42 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/01/03 17:09:58 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/14 18:56:01 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	finish(int i)
+int	ft_file_writable(const char *path)
 {
-	ft_memtrash();
-	rl_clear_history();
-	exit(i);
-	return (i);
+	if (access(path, W_OK) == 0)
+		return (1);
+	return (0);
 }

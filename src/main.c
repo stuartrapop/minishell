@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 13:53:14 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 19:12:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static void	_add_history(const char *s)
 	if (prev)
 	{
 		if (*arg != *prev || ft_strcmp(arg, prev))
+		{
 			add_history(arg);
+			histfile_add(arg);
+		}
 		ft_free(prev);
 		prev = 0;
 	}
@@ -67,6 +70,7 @@ static int	_init(int argc, char *argv[], char *env[])
 	g_shell = shell_new(env);
 	if (!sig_install())
 		return (0);
+	histfile_load();
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 22:37:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 18:27:56 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 18:56:24 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ t_ullong	ft_fibonacci(size_t n);
 int			ft_file_executable(const char *path);
 int			ft_file_exists(const char *path);
 int			ft_file_directory(const char *path);
+int			ft_file_readable(const char *path);
+int			ft_file_writable(const char *path);
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);
 int			ft_isascii(int c);
