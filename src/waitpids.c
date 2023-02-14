@@ -6,13 +6,13 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:28:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 17:12:36 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 14:55:47 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_close_all(const t_arr *cmds)
+static void	_close_all_fildes(const t_arr *cmds)
 {
 	size_t	i;
 	t_cmd	*cmd;
@@ -34,30 +34,39 @@ static void	_close_all(const t_arr *cmds)
 	}
 }
 
-//	returned value is ignored
 //	waitpid error is ignored (signal interrupts)
+
+static int	_waitfor(int pid)
+{
+	int	stat;
+
+	if (waitpid(pid, &stat, 0) == -1)
+		return (0);
+	if (WIFEXITED(stat))
+		return (WEXITSTATUS(stat));
+	if (WIFSIGNALED(stat))
+		return (WTERMSIG(stat));
+	assert(0);
+	return (0);
+}
+
+//	returned value is ignored
 
 int	waitpids(const t_arr *cmds)
 {
 	size_t	i;
 	t_cmd	*cmd;
-	int		stat;
 	int		res;
 
-	_close_all(cmds);
+	_close_all_fildes(cmds);
 	res = 1;
 	i = -1;
 	while (++i < cmds->nelem)
 	{
 		cmd = *(t_cmd **) ft_arr_get(cmds, i);
-		if (waitpid(cmd->_pid, &stat, 0) == -1)
-			res = 0;
-		else if (WIFEXITED(stat))
-			res = WEXITSTATUS(stat);
-		else if (WIFSIGNALED(stat))
-			res = WTERMSIG(stat);
-		else
-			res = 0;
+		if (cmd->_pid == -1)
+			continue ;
+		res = _waitfor(cmd->_pid);
 		cmd->_pid = -1;
 	}
 	g_shell->retval = res;

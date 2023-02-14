@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 22:51:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 18:43:01 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 13:50:33 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	sig_install(void)
 	{
 		g_shell->orig_sigint = ft_calloc(1, sizeof(struct sigaction));
 		if (!g_shell->orig_sigint)
-			return (enomem());
+			enomem();
 	}
 	ft_memset(&siga, 0, sizeof(struct sigaction));
 	siga.sa_handler = &_sig_handler;

@@ -6,13 +6,13 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 22:55:17 by pmarquis          #+#    #+#             */
-/*   Updated: 2022/12/24 00:53:10 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 04:41:55 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_arr.h"
 
-void	ft_arr_fini(t_arr *a, t_fn1 delfunc)
+int	ft_arr_fini(t_arr *a, t_fn1 delfunc)
 {
 	if (a->data)
 	{
@@ -23,4 +23,5 @@ void	ft_arr_fini(t_arr *a, t_fn1 delfunc)
 	}
 	a->nelem = 0;
 	a->ncapacity = 0;
+	return (0);
 }

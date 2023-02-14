@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 21:02:07 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 15:06:49 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# include <dirent.h>
 # include <errno.h>
 # include <stdio.h>
 # include <signal.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 
 # define PS1	"Minishell--> "
@@ -34,6 +36,7 @@
 
 typedef enum e_toktype
 {
+	tok_invalid = -1,
 	tok_var = 0,
 	tok_input,
 	tok_output,
@@ -108,6 +111,7 @@ typedef struct s_cmd
 	t_arr	args;
 	t_arr	redirs;
 	int		_expect;
+	int		_arg0_made;
 	int		_input_or_heredoc;
 	int		_output_or_append;
 	int		_input_fd;
@@ -137,7 +141,6 @@ typedef struct s_shell
 	char				*_input;
 	char				*_ptr;
 	t_cmdgrp			*_cmdgrp;
-	char				**_path;
 }	t_shell;
 
 extern
@@ -180,10 +183,12 @@ void		exec(t_node *root);
 int			exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
 int			exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num);
 int			exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
+int			fatal(const char *title, const char *msg);
 int			fd_close(int *fd);
 int			finish(int i);
 int			interp(const char *s);
 int			interp_args(int argc, char *argv[]);
+char		*make_arg0(t_cmd *cmd);
 t_arr		*make_args(t_arr *args);
 int			node_del(t_node **nd);
 t_node		*node_new(const t_node *parent);
@@ -210,6 +215,7 @@ char		*tokenize(const char *s, t_token *tok);
 char		*tokenize_var(const char *s, t_token *tok);
 char		*unbs(char **cmd);
 int			waitpids(const t_arr *cmds);
+int			wildcard(t_arr *args, size_t idx);
 
 # ifndef NDEBUG
 

@@ -6,13 +6,13 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 17:43:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 00:40:09 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 14:53:57 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	_create_pipes(t_cmdgrp *cgrp)
+static void	_create_pipes(t_cmdgrp *cgrp)
 {
 	size_t	i;
 	t_cmd	*cmd;
@@ -22,9 +22,8 @@ static int	_create_pipes(t_cmdgrp *cgrp)
 	{
 		cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, i);
 		if (pipe(cmd->_pipe) == -1)
-			return (error("pipe", strerror(errno)));
+			fatal("pipe", strerror(errno));
 	}
-	return (1);
 }
 
 static void	_exec_cmd(t_node *nd)
@@ -32,20 +31,19 @@ static void	_exec_cmd(t_node *nd)
 	size_t		i;
 	t_cmdgrp	*cgrp;
 	t_cmd		*cmd;
-	char		**args;
+	char		*arg0;
 
 	assert(nd->tp == nd_cmd);
 	cgrp = nd->cmdgrp;
 	cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, 0);
-	args = cmd->args.data;
-	if (cgrp->cmds.nelem == 1 && cmd_builtin(unbs(&args[0]))
-		&& !cgrp->_subshell)
+	arg0 = make_arg0(cmd);
+	if (cgrp->cmds.nelem == 1 && cmd_builtin(arg0) && !cgrp->_subshell)
 	{
 		g_shell->retval = exec_simple_builtin(cgrp, cmd);
 		return ;
 	}
-	if (!_create_pipes(cgrp))
-		return ;
+	_create_pipes(cgrp);
+	g_shell->_cmdgrp = cgrp;
 	i = -1;
 	while (++i < cgrp->cmds.nelem)
 	{

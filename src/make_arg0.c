@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arr_trav2.c                                     :+:      :+:    :+:   */
+/*   make_arg0.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 23:16:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 04:41:13 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/14 05:12:44 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/14 14:50:00 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_arr.h"
+#include "minishell.h"
 
-void	ft_arr_trav2(t_arr *a, t_fn2 f, void *userdata)
+/*
+ *	1) remove leading backslash
+ *	2) variables etc (todo)
+ */
+
+char	*make_arg0(t_cmd *cmd)
 {
-	size_t	i;
+	char	**arg0;
 
-	i = -1;
-	while (++i < a->nelem)
-		(*f)(a->data + (i * a->unit), userdata);
+	arg0 = ft_arr_get(&cmd->args, 0);
+	if (cmd->_arg0_made)
+		return (*arg0);
+	unbs(arg0);
+	cmd->_arg0_made = 1;
+	return (*arg0);
 }

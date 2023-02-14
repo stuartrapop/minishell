@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 22:54:27 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 20:15:04 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 14:45:16 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,10 @@ int	enomem(void)
 	error(0, "nomem");
 	exit(1);
 	return (0);
+}
+
+int	fatal(const char *title, const char *msg)
+{
+	error(title, msg);
+	return (finish(1));
 }

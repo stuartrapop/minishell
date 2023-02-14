@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 01:37:52 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 01:00:18 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 15:23:55 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,21 @@ typedef struct s_builtin
 
 int	exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
 {
-	char					*s;
+	char					*arg0;
 	t_builtin				*p;
 	static const t_builtin	builtins[] = {{"cd", &builtin_cd},
 	{"echo", &builtin_echo}, {"env", &builtin_env}, {"exit", &builtin_exit},
 	{"export", &builtin_export}, {"memusage", &builtin_memusage},
 	{"pwd", &builtin_pwd}, {"unset", &builtin_unset}, {0}};
 
-	make_args(&cmd->args);
-	s = unbs(ft_arr_get(&cmd->args, 0));
+	assert(cmd->_arg0_made);
+	if (!make_args(&cmd->args))
+		return (1);
+	arg0 = *(char **) ft_arr_get(&cmd->args, 0);
 	p = (t_builtin *) &builtins[0];
 	while (p->str)
 	{
-		if (*p->str == *s && !ft_strcmp(p->str, s))
+		if (*p->str == *arg0 && !ft_strcmp(p->str, arg0))
 			return ((*p->f)(cgrp, cmd));
 		++p;
 	}
@@ -42,19 +44,18 @@ int	exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
 	return (1);
 }
 
-static int	_clone(int *stdin_clone, int *stdout_clone)
+static void	_clone(int *stdin_clone, int *stdout_clone)
 {
 	*stdin_clone = dup(0);
 	*stdout_clone = dup(1);
 	if (*stdin_clone == -1 || *stdout_clone == -1)
-		return (error("dup", strerror(errno)));
-	return (1);
+		fatal("dup", strerror(errno));
 }
 
 static void	_restore(int stdin_clone, int stdout_clone)
 {
 	if (dup2(stdin_clone, 0) == -1 || dup2(stdout_clone, 1) == -1)
-		error("dup2", strerror(errno));
+		fatal("dup2", strerror(errno));
 }
 
 //	return exit status of the builtin command
@@ -65,8 +66,7 @@ int	exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
 	int	stdout_clone;
 	int	i;
 
-	if (!_clone(&stdin_clone, &stdout_clone))
-		return (1);
+	_clone(&stdin_clone, &stdout_clone);
 	if (!cmd_redir(cmd))
 	{
 		_restore(stdin_clone, stdout_clone);

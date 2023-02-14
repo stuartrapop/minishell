@@ -6,15 +6,31 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 21:22:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 14:55:00 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/14 14:58:15 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//	expand all vars and wildcards
+
 t_arr	*make_args(t_arr *args)
 {
-	return ((t_arr *) args);
+	size_t	i;
+	char	*s;
+
+	i = 0;
+	while (++i < args->nelem)
+	{
+		s = *(char **) ft_arr_get(args, i);
+		if (*s == '*' && !ft_strcmp(s, "*"))
+		{
+			if (!wildcard(args, i))
+				return (0);
+			i = -1;
+		}
+	}
+	return (args);
 }
 
 /*

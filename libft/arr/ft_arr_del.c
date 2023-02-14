@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arr_trav2.c                                     :+:      :+:    :+:   */
+/*   ft_arr_del.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 23:16:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 04:41:13 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/14 04:34:51 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/14 04:36:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_arr.h"
 
-void	ft_arr_trav2(t_arr *a, t_fn2 f, void *userdata)
+int		ft_arr_del(t_arr **a, t_fn1 delfunc)
 {
-	size_t	i;
-
-	i = -1;
-	while (++i < a->nelem)
-		(*f)(a->data + (i * a->unit), userdata);
+	ft_arr_fini(*a, delfunc);
+	ft_free(*a);
+	*a = 0;
+	return (0);
 }

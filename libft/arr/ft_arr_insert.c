@@ -6,13 +6,13 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 14:54:55 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/01/17 20:27:00 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 04:48:19 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_arr.h"
 
-void	*ft_arr_insert(t_arr *a, size_t idx, void *p, t_fn2 copyfunc)
+void	*ft_arr_insert(t_arr *a, void *p, size_t idx, t_fn2 copyfunc)
 {
 	void	*dest;
 

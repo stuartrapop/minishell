@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 02:17:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 21:19:02 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/14 15:06:49 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ char	*tokenize(const char *s, t_token *tok)
 	};
 
 	if (!_skip_spaces(&s))
+	{
+		tok->tp = tok_invalid;
 		return ((char *) s);
+	}
 	spec = (t_tokspec *) &tokspecs[0];
 	while (spec->str)
 	{
