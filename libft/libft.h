@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 22:37:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 18:56:24 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/15 00:12:53 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char		*ft_atoull(const char *s, t_ullong *ret);
 char		*ft_basename(const char *path, char *bname);
 void		ft_bsort(void *a, size_t n, size_t sz, t_compar f);
 int			ft_chrstr(char c, size_t n, char **ret);
+size_t		ft_count_arr(void *a);
 void		ft_del(void *p);
 void		ft_del_arr(void *p);
 char		*ft_dirname(const char *path, char *dname);

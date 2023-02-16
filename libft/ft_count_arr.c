@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   finish.c                                           :+:      :+:    :+:   */
+/*   ft_count_arr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 04:24:51 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 00:16:19 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/15 00:10:22 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/15 00:12:21 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	finish(int exit_status, int verbose)
+size_t	ft_count_arr(void *a)
 {
-	termios_fini();
-	ft_memtrash();
-	rl_clear_history();
-	if (verbose)
-		ft_putstr("exit\n", 1);
-	exit(exit_status);
-	return (exit_status);
+	char	**arr;
+	size_t	i;
+
+	arr = a;
+	i = 0;
+	while (arr[i])
+		++i;
+	return (i);
 }

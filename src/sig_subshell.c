@@ -1,24 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_remove.c                                       :+:      :+:    :+:   */
+/*   sig_subshell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 03:27:19 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/15 22:45:22 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/15 21:40:00 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/16 15:06:16 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//	reinstall original signal handlers
-
-void	sig_remove(void)
+static void	_sig_int(void)
 {
-	assert(g_shell->orig_sigint && g_shell->orig_sigquit);
-	if (sigaction(SIGINT, g_shell->orig_sigint, 0) == -1)
+	ft_putstr("\n", 1);
+	exit(2);
+}
+
+static void	_sig_handler(int signum)
+{
+	if (signum == SIGINT)
+		_sig_int();
+}
+
+//	signal most likely during a heredoc...
+
+void	sig_subshell(void)
+{
+	struct sigaction	siga;
+
+	ft_memset(&siga, 0, sizeof(struct sigaction));
+	siga.sa_handler = &_sig_handler;
+	if (sigaction(SIGINT, &siga, 0) == -1)
 		fatal("sigaction", strerror(errno));
-	if (sigaction(SIGQUIT, g_shell->orig_sigquit, 0) == -1)
+	siga.sa_handler = SIG_IGN;
+	if (sigaction(SIGQUIT, &siga, 0) == -1)
 		fatal("sigaction", strerror(errno));
 }

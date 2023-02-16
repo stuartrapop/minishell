@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 19:12:27 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 14:42:11 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,12 @@ static void	_add_history(const char *s)
 	if (prev)
 	{
 		if (*arg != *prev || ft_strcmp(arg, prev))
-		{
-			add_history(arg);
 			histfile_add(arg);
-		}
 		ft_free(prev);
 		prev = 0;
 	}
 	else
-		add_history(arg);
+		histfile_add(arg);
 	prev = arg;
 }
 
@@ -68,8 +65,9 @@ static int	_init(int argc, char *argv[], char *env[])
 	(void) argc;
 	(void) argv;
 	g_shell = shell_new(env);
-	if (!sig_install())
-		return (0);
+	termios_init();
+	termios_bs(0);
+	sig_mainproc();
 	histfile_load();
 	return (1);
 }
@@ -79,7 +77,7 @@ int	main(int argc, char *argv[], char *env[])
 	char	*s;
 
 	if (!_init(argc, argv, env))
-		return (finish(1));
+		return (finish(1, 0));
 	if (argc > 2 && !ft_strcmp(argv[1], "-c"))
 		return (interp_args(argc - 2, &argv[2]));
 	while (1)
@@ -90,5 +88,5 @@ int	main(int argc, char *argv[], char *env[])
 		else
 			break ;
 	}
-	return (finish(0));
+	return (finish(0, 1));
 }

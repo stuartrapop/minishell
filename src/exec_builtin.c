@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 01:37:52 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 15:23:55 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 12:44:23 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,18 @@ int	exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
 static void	_clone(int *stdin_clone, int *stdout_clone)
 {
 	*stdin_clone = dup(0);
+	if (*stdin_clone == -1)
+		fatal("dup", strerror(errno));
 	*stdout_clone = dup(1);
-	if (*stdin_clone == -1 || *stdout_clone == -1)
+	if (*stdout_clone == -1)
 		fatal("dup", strerror(errno));
 }
 
 static void	_restore(int stdin_clone, int stdout_clone)
 {
-	if (dup2(stdin_clone, 0) == -1 || dup2(stdout_clone, 1) == -1)
+	if (dup2(stdin_clone, 0) == -1)
+		fatal("dup2", strerror(errno));
+	if (dup2(stdout_clone, 1) == -1)
 		fatal("dup2", strerror(errno));
 }
 
@@ -66,13 +70,15 @@ int	exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
 	int	stdout_clone;
 	int	i;
 
+	g_shell->_in_builtin = 1;
 	_clone(&stdin_clone, &stdout_clone);
-	if (!cmd_redir(cmd))
+	if (!cmd_fildes(cgrp, cmd, 0))
 	{
 		_restore(stdin_clone, stdout_clone);
 		return (1);
 	}
 	i = exec_builtin(cgrp, cmd);
 	_restore(stdin_clone, stdout_clone);
+	g_shell->_in_builtin = 0;
 	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 21:24:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/12 00:01:06 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 14:54:05 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,13 @@ static int	_cmd_fildes(t_cmdgrp *cgrp, t_cmd *command, size_t num)
 	}
 	return (cmd_link(command));
 }
+
+/*
+ *	1) treat all redirections
+ *	2) close and keep relevant FDs
+ *	3) link commands with their pipes or redirections
+ *	in case of error, exit status is put in g_shell->_status
+ */
 
 int	cmd_fildes(t_cmdgrp *cgrp, t_cmd *command, size_t num)
 {

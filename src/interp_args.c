@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 04:27:41 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 22:27:59 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 00:19:47 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 int	interp_args(int argc, char *argv[])
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	while (++i < argc)
 		interp(argv[i]);
-	finish(g_shell->retval);
-	return (0);
+	ft_memtrash();
+	return (g_shell->retval);
 }

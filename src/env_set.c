@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:43:26 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/11 20:20:48 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 00:33:04 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ int	env_set(t_arr *env, const char *varname, const char *value)
 	if (i == (size_t) -1)
 		return (_env_set(env, varname, value));
 	if (!ft_arr_unset(env, i, &ft_del))
-		assert(0);
+		enomem();
 	return (_env_set(env, varname, value));
 }

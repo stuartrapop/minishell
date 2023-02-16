@@ -6,18 +6,20 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:44:28 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 19:03:27 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/15 17:18:33 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#define MAXPATH	4096
+//	mode = 0: read
+//	mode = 1: append
+//	mode = 2: truncate
 
-int	histfile_open(int append)
+int	histfile_open(int mode)
 {
 	char	*home;
-	char	path[MAXPATH];
+	char	path[PATH_MAX];
 	char	*p;
 
 	home = ft_env_var("HOME", g_shell->env.data);
@@ -26,13 +28,9 @@ int	histfile_open(int append)
 	p = ft_stpcpy(path, home);
 	ft_strcatchr(p, '/', 1);
 	ft_strcat(p, HISTFILE);
-	if (append)
-	{
-		if (ft_file_exists(path) && !ft_file_writable(path))
-			return (-1);
+	if (mode == 2)
+		return (open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644));
+	if (mode == 1)
 		return (open(path, O_WRONLY | O_CREAT | O_APPEND, 0644));
-	}
-	if (ft_file_exists(path) && !ft_file_readable(path))
-		return (-1);
 	return (open(path, O_RDONLY | O_CREAT, 0644));
 }

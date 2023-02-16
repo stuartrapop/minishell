@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 05:12:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 14:50:00 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/15 16:34:17 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*make_arg0(t_cmd *cmd)
 	char	**arg0;
 
 	arg0 = ft_arr_get(&cmd->args, 0);
+	if (!arg0)
+		return (0);
 	if (cmd->_arg0_made)
 		return (*arg0);
 	unbs(arg0);

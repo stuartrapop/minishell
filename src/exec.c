@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 17:43:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 14:53:57 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 14:41:54 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,16 @@ static void	_exec_cmd(t_node *nd)
 
 	assert(nd->tp == nd_cmd);
 	cgrp = nd->cmdgrp;
+	_create_pipes(cgrp);
 	cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, 0);
 	arg0 = make_arg0(cmd);
-	if (cgrp->cmds.nelem == 1 && cmd_builtin(arg0) && !cgrp->_subshell)
+	if (arg0 && cgrp->cmds.nelem == 1 && cmd_builtin(arg0) && !cgrp->_subshell)
 	{
 		g_shell->retval = exec_simple_builtin(cgrp, cmd);
 		return ;
 	}
-	_create_pipes(cgrp);
 	g_shell->_cmdgrp = cgrp;
+	termios_bs(1);
 	i = -1;
 	while (++i < cgrp->cmds.nelem)
 	{

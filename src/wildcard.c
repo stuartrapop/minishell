@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:48:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 04:48:56 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 00:57:29 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static t_arr	*_wildcard(void)
 	_loop(dir, lst);
 	if (closedir(dir) == -1)
 		error("closedir", strerror(errno));
-	ft_bsort(lst->data, lst->nelem, lst->unit, (t_compar) &_comp);
+	ft_bsort(lst->data, lst->nelem, lst->unit, (t_compar) & _comp);
 	return (lst);
 }
 

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 19:13:20 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 14:41:13 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,14 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <termios.h>
 
 # define PS1	"Minishell--> "
 # define HISTFILE	".minishell_history"
+
+# ifndef PATH_MAX
+#  define PATH_MAX	4096
+# endif
 
 /*
  *	lexer
@@ -122,6 +127,7 @@ typedef struct s_cmd
 	int		_pipe[2];
 	int		_io[2];
 	int		_pid;
+	int		_status;
 }	t_cmd;
 
 struct s_cmdgrp
@@ -139,9 +145,12 @@ typedef struct s_shell
 	t_arr				env;
 	int					retval;
 	struct sigaction	*orig_sigint;
+	struct sigaction	*orig_sigquit;
+	struct termios		orig_termios;
 	char				*_input;
 	char				*_ptr;
 	t_cmdgrp			*_cmdgrp;
+	int					_in_builtin;
 }	t_shell;
 
 extern
@@ -186,9 +195,9 @@ int			exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num);
 int			exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
 int			fatal(const char *title, const char *msg);
 int			fd_close(int *fd);
-int			finish(int i);
-int			histfile_add(const char *line);
-int			histfile_load(void);
+int			finish(int exit_status, int verbose);
+void		histfile_add(const char *line);
+void		histfile_load(void);
 int			histfile_open(int append);
 int			interp(const char *s);
 int			interp_args(int argc, char *argv[]);
@@ -198,7 +207,7 @@ int			node_del(t_node **nd);
 t_node		*node_new(const t_node *parent);
 void		node_remove(t_node *nd, t_node *child, t_node **root);
 void		node_subst(t_node *nd, t_node *nd2, int leftside, t_node **root);
-int			open_file_heredoc(const char *eof);
+int			open_file_hd(const char *eof);
 int			open_file_ro(const char *path);
 int			open_file_wa(const char *path);
 int			open_file_wo(const char *path);
@@ -211,9 +220,13 @@ char		*ps1(void);
 void		redir_fini(void *redirect);
 t_shell		*shell_new(char *environ[]);
 void		shell_reset(t_shell *sh);
-int			sig_install(void);
-int			sig_remove(void);
+void		sig_mainproc(void);
+void		sig_remove(void);
+void		sig_subshell(void);
 char		*string(char **s);
+void		termios_bs(int enable);
+void		termios_fini(void);
+void		termios_init(void);
 int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);
 char		*tokenize_var(const char *s, t_token *tok);

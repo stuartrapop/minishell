@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:28:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 14:55:47 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 14:46:49 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,23 @@ static void	_close_all_fildes(const t_arr *cmds)
 	}
 }
 
-//	waitpid error is ignored (signal interrupts)
+//	signal interrupts cause waitpid to fail, in that case, retry
 
 static int	_waitfor(int pid)
 {
 	int	stat;
 
-	if (waitpid(pid, &stat, 0) == -1)
-		return (0);
-	if (WIFEXITED(stat))
-		return (WEXITSTATUS(stat));
+	while (waitpid(pid, &stat, WUNTRACED) == -1)
+	{
+		/* if (waitpid(pid, &stat, WUNTRACED) == -1) */
+		/* 	return (1); */
+	}
+	if (WIFSTOPPED(stat))
+		return (WSTOPSIG(stat));
 	if (WIFSIGNALED(stat))
 		return (WTERMSIG(stat));
+	if (WIFEXITED(stat))
+		return (WEXITSTATUS(stat));
 	assert(0);
 	return (0);
 }
@@ -69,6 +74,7 @@ int	waitpids(const t_arr *cmds)
 		res = _waitfor(cmd->_pid);
 		cmd->_pid = -1;
 	}
+	termios_bs(0);
 	g_shell->retval = res;
 	g_shell->_cmdgrp = 0;
 	return (res);

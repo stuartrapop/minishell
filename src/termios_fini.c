@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   finish.c                                           :+:      :+:    :+:   */
+/*   termios_fini.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 04:24:51 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 00:16:19 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/15 12:56:50 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/15 16:18:36 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	finish(int exit_status, int verbose)
+//	reinstall original termios settings
+
+void	termios_fini(void)
 {
-	termios_fini();
-	ft_memtrash();
-	rl_clear_history();
-	if (verbose)
-		ft_putstr("exit\n", 1);
-	exit(exit_status);
-	return (exit_status);
+	if (tcsetattr(0, TCSANOW, &g_shell->orig_termios) == -1)
+		fatal("tcsetattr", strerror(errno));
 }

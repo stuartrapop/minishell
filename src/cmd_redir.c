@@ -6,13 +6,11 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 02:24:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 19:08:24 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 02:44:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//	remove/reinstall signal handlers during heredocs
 
 static int	_treat_heredocs(t_cmd *cmd)
 {
@@ -27,10 +25,8 @@ static int	_treat_heredocs(t_cmd *cmd)
 		{
 			if (cmd->_heredoc_fd != -1)
 				fd_close(&cmd->_heredoc_fd);
-			if (!sig_remove())
-				return (0);
-			cmd->_heredoc_fd = open_file_heredoc(redir->str);
-			if (!sig_install() || cmd->_heredoc_fd < 0)
+			cmd->_heredoc_fd = open_file_hd(redir->str);
+			if (cmd->_heredoc_fd == -1)
 				return (0);
 		}
 	}
@@ -66,15 +62,23 @@ static int	_treat_others(t_cmd *cmd)
 }
 
 /*
- *	treat redirections
- *	the last FD opened is kept,
+ *	Treat redirections (read heredocs, open input files, open output files)
+ *	Of each, the last FD opened is kept,
  *	and the FDs not used are immediately closed
  */
 
 int	cmd_redir(t_cmd *cmd)
 {
-	if (!_treat_heredocs(cmd) || !_treat_others(cmd))
+	if (!_treat_heredocs(cmd))
+	{
+		cmd->_status = 2;
 		return (0);
+	}
+	if (!_treat_others(cmd))
+	{
+		cmd->_status = 1;
+		return (0);
+	}
 	if (cmd->_input_or_heredoc)
 	{
 		assert(cmd->_input_fd != -1 || cmd->_heredoc_fd != -1);
