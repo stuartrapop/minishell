@@ -6,28 +6,11 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 23:14:52 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/17 00:46:52 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*_get_abspath(const char *cmd)
-{
-	char	*path;
-	char	**dirs;
-	char	*res;
-
-	path = ft_env_var("PATH", g_shell->env.data);
-	if (!path)
-		return (0);
-	dirs = ft_split(path, ':');
-	if (!dirs)
-		enomem();
-	res = ft_abspath_of_cmd(cmd, dirs);
-	ft_del_arr(&dirs);
-	return (res);
-}
 
 static void	_treat_arg0(const char *arg0, char **abspath, t_cmd *cmd)
 {
@@ -50,7 +33,7 @@ static void	_treat_arg0(const char *arg0, char **abspath, t_cmd *cmd)
 	}
 	else
 	{
-		*abspath = _get_abspath(arg0);
+		*abspath = abspath_find(arg0);
 		if (!*abspath)
 			ft_dprintf(2, "error: %s: command not found\n", arg0);
 	}

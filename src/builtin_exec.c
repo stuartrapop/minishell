@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_builtin.c                                      :+:      :+:    :+:   */
+/*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 04:59:14 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 00:40:38 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/07 05:11:05 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/17 00:40:04 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_builtin(const char *cmd)
+int	builtin_exec(t_cmdgrp *cgrp, t_cmd *cmd)
 {
-	char				**s;
-	static const char	*builtins[] = {"cd", "echo", "env", "exec", "exit",
-		"export", "memusage", "pwd", "unset", 0};
+	const char	**noargs = {0};
+	char		**p;
 
-	s = (char **) &builtins[0];
-	while (*s)
-	{
-		if (**s == *cmd && !ft_strcmp(*s, cmd))
-			return (1);
-		++s;
-	}
-	return (0);
+	(void) cgrp;
+	p = ft_arr_get(&cmd->args, 1);
+	if (!p)
+		return (1);
+	if (cmd->args.nelem > 2)
+		execve(*p, &((char *const *) cmd->args.data)[1],
+			(char *const *) g_shell->env.data);
+	else
+		execve(*p, (char *const *) noargs, g_shell->env.data);
+	return (1 + error("exec", strerror(errno)));
 }

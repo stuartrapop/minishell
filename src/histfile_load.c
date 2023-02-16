@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:00:55 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 23:00:45 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 23:32:01 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 static void	_set_last_cmd(char *line)
 {
-	static char	**prev;
+	char	**prev;
 
-	if (!prev)
-		prev = last_command();
+	prev = last_command();
 	if (*prev)
 		ft_free(*prev);
 	*prev = line;

@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_builtin.c                                      :+:      :+:    :+:   */
+/*   abspath_find.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 04:59:14 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 00:40:38 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/17 00:43:09 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/17 00:43:51 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_builtin(const char *cmd)
+char	*abspath_find(const char *cmd)
 {
-	char				**s;
-	static const char	*builtins[] = {"cd", "echo", "env", "exec", "exit",
-		"export", "memusage", "pwd", "unset", 0};
+	char	*path;
+	char	**dirs;
+	char	*res;
 
-	s = (char **) &builtins[0];
-	while (*s)
-	{
-		if (**s == *cmd && !ft_strcmp(*s, cmd))
-			return (1);
-		++s;
-	}
-	return (0);
+	path = ft_env_var("PATH", g_shell->env.data);
+	if (!path)
+		return (0);
+	dirs = ft_split(path, ':');
+	if (!dirs)
+		enomem();
+	res = ft_abspath_of_cmd(cmd, dirs);
+	ft_del_arr(&dirs);
+	return (res);
 }

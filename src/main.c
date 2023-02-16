@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 22:48:49 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/17 00:46:24 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	main(int argc, char *argv[], char *env[])
 	_init(argc, argv, env);
 	if (argc > 2 && !ft_strcmp(argv[1], "-c"))
 		return (interp_args(argc - 2, &argv[2]));
+	splash();
 	while (1)
 	{
 		s = _readline();

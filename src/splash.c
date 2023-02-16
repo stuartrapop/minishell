@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_builtin.c                                      :+:      :+:    :+:   */
+/*   splash.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 04:59:14 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 00:40:38 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/17 00:42:04 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/17 00:52:38 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_builtin(const char *cmd)
+void	splash(void)
 {
-	char				**s;
-	static const char	*builtins[] = {"cd", "echo", "env", "exec", "exit",
-		"export", "memusage", "pwd", "unset", 0};
-
-	s = (char **) &builtins[0];
-	while (*s)
+	if (!abspath_find("neofetch"))
 	{
-		if (**s == *cmd && !ft_strcmp(*s, cmd))
-			return (1);
-		++s;
+		ft_printf("\e[1m");
+		interp("uname -a");
+		ft_printf("\e[0m");
 	}
-	return (0);
+	else
+		interp("neofetch");
 }

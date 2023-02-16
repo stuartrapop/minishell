@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 22:49:35 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/17 00:46:24 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,12 @@ t_shell * g_shell;
  *	functions
  */
 
+char		*abspath_find(const char *cmd);
 int			ast_check(const t_node *nd);
 int			builtin_cd(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_echo(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_env(t_cmdgrp *cgrp, t_cmd *cmd);
+int			builtin_exec(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_exit(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_export(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_memusage(t_cmdgrp *cgrp, t_cmd *cmd);
@@ -224,6 +226,7 @@ void		shell_reset(t_shell *sh);
 void		sig_mainproc(void);
 void		sig_remove(void);
 void		sig_subshell(void);
+void		splash(void);
 char		*string(char **s);
 void		termios_bs(int enable);
 void		termios_fini(void);
