@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 17:28:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 14:46:49 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 19:29:36 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,14 @@ static void	_close_all_fildes(const t_arr *cmds)
 	}
 }
 
-//	signal interrupts cause waitpid to fail, in that case, retry
+//	wait for any of child process to terminate
+//	signal interrupts cause waitpid to fail; sigaction SA_RESTART handles that
 
-static int	_waitfor(int pid)
+static int	_wait(pid_t *pid)
 {
 	int	stat;
 
-	while (waitpid(pid, &stat, WUNTRACED) == -1)
-	{
-		/* if (waitpid(pid, &stat, WUNTRACED) == -1) */
-		/* 	return (1); */
-	}
+	*pid = waitpid(-1, &stat, WUNTRACED);
 	if (WIFSTOPPED(stat))
 		return (WSTOPSIG(stat));
 	if (WIFSIGNALED(stat))
@@ -55,24 +52,39 @@ static int	_waitfor(int pid)
 	return (0);
 }
 
+static void	_clearpid(const t_arr *cmds, pid_t pid)
+{
+	size_t	i;
+	t_cmd	*cmd;
+
+	i = -1;
+	while (++i < cmds->nelem)
+	{
+		cmd = *(t_cmd **) ft_arr_get(cmds, i);
+		if (cmd->_pid == pid)
+		{
+			cmd->_pid = -1;
+			return ;
+		}
+	}
+	assert(0);
+}
+
 //	returned value is ignored
 
 int	waitpids(const t_arr *cmds)
 {
 	size_t	i;
-	t_cmd	*cmd;
 	int		res;
+	pid_t	pid;
 
 	_close_all_fildes(cmds);
 	res = 1;
 	i = -1;
 	while (++i < cmds->nelem)
 	{
-		cmd = *(t_cmd **) ft_arr_get(cmds, i);
-		if (cmd->_pid == -1)
-			continue ;
-		res = _waitfor(cmd->_pid);
-		cmd->_pid = -1;
+		res = _wait(&pid);
+		_clearpid(cmds, pid);
 	}
 	termios_bs(0);
 	g_shell->retval = res;

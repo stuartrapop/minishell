@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 22:51:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 15:05:11 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 19:13:05 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	sig_mainproc(void)
 		enomem();
 	ft_memset(&siga, 0, sizeof(struct sigaction));
 	siga.sa_handler = &_sig_handler;
+	siga.sa_flags = SA_RESTART;
 	if (sigaction(SIGINT, &siga, g_shell->orig_sigint) == -1)
 		fatal("sigaction", strerror(errno));
 	if (sigaction(SIGQUIT, &siga, g_shell->orig_sigquit) == -1)
