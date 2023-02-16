@@ -6,11 +6,22 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:00:55 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 00:06:34 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 23:00:45 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	_set_last_cmd(char *line)
+{
+	static char	**prev;
+
+	if (!prev)
+		prev = last_command();
+	if (*prev)
+		ft_free(*prev);
+	*prev = line;
+}
 
 static void	_load_history(char **lines, size_t cnt)
 {
@@ -31,6 +42,8 @@ static void	_load_history(char **lines, size_t cnt)
 		if (ft_endswith(line, "\n"))
 			*ft_strrchr(line, '\n') = 0;
 		add_history(line);
+		_set_last_cmd(line);
+		lines[i] = 0;
 	}
 	fd_close(&fd);
 }

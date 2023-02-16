@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 19:27:35 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 23:14:52 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ static void	_treat_arg0(const char *arg0, char **abspath, t_cmd *cmd)
 	}
 }
 
+static void	_make_args(char *abspath, t_cmd *cmd)
+{
+	if (abspath && !make_args(&cmd->args))
+		ft_del(&abspath);
+	if (!abspath)
+		exit(cmd->_status);
+}
+
 /*
  *	1) open all fildes
  *	2) if ok, make arg0, exit success if there is none
@@ -83,11 +91,11 @@ int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 			exit(exec_builtin(cgrp, cmd));
 		cmd->_status = 1;
 		_treat_arg0(arg0, &abspath, cmd);
-		if (abspath && !make_args(&cmd->args))
-			ft_del(&abspath);
+		_make_args(abspath, cmd);
 		sig_remove();
 		execve(abspath, cmd->args.data, g_shell->env.data);
-		exit(cmd->_status);
+		ft_dprintf(2, "error: %s: %s\n", abspath, strerror(errno));
+		exit(1);
 	}
 	return (1);
 }

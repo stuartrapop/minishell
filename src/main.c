@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 18:31:46 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 22:48:49 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,32 @@
 
 t_shell	*g_shell;
 
-static void	_add_history(const char *s)
+char	**last_command(void)
 {
-	char		*arg;
 	static char	*prev;
 
+	return (&prev);
+}
+
+static void	_add_history(const char *s)
+{
+	char	*arg;
+	char	**prev;
+
+	prev = last_command();
 	arg = ft_strip(s);
 	if (!arg)
 		enomem();
-	if (prev)
+	if (*prev)
 	{
-		if (*arg != *prev || ft_strcmp(arg, prev))
+		if (*arg != **prev || ft_strcmp(arg, *prev))
 			histfile_add(arg);
-		ft_free(prev);
-		prev = 0;
+		ft_free(*prev);
+		*prev = 0;
 	}
 	else
 		histfile_add(arg);
-	prev = arg;
+	*prev = arg;
 }
 
 static char	*_readline(void)

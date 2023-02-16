@@ -6,20 +6,12 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 14:41:13 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/16 22:49:35 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# include <libft.h>
-# include <ft_arr.h>
-# include <ft_getnext.h>
-# include <ft_printf.h>
-
-# include <readline/readline.h>
-# include <readline/history.h>
 
 # include <dirent.h>
 # include <errno.h>
@@ -28,6 +20,14 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <termios.h>
+
+# include <readline/readline.h>
+# include <readline/history.h>
+
+# include <libft.h>
+# include <ft_arr.h>
+# include <ft_getnext.h>
+# include <ft_printf.h>
 
 # define PS1	"Minishell--> "
 # define HISTFILE	".minishell_history"
@@ -144,8 +144,8 @@ typedef struct s_shell
 {
 	t_arr				env;
 	int					retval;
-	struct sigaction	*orig_sigint;
-	struct sigaction	*orig_sigquit;
+	struct sigaction	orig_sigint;
+	struct sigaction	orig_sigquit;
 	struct termios		orig_termios;
 	char				*_input;
 	char				*_ptr;
@@ -201,6 +201,7 @@ void		histfile_load(void);
 int			histfile_open(int append);
 int			interp(const char *s);
 int			interp_args(int argc, char *argv[]);
+char		**last_command(void);
 char		*make_arg0(t_cmd *cmd);
 t_arr		*make_args(t_arr *args);
 int			node_del(t_node **nd);
