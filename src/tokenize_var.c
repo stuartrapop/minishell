@@ -6,20 +6,11 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 19:04:17 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/13 21:19:02 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/17 12:23:30 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct s_scan
-{
-	int	count;
-	int	index;
-	int	within_piece;
-	int	within_single_quotes;
-	int	within_double_quotes;
-}	t_scan;
 
 static int	_is_sep(char c, const t_scan *scan)
 {

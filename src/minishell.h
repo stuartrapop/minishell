@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/19 22:41:09 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/21 16:08:10 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,14 @@ struct s_cmdgrp
 	int		_subshell;
 };
 
+/*helper for scan */
+
+typedef struct s_scan
+{
+	int	within_single_quotes;
+	int	within_double_quotes;
+}	t_scan;
+
 /*
  *	shell info
  */
@@ -217,7 +225,7 @@ int			interp(const char *s);
 int			interp_args(int argc, char *argv[]);
 char		**last_command(void);
 char		*make_arg0(t_cmd *cmd);
-t_arr		*make_args(t_arr *args);
+int			make_args(t_arr *args);
 int			node_del(t_node **nd);
 t_node		*node_new(const t_node *parent);
 void		node_remove(t_node *nd, t_node *child, t_node **root);
@@ -252,6 +260,10 @@ int			var_init(t_var *var, const char *s);
 int			var_valid(const t_var *var);
 int			waitpids(const t_arr *cmds);
 int			wildcard(t_arr *args, size_t idx);
+char		*get_cmd_arg(char **str, t_scan *scan);
+void		split_full_command(char **command_string, t_arr *args);
+void		add_arg_to_full_command(t_arr *new_string, char *str);
+int			treat_quotes(char c, t_scan *scan);
 
 # ifndef NDEBUG
 
