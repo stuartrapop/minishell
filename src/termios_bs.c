@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:17:11 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 14:40:53 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/17 17:36:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	termios_bs(int enable)
 {
 	struct termios	st_t;
 
+	if (!isatty(STDIN_FILENO))
+	{
+		errno = 0;
+		return ;
+	}
 	ft_memcpy(&st_t, &g_shell->orig_termios, sizeof(struct termios));
 	st_t.c_lflag &= ~ECHOCTL;
 	if (enable)

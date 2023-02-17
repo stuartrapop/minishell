@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 22:37:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/15 00:12:53 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/17 18:57:53 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int			ft_putstr(const char *s, int fd);
 int			ft_putstr_sz(const char *s, size_t sz, int fd);
 int			ft_prepend(char **sp, const char *prefix);
 void		ft_qsort(void *a, size_t n, size_t sz, t_compar f);
+char		*ft_replace(char **s, const char *this, const char *that);
 char		**ft_split(const char *s, char c);
 int			ft_startswith(const char *s, const char *prefix);
 char		*ft_stpcpy(char *dst, const char *src);

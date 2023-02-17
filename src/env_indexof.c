@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:46:59 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/05 19:22:01 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/17 22:22:53 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ size_t	env_indexof(const t_arr *env, const char *varname)
 	while (++i < env->nelem)
 	{
 		s = *(char **) ft_arr_get(env, i);
-		assert(s);
 		if (ft_startswith(s, var))
 			return (i);
 	}

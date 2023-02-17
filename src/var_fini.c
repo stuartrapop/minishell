@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   termios_fini.c                                     :+:      :+:    :+:   */
+/*   var_fini.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 12:56:50 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 17:36:27 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/17 03:36:03 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/17 03:36:57 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//	reinstall original termios settings
-
-void	termios_fini(void)
+int	var_fini(t_var *var)
 {
-	if (!isatty(STDIN_FILENO))
-	{
-		errno = 0;
-		return ;
-	}
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &g_shell->orig_termios) == -1)
-		fatal("tcsetattr", strerror(errno));
+	if (var->name)
+		ft_del(&var->name);
+	if (var->value)
+		ft_del(&var->value);
+	return (0);
 }

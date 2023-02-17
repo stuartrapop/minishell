@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 00:16:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 22:44:53 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/17 22:02:19 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,18 @@ static int	_copy(t_arr *env, char *environ[])
 
 static int	_env_dup(t_arr *env, char *environ[])
 {
+	char	*p;
+
 	if (!ft_arr_init(env, ft_count_arr(environ), sizeof(char *))
 		|| !_copy(env, environ))
 		return (0);
+	p = env_get(env, "PATH");
+	if (p && !*p)
+	{
+		if (!env_set(env, "PATH",
+			"/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."))
+			enomem();
+	}
 	return (1);
 }
 

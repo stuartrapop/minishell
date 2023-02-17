@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 00:46:24 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/17 22:58:10 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # define PS1	"Minishell--> "
 # define HISTFILE	".minishell_history"
+# define ALIASFILE	".minishell_aliases"
 
 # ifndef PATH_MAX
 #  define PATH_MAX	4096
@@ -143,6 +144,7 @@ struct s_cmdgrp
 typedef struct s_shell
 {
 	t_arr				env;
+	t_arr				aliases;
 	int					retval;
 	struct sigaction	orig_sigint;
 	struct sigaction	orig_sigquit;
@@ -157,6 +159,17 @@ extern
 t_shell * g_shell;
 
 /*
+ *	variables
+ */
+
+typedef struct s_var
+{
+	char	*name;
+	char	*value;
+	int		has_equal;
+}	t_var;
+
+/*
  *	functions
  */
 
@@ -168,6 +181,7 @@ int			builtin_env(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_exec(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_exit(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_export(t_cmdgrp *cgrp, t_cmd *cmd);
+int			builtin_export_p(void);
 int			builtin_memusage(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_pwd(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_unset(t_cmdgrp *cgrp, t_cmd *cmd);
@@ -235,6 +249,9 @@ int			token_fini(t_token *tok);
 char		*tokenize(const char *s, t_token *tok);
 char		*tokenize_var(const char *s, t_token *tok);
 char		*unbs(char **cmd);
+int			var_fini(t_var *var);
+int			var_init(t_var *var, const char *s);
+int			var_valid(const t_var *var);
 int			waitpids(const t_arr *cmds);
 int			wildcard(t_arr *args, size_t idx);
 
