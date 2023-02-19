@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 22:58:10 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/19 22:41:09 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 # define PS1	"Minishell--> "
 # define HISTFILE	".minishell_history"
-# define ALIASFILE	".minishell_aliases"
 
 # ifndef PATH_MAX
 #  define PATH_MAX	4096
@@ -144,7 +143,6 @@ struct s_cmdgrp
 typedef struct s_shell
 {
 	t_arr				env;
-	t_arr				aliases;
 	int					retval;
 	struct sigaction	orig_sigint;
 	struct sigaction	orig_sigquit;
