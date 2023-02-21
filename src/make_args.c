@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 21:22:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/21 15:58:26 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/21 17:32:31 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*make_full_command(t_arr *args)
 		if (!tmp)
 			break ;
 		add_arg_to_full_command(&new_string, tmp);
-		if (i == args->nelem -2)
+		if (i != args->nelem - 1)
 			ft_arr_append(&new_string, " ", 0);
 		i++;
 	}
