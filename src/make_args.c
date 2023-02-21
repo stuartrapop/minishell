@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 21:22:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 12:16:45 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:58:26 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*make_full_command(t_arr *args)
 	while (i < args->nelem)
 	{
 		tmp = ((char **)args->data)[i];
-		ft_printf("arg %s\n", tmp);
 		if (!tmp)
 			break ;
 		add_arg_to_full_command(&new_string, tmp);
@@ -64,28 +63,4 @@ int	make_args(t_arr *args)
 	split_full_command(&full_command, args);
 	expand_arg_wildcards(args);
 	return (1);
-}
-
-char	*make_arg0(t_cmd *cmd)
-{
-	char	*full_command;
-	t_scan	scan;
-	char	*first_arg;
-
-	scan.within_double_quotes = 0;
-	scan.within_single_quotes = 0;
-	full_command = make_full_command(&cmd->args);
-	ft_printf("full command after make %s\n", full_command);
-	if (!*full_command)
-		return (NULL);
-	while (ft_isspace(*full_command))
-		full_command++;
-	first_arg = get_cmd_arg(&full_command, &scan);
-	ft_printf("first element %s\n", first_arg);
-	unbs(&first_arg);
-	if (cmd->_arg0_made)
-		return (first_arg);
-	unbs(&first_arg);
-	cmd->_arg0_made = 1;
-	return (first_arg);
 }

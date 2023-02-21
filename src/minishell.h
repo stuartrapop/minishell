@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/21 16:08:10 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:09:15 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,8 @@ char		*get_cmd_arg(char **str, t_scan *scan);
 void		split_full_command(char **command_string, t_arr *args);
 void		add_arg_to_full_command(t_arr *new_string, char *str);
 int			treat_quotes(char c, t_scan *scan);
+char		*make_full_command(t_arr *args);
+int			expand_redirs(t_cmd *cmd);
 
 # ifndef NDEBUG
 

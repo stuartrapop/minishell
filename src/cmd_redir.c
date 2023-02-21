@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 02:24:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 02:44:27 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/21 15:53:35 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	is_ambiguous(char *str)
+{
+	int	i;
+
+	if (str[0] == '\0')
+	{
+		ft_dprintf(2, "error: ambiguous redirect\n");
+		return (1);
+	}
+	i = 0;
+	while (str[i])
+	{
+		if (ft_strchr(" ", str[i]))
+		{
+			ft_dprintf(2, "error: ambiguous redirect\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 static int	_treat_heredocs(t_cmd *cmd)
 {
@@ -42,6 +64,8 @@ static int	_treat_others(t_cmd *cmd)
 	while (++i < cmd->redirs.nelem)
 	{
 		redir = (t_redir *) ft_arr_get(&cmd->redirs, i);
+		if (is_ambiguous(redir->str))
+			return (0);
 		if (redir->tp == redir_input)
 		{
 			if (!cmd_redir_input(cmd, redir))

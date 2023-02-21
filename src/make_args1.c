@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:47:06 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/17 12:18:46 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:57:12 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,6 @@ int	treat_quotes(char c, t_scan *scan)
 	return (0);
 }
 
-char	*get_cmd_arg(char **str, t_scan *scan)
-{
-	int		i;
-	t_arr	new_arg;
-	char	*ret;
-
-	ft_arr_init(&new_arg, 4, sizeof(char));
-	i = 0;
-	while ((*str)[i])
-	{
-		if (treat_quotes((*str)[i], scan))
-			;
-		else if (ft_strchr("|<> &", (*str)[i]) && !scan->within_double_quotes \
-			&& !scan->within_single_quotes)
-			break ;
-		else
-			ft_arr_append(&new_arg, &(*str)[i], 0);
-		i++;
-	}
-	*str += i;
-	ret = ft_strdup((char *)new_arg.data);
-	ft_arr_fini(&new_arg, ft_free);
-	return (ret);
-}
-
 void	split_full_command(char **command_string, t_arr *args)
 {
 	char	*tmp;
@@ -63,7 +38,6 @@ void	split_full_command(char **command_string, t_arr *args)
 	ft_arr_fini(args, ft_free);
 	ft_arr_init(args, 1, sizeof(char *));
 	tmp = *command_string;
-	ft_printf("full command: %s\n", tmp);
 	while (*tmp)
 	{
 		if (ft_isspace(*tmp))
