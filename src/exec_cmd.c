@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/22 17:51:33 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/22 18:26:34 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ static void	_treat_arg0(const char *arg0, char **abspath, t_cmd *cmd)
 	{
 		*abspath = abspath_find(arg0);
 		if (!*abspath)
+		{
 			ft_dprintf(2, "error: %s: command not found\n", arg0);
+			cmd->_status = 127;
+		}
 	}
 }
 
