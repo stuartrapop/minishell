@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:47:06 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/21 15:57:12 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/22 12:18:01 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	add_arg_to_full_command(t_arr *new_string, char *str)
 {
 	char	*tmp;
 	t_scan	scan;
+	char	buf[16];
 
 	scan.within_single_quotes = 0;
 	scan.within_double_quotes = 0;
@@ -89,7 +90,13 @@ void	add_arg_to_full_command(t_arr *new_string, char *str)
 		treat_quotes(*tmp, &scan);
 		if (*tmp == '$' && !scan.within_single_quotes)
 		{
-			add_env_var(new_string, &tmp);
+			if (*(tmp + 1) == '?')
+			{
+				ft_arr_append(new_string, ft_itoa(g_shell->retval, buf), 0);
+				tmp += 2;
+			}
+			else
+				add_env_var(new_string, &tmp);
 			continue ;
 		}
 		ft_arr_append(new_string, tmp, 0);
