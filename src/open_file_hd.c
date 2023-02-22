@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_file_hd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:15:49 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 13:00:54 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/22 14:14:30 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ static int	_error(int fds[])
 	return (-1);
 }
 
+//  assert(errno == 0); line removed
 static inline char	*_gnl(void)
 {
-	assert(errno == 0);
+	errno = 0;
 	return (ft_getnextline(0));
 }
 
