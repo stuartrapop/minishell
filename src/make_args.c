@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 21:22:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/21 17:32:31 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/22 16:20:52 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	make_args(t_arr *args)
 
 	full_command = make_full_command(args);
 	split_full_command(&full_command, args);
+	ft_free(full_command);
 	expand_arg_wildcards(args);
 	return (1);
 }

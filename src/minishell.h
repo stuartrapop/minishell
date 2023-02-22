@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/22 11:38:39 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/22 17:20:12 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,7 @@ int			treat_quotes(char c, t_scan *scan);
 char		*make_full_command(t_arr *args);
 int			expand_redirs(t_cmd *cmd);
 char		*clean_redirect(char **str);
+char		*exp_env_str(char *fn);
 
 # ifndef NDEBUG
 

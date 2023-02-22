@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:10:14 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/22 11:42:55 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/22 17:21:23 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*clean_redirect(char **str)
 	return (ret);
 }
 
-static char	*exp_redir_str(char *fn)
+char	*exp_env_str(char *fn)
 {
 	t_arr		new_string;
 	char		*exp_str;
@@ -62,7 +62,7 @@ int	expand_redirs(t_cmd *cmd)
 	{
 		if (((t_redir *)cmd->redirs.data)[i].tp != redir_heredoc)
 		{
-			expand_str = exp_redir_str(((t_redir *)cmd->redirs.data)[i].str);
+			expand_str = exp_env_str(((t_redir *)cmd->redirs.data)[i].str);
 			tmp = ((t_redir *)cmd->redirs.data)[i].str;
 			((t_redir *)cmd->redirs.data)[i].str = expand_str;
 		}

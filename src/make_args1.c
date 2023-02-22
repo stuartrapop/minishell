@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:47:06 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/22 12:18:01 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/22 15:07:54 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	split_full_command(char **command_string, t_arr *args)
 
 	scan.within_double_quotes = 0;
 	scan.within_single_quotes = 0;
-	ft_arr_fini(args, ft_free);
+	ft_arr_fini(args, &ft_del);
 	ft_arr_init(args, 1, sizeof(char *));
 	tmp = *command_string;
 	while (*tmp)

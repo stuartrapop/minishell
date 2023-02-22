@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:15:49 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/22 14:14:30 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/22 17:20:03 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,22 @@ static inline char	*_gnl(void)
 	return (ft_getnextline(0));
 }
 
+static char	*expand_line(char **line)
+{
+	char	*tmp;
+	char	*exp_line;
+
+	ft_replace(line, "\n", "\0");
+	tmp = exp_env_str(*line);
+	exp_line = ft_malloc(ft_strlen(tmp) + 2);
+	ft_strccpy(exp_line, tmp, ft_strlen(tmp));
+	exp_line[ft_strlen(tmp)] = '\n';
+	exp_line[ft_strlen(tmp) + 1] = '\0';
+	ft_del(line);
+	ft_del(&tmp);
+	return (exp_line);
+}
+
 //	signal interrupts cause read to fail
 
 int	open_file_hd(const char *eof)
@@ -71,6 +87,7 @@ int	open_file_hd(const char *eof)
 			ft_free(line);
 			break ;
 		}
+		line = expand_line(&line);
 		ft_putstr(line, fds[1]);
 		ft_del(&line);
 	}
