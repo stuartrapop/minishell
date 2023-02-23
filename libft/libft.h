@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 22:37:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 18:57:53 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/22 23:50:36 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ char		*ft_strncat(char *dst, const char *src, size_t n);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*ft_strncpy(char *dst, const char *src, size_t n);
 char		*ft_strndup(const char *s, size_t n);
+char		*ft_strndup2(const char *s, size_t n, char **ret);
 char		*ft_strnew(char **ps, const char *s);
 size_t		ft_strnlen(const char *s, size_t maxlen);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);

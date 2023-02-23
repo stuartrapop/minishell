@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 18:18:05 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 20:17:54 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/23 02:30:52 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,21 @@ typedef struct s_parms
 	size_t	sz2;
 }	t_parms;
 
-static size_t	_count(const char *s, const char *this)
+static size_t	_count(const char *s, const char *this, size_t n)
 {
 	size_t	cnt;
 
+	if (n == 0)
+		return (0);
 	cnt = 0;
 	while (*s)
 	{
 		s = ft_strstr(s, this);
-		if (s++)
+		if (s)
+		{
 			++cnt;
+			s += n;
+		}
 		else
 			break ;
 	}
@@ -69,15 +74,17 @@ static char	*_replace(char **s, t_parms *parms, char *new)
 	return (new);
 }
 
+//	replace all occurrences of 'this' found in 's' by 'that'
+
 char	*ft_replace(char **s, const char *this, const char *that)
 {
-	const int	cnt = (int) _count(*s, this);
 	t_parms		parms;
+	const int	cnt = (int) _count(*s, this, ft_strlen2(this, &parms.sz1));
 	int			delta;
 	size_t		newlen;
 	char		*newstr;
 
-	if (cnt == 0 || ft_strlen2(this, &parms.sz1) == 0)
+	if (cnt == 0 || parms.sz1 == 0)
 		return (*s);
 	delta = ((int) ft_strlen2(that, &parms.sz2)) - ((int) parms.sz1);
 	newlen = ft_strlen(*s) + (cnt * delta);
