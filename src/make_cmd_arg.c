@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:53:46 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/22 16:18:33 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:10:56 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_cmd_arg(char **str, t_scan *scan)
 	}
 	*str += i;
 	ret = ft_strdup((char *)new_arg.data);
-	ft_arr_fini(&new_arg, ft_free);
+	ft_arr_fini(&new_arg, 0);
 	return (ret);
 }
 
@@ -42,16 +42,18 @@ char	*make_arg0(t_cmd *cmd)
 	char	*full_command;
 	t_scan	scan;
 	char	*first_arg;
+	char	*tmp;
 
 	scan.within_double_quotes = 0;
 	scan.within_single_quotes = 0;
 	full_command = make_full_command(&cmd->args);
 	if (!*full_command)
 		return (NULL);
+	tmp = full_command;
 	while (ft_isspace(*full_command))
 		full_command++;
 	first_arg = get_cmd_arg(&full_command, &scan);
-	ft_free(full_command);
+	// ft_free(&tmp);
 	unbs(&first_arg);
 	if (!first_arg || *first_arg == '\0')
 		return (NULL);

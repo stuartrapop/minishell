@@ -6,7 +6,7 @@
 #    By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/08 08:39:46 by pmarquis          #+#    #+#              #
-#    Updated: 2023/02/22 16:14:56 by srapopor         ###   ########.fr        #
+#    Updated: 2023/02/23 15:13:04 by srapopor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 OPT_STUART ?= 0
 
-OPT_DEBUG ?= 1
+OPT_DEBUG ?= 0
 export OPT_DEBUG
 
 ifeq ($(shell uname),Linux)
@@ -24,7 +24,7 @@ OPT_LINUX ?= 0
 endif
 export OPT_LINUX
 
-OPT_MEMLIST ?= 1
+OPT_MEMLIST ?= 0
 export OPT_MEMLIST
 
 NAME = minishell

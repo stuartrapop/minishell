@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:10:14 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/22 17:21:23 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:14:57 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*clean_redirect(char **str)
 		i++;
 	}
 	ret = ft_strdup((char *)new_arg.data);
-	ft_arr_fini(&new_arg, ft_free);
+	ft_arr_fini(&new_arg, 0);
 	ft_free(*str);
 	return (ret);
 }
@@ -47,7 +47,7 @@ char	*exp_env_str(char *fn)
 		return (NULL);
 	add_arg_to_full_command(&new_string, fn);
 	exp_str = ft_strdup((char *)new_string.data);
-	ft_arr_fini(&new_string, ft_free);
+	ft_arr_fini(&new_string, 0);
 	return (exp_str);
 }
 

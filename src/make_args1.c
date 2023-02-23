@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:47:06 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/22 15:07:54 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:23:36 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*add_env_var(t_arr *new_string, char **str)
 	var_name[i - 1] = '\0';
 	*str += i;
 	env_variable = ft_env_var(var_name, (char **)g_shell->env.data);
-	ft_free(var_name);
+	// ft_free(var_name);
 	if (!env_variable)
 		return (NULL);
 	while (*env_variable)
