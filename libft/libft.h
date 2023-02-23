@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 22:37:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/22 23:50:36 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/23 18:30:40 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <assert.h>
+# include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <stddef.h>

@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 18:17:57 by pmarquis          #+#    #+#             */
-/*   Updated: 2022/12/17 16:08:47 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/23 18:34:20 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_abspath_of_cmd(const char *cmd, char *dirs[])
 			path[dsz + 1] = 0;
 		}
 		ft_strcat(path, cmd);
-		if (access(path, X_OK) == 0)
+		if (ft_file_executable(path))
 			return (ft_strdup(path));
 		++i;
 	}

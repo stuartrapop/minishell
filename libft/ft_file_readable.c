@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 17:09:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 18:05:03 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/23 18:32:49 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 int	ft_file_readable(const char *path)
 {
-	if (access(path, R_OK) == 0)
-		return (1);
-	return (0);
+	if (access(path, R_OK) == -1)
+	{
+		errno = 0;
+		return (0);
+	}
+	return (1);
 }

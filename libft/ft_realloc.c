@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:38:23 by pmarquis          #+#    #+#             */
-/*   Updated: 2022/11/20 16:23:14 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/23 18:54:10 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,17 @@
 
 #ifndef NMEMLIST
 
-static inline int	__ft_realloc(t_memlist **q, t_memlist *p, size_t sz)
+static inline void	*_undefined_behavior(void)
+{
+	char	*p;
+
+	assert(0);
+	p = 0;
+	*p = 0;
+	return (0);
+}
+
+static inline int	_ft_realloc2(t_memlist **q, t_memlist *p, size_t sz)
 {
 	*q = malloc(sizeof(t_memlist) + sz);
 	if (!*q)
@@ -45,7 +55,7 @@ static inline void	*_ft_realloc(void *ptr, size_t sz)
 			if (p->sz == sz)
 				return (p);
 			ft_sllist_take(lst, p, prev);
-			if (!__ft_realloc(&q, p, sz))
+			if (!_ft_realloc2(&q, p, sz))
 				return (0);
 			ft_sllist_push(lst, q);
 			free(p);
@@ -54,7 +64,7 @@ static inline void	*_ft_realloc(void *ptr, size_t sz)
 		prev = p;
 		p = p->next;
 	}
-	return (0);
+	return (_undefined_behavior());
 }
 
 void	*ft_realloc(void *ptr, size_t sz)
@@ -75,23 +85,10 @@ void	*ft_realloc(void *ptr, size_t sz)
 
 #else // def NMEMLIST
 
-static inline void	*_ft_realloc(void *ptr, size_t sz, size_t psz)
-{
-	void	*q;
-
-	q = malloc(sz);
-	if (!q)
-		return (0);
-	if (sz >= psz)
-		ft_memcpy(q, ptr, psz);
-	else
-		ft_memcpy(q, ptr, sz);
-	free(ptr);
-	return (q);
-}
-
 void	*ft_realloc(void *ptr, size_t sz, size_t psz)
 {
+	char	*q;
+
 	if (!ptr)
 	{
 		if (sz)
@@ -103,7 +100,15 @@ void	*ft_realloc(void *ptr, size_t sz, size_t psz)
 		free(ptr);
 		return (0);
 	}
-	return (_ft_realloc(ptr, sz, psz));
+	q = malloc(sz);
+	if (!q)
+		return (0);
+	if (sz >= psz)
+		ft_memcpy(q, ptr, psz);
+	else
+		ft_memcpy(q, ptr, sz);
+	free(ptr);
+	return (q);
 }
 
 #endif // ndef NMEMLIST

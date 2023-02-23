@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:32:42 by pmarquis          #+#    #+#             */
-/*   Updated: 2022/12/06 00:01:42 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/23 18:39:25 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_free(void *ptr)
 	t_memlist	**lst;
 	t_memlist	*p;
 	t_memlist	*prev;
+	char		*undefined_behavior;
 
 	if (!ptr)
 		return ;
@@ -43,6 +44,9 @@ void	ft_free(void *ptr)
 		prev = p;
 		p = p->next;
 	}
+	assert(0);
+	undefined_behavior = 0;
+	*undefined_behavior = 0;
 }
 
 #else
