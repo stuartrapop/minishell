@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splash.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 00:42:04 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 17:01:07 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/23 18:05:55 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 void	splash(void)
 {
 	char	*p;
+	char	*uname_command;
 
 	p = abspath_find("neofetch");
 	if (!p)
@@ -27,7 +28,8 @@ void	splash(void)
 			return ;
 		ft_free(p);
 		ft_printf("\e[1m");
-		interp("uname -a");
+		uname_command = ft_strdup("uname -a");
+		interp(uname_command);
 		ft_printf("\e[0m");
 	}
 	else

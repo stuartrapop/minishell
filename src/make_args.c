@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 21:22:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/23 15:15:28 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/23 16:45:34 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,15 @@ char	*make_full_command(t_arr *args)
 {
 	t_arr		new_string;
 	size_t		i;
-	char		*tmp;
 	char		*full_command;
 
 	ft_arr_init(&new_string, 128, sizeof(char));
 	i = 0;
 	while (i < args->nelem)
 	{
-		tmp = ((char **)args->data)[i];
-		if (!tmp)
+		if (!((char **)args->data)[i])
 			break ;
-		add_arg_to_full_command(&new_string, tmp);
+		add_arg_to_full_command(&new_string, ((char **)args->data)[i]);
 		if (i != args->nelem - 1)
 			ft_arr_append(&new_string, " ", 0);
 		i++;
@@ -61,7 +59,7 @@ int	make_args(t_arr *args)
 
 	full_command = make_full_command(args);
 	split_full_command(&full_command, args);
-	// ft_free(full_command);
+	ft_free(full_command);
 	expand_arg_wildcards(args);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:53:46 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/23 15:10:56 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:33:37 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*make_arg0(t_cmd *cmd)
 	while (ft_isspace(*full_command))
 		full_command++;
 	first_arg = get_cmd_arg(&full_command, &scan);
-	// ft_free(&tmp);
+	ft_free(tmp);
 	unbs(&first_arg);
 	if (!first_arg || *first_arg == '\0')
 		return (NULL);

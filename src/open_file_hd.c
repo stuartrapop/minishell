@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:15:49 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/22 17:20:03 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/23 16:35:41 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,11 @@ static char	*expand_line(char **line)
 	char	*tmp;
 	char	*exp_line;
 
-	ft_replace(line, "\n", "\0");
+	(*line)[ft_strlen(*line) - 1] = '\0';
 	tmp = exp_env_str(*line);
-	exp_line = ft_malloc(ft_strlen(tmp) + 2);
+	exp_line = ft_calloc(ft_strlen(tmp) + 2, sizeof(char));
 	ft_strccpy(exp_line, tmp, ft_strlen(tmp));
 	exp_line[ft_strlen(tmp)] = '\n';
-	exp_line[ft_strlen(tmp) + 1] = '\0';
 	ft_del(line);
 	ft_del(&tmp);
 	return (exp_line);

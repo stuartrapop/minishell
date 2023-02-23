@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:10:14 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/23 14:14:57 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/23 16:51:57 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	expand_redirs(t_cmd *cmd)
 			expand_str = exp_env_str(((t_redir *)cmd->redirs.data)[i].str);
 			tmp = ((t_redir *)cmd->redirs.data)[i].str;
 			((t_redir *)cmd->redirs.data)[i].str = expand_str;
+			ft_free(tmp);
 		}
-		ft_free(tmp);
 		i++;
 	}
 	return (0);
