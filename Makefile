@@ -6,13 +6,13 @@
 #    By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/08 08:39:46 by pmarquis          #+#    #+#              #
-#    Updated: 2023/02/24 09:12:58 by srapopor         ###   ########.fr        #
+#    Updated: 2023/02/24 20:52:47 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all clean fclean mrproper re
 
-OPT_STUART ?= 1
+OPT_STUART ?= 0
 
 OPT_DEBUG ?= 1
 export OPT_DEBUG
@@ -24,7 +24,7 @@ OPT_LINUX ?= 0
 endif
 export OPT_LINUX
 
-OPT_MEMLIST ?= 0
+OPT_MEMLIST ?= 1
 export OPT_MEMLIST
 
 NAME = minishell
