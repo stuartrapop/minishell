@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 22:37:34 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/23 18:30:40 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/24 19:55:14 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int			ft_file_exists(const char *path);
 int			ft_file_directory(const char *path);
 int			ft_file_readable(const char *path);
 int			ft_file_writable(const char *path);
+pid_t		ft_fork(pid_t *ret);
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);
 int			ft_isascii(int c);

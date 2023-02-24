@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:15:49 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/23 16:35:41 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/24 20:02:37 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ static int	_error(int fds[])
 	return (-1);
 }
 
-//  assert(errno == 0); line removed
 static inline char	*_gnl(void)
 {
-	errno = 0;
+	assert(errno == 0);
 	return (ft_getnextline(0));
 }
 

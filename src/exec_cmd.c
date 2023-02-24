@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/22 18:26:34 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/24 20:01:55 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num)
 	char	*abspath;
 
 	abspath = 0;
-	cmd->_pid = fork();
+	cmd->_pid = ft_fork(0);
 	if (cmd->_pid == 0)
 	{
 		sig_subshell();
