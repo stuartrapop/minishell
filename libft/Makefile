@@ -6,7 +6,7 @@
 #    By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/12 22:29:10 by pmarquis          #+#    #+#              #
-#    Updated: 2023/02/23 15:09:43 by srapopor         ###   ########.fr        #
+#    Updated: 2023/02/26 00:42:05 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,31 +73,22 @@ $(NAME): $(OBJ)
 clean:
 	rm -f *.o
 	$(MAKE) -C arr $@
-	$(MAKE) -C btree $@
-	$(MAKE) -C dict $@
 	$(MAKE) -C gnl $@
 	$(MAKE) -C printf $@
-	$(MAKE) -C tests $@
 
 fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C arr $@
-	$(MAKE) -C btree $@
-	$(MAKE) -C dict $@
 	$(MAKE) -C gnl $@
 	$(MAKE) -C printf $@
-	$(MAKE) -C tests $@
 
 re: fclean all
 
 mrproper: fclean
 	rm -f cscope.* tags
 	$(MAKE) -C arr $@
-	$(MAKE) -C btree $@
-	$(MAKE) -C dict $@
 	$(MAKE) -C gnl $@
 	$(MAKE) -C printf $@
-	$(MAKE) -C tests $@
 
 tests: $(NAME)
 	$(MAKE) -C $@
