@@ -6,14 +6,13 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 23:13:43 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/25 21:02:59 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/26 00:58:02 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //	do the magic variable expansion here
-//	string 's' will be freed
 
 char	*expand_str(char *s)
 {
