@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:53:46 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/25 19:23:55 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/26 00:28:18 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*make_arg0(t_cmd *cmd)
 
 	if (cmd->_arg0)
 		return (_ret_arg0(cmd));
-	full_cmd = make_cmd(&cmd->args);
+	full_cmd = make_cmd(cmd);
 	if (!*full_cmd)
 	{
 		cmd->_arg0 = full_cmd;
@@ -42,7 +42,6 @@ char	*make_arg0(t_cmd *cmd)
 		++p;
 	ft_memset(&scan, 0, sizeof(t_scan));
 	cmd->_arg0 = scan_cmd_arg(&p, &scan);
-	ft_free(full_cmd);
 	unbs(&cmd->_arg0);
 	if (!*cmd->_arg0)
 		return (0);

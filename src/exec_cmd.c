@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 21:33:07 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/25 19:30:23 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/26 00:26:38 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	_treat_arg0(const char *arg0, char **abspath, t_cmd *cmd)
 
 static void	_make_args(char *abspath, t_cmd *cmd)
 {
-	if (abspath && !make_args(&cmd->args))
+	if (abspath && !make_args(cmd))
 		ft_del(&abspath);
 	if (!abspath)
 		exit(cmd->_status);

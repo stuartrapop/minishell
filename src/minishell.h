@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/25 19:20:49 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/26 00:25:27 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct s_cmd
 	t_arr	redirs;
 	int		_expect;
 	char	*_arg0;
+	char	*_full_cmd;
 	int		_input_or_heredoc;
 	int		_output_or_append;
 	int		_input_fd;
@@ -230,8 +231,8 @@ int			interp(const char *s);
 int			interp_args(int argc, char *argv[]);
 char		**last_command(void);
 char		*make_arg0(t_cmd *cmd);
-int			make_args(t_arr *args);
-char		*make_cmd(t_arr *args);
+int			make_args(t_cmd *cmd);
+char		*make_cmd(t_cmd *cmd);
 void		make_redirs(t_cmd *cmd);
 int			node_del(t_node **nd);
 t_node		*node_new(const t_node *parent);

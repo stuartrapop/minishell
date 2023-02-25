@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 21:22:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/25 19:24:11 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/26 00:26:38 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,13 @@ static void	_split_full_command(char *s, t_arr *args)
 
 //	returned value is not ignored...
 
-int	make_args(t_arr *args)
+int	make_args(t_cmd *cmd)
 {
 	char	*full_command;
 
-	full_command = make_cmd(args);
-	_split_full_command(full_command, args);
-	ft_free(full_command);
-	if (!_wildcards(args))
+	full_command = make_cmd(cmd);
+	_split_full_command(full_command, &cmd->args);
+	if (!_wildcards(&cmd->args))
 		return (0);
 	return (1);
 }
