@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   redir_ambiguous.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 05:11:05 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/25 09:53:11 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/25 19:19:59 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/25 19:31:40 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_export(t_cmdgrp *cgrp, t_cmd *cmd)
+int	redir_ambiguous(const char *str)
 {
-	size_t	i;
-	char	*s;
-	t_var	var;
+	int		i;
+	t_scan	scan;
 
-	(void) cgrp;
-	if (cmd->args.nelem == 1)
-		return (builtin_export_p());
-	i = 0;
-	while (++i < cmd->args.nelem)
+	ft_memset(&scan, 0, sizeof(t_scan));
+	if (!str[0])
 	{
-		s = *(char **) ft_arr_get(&cmd->args, i);
-		if (!*s || !var_init(&var, s))
+		ft_putstr("error: ambiguous redirect\n", STDERR_FILENO);
+		return (1);
+	}
+	i = -1;
+	while (str[++i])
+	{
+		scan_quotes(str[i], &scan);
+		if (str[i] == ' ' && !scan.within_double_quotes
+			&& !scan.within_single_quotes)
+		{
+			ft_putstr("error: ambiguous redirect\n", STDERR_FILENO);
 			return (1);
-		if (!var.value && var.has_equal && !ft_strdup2("", &var.value))
-			enomem();
-		assert(var.value);
-		if (!env_set(&g_shell->env, var.name, var.value))
-			enomem();
-		var_fini(&var);
+		}
 	}
 	return (0);
 }

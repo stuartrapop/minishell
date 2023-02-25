@@ -6,68 +6,29 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:10:14 by srapopor          #+#    #+#             */
-/*   Updated: 2023/02/23 16:51:57 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/25 01:06:52 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
-char	*clean_redirect(char **str)
-{
-	int		i;
-	t_arr	new_arg;
-	char	*ret;
-	t_scan	scan;
-
-	scan.within_double_quotes = 0;
-	scan.within_single_quotes = 0;
-	ft_arr_init(&new_arg, 4, sizeof(char));
-	i = 0;
-	while ((*str)[i])
-	{
-		if (treat_quotes((*str)[i], &scan))
-			;
-		else
-			ft_arr_append(&new_arg, &(*str)[i], 0);
-		i++;
-	}
-	ret = ft_strdup((char *)new_arg.data);
-	ft_arr_fini(&new_arg, 0);
-	ft_free(*str);
-	return (ret);
-}
-
-char	*exp_env_str(char *fn)
-{
-	t_arr		new_string;
-	char		*exp_str;
-
-	ft_arr_init(&new_string, 128, sizeof(char));
-	if (!fn)
-		return (NULL);
-	add_arg_to_full_command(&new_string, fn);
-	exp_str = ft_strdup((char *)new_string.data);
-	ft_arr_fini(&new_string, 0);
-	return (exp_str);
-}
-
-int	expand_redirs(t_cmd *cmd)
+void	make_redirs(t_cmd *cmd)
 {
 	size_t	i;
-	char	*expand_str;
+	char	*exp;
 	char	*tmp;
+	t_redir	*redir;
 
-	i = 0;
-	while (i < cmd->redirs.nelem)
+	i = -1;
+	while (++i < cmd->redirs.nelem)
 	{
-		if (((t_redir *)cmd->redirs.data)[i].tp != redir_heredoc)
+		redir = (t_redir *) ft_arr_get(&cmd->redirs, i);
+		if (redir->tp != redir_heredoc)
 		{
-			expand_str = exp_env_str(((t_redir *)cmd->redirs.data)[i].str);
-			tmp = ((t_redir *)cmd->redirs.data)[i].str;
-			((t_redir *)cmd->redirs.data)[i].str = expand_str;
+			exp = expand_str(redir->str);
+			tmp = redir->str;
+			redir->str = exp;
 			ft_free(tmp);
 		}
-		i++;
 	}
-	return (0);
 }

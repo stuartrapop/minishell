@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 19:04:17 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 12:23:30 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/25 21:30:21 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,6 @@ static int	_is_sep(char c, const t_scan *scan)
 	return (0);
 }
 
-static void	_treat_quotes(char c, t_scan *scan)
-{
-	if (c == '\'' && !scan->within_double_quotes)
-		scan->within_single_quotes = !scan->within_single_quotes;
-	else if (c == '\"' && !scan->within_single_quotes)
-		scan->within_double_quotes = !scan->within_double_quotes;
-}
-
 char	*tokenize_var(const char *s, t_token *tok)
 {
 	const char	*start = s;
@@ -38,7 +30,7 @@ char	*tokenize_var(const char *s, t_token *tok)
 	ft_memset(&scan, 0, sizeof(scan));
 	while (*s && !_is_sep(*s, &scan))
 	{
-		_treat_quotes(*s, &scan);
+		scan_quotes(*s, &scan);
 		++s;
 	}
 	tok->data = ft_strndup(start, s - start);

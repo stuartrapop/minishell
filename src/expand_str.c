@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unbs.c                                             :+:      :+:    :+:   */
+/*   expand_str.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 19:22:57 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/25 02:16:15 by pmarquis         ###   lausanne.ch       */
+/*   Created: 2023/02/24 23:13:43 by pmarquis          #+#    #+#             */
+/*   Updated: 2023/02/25 21:02:59 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//	remove leading backslash
+//	do the magic variable expansion here
+//	string 's' will be freed
 
-char	*unbs(char **cmd)
+char	*expand_str(char *s)
 {
-	char	*p;
+	t_arr	new_string;
+	char	*exp_str;
 
-	assert(*cmd);
-	if (**cmd == '\\')
-	{
-		p = *cmd;
-		if (!ft_strdup2(&(*cmd)[1], cmd))
-			enomem();
-		ft_free(p);
-	}
-	return (*cmd);
+	assert(s);
+	if (!ft_arr_init(&new_string, 128, sizeof(char)))
+		enomem();
+	add_arg_to_full_command(&new_string, s);
+	if (!ft_strdup2(new_string.data, &exp_str))
+		enomem();
+	ft_arr_fini(&new_string, 0);
+	return (exp_str);
 }

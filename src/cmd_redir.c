@@ -6,37 +6,35 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 02:24:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/22 12:43:40 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/25 20:03:12 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_ambiguous(char *str)
+static void	_clean_redirect(char **str)
 {
 	int		i;
+	t_arr	new_arg;
+	char	*tmp;
 	t_scan	scan;
 
-	scan.within_double_quotes = 0;
-	scan.within_single_quotes = 0;
-	if (str[0] == '\0')
+	ft_memset(&scan, 0, sizeof(t_scan));
+	if (!ft_arr_init(&new_arg, 4, sizeof(char)))
+		enomem();
+	i = -1;
+	while ((*str)[++i])
 	{
-		ft_dprintf(2, "error: ambiguous redirect\n");
-		return (1);
+		if (scan_quotes((*str)[i], &scan))
+			;
+		else if (!ft_arr_append(&new_arg, &(*str)[i], 0))
+			enomem();
 	}
-	i = 0;
-	while (str[i])
-	{
-		treat_quotes(str[i], &scan);
-		if (ft_strchr(" ", str[i]) && !scan.within_double_quotes && \
-			!scan.within_single_quotes)
-		{
-			ft_dprintf(2, "error: ambiguous redirect\n");
-			return (1);
-		}
-		i++;
-	}
-	return (0);
+	if (!ft_strdup2(new_arg.data, &tmp))
+		enomem();
+	ft_arr_fini(&new_arg, 0);
+	ft_free(*str);
+	*str = tmp;
 }
 
 static int	_treat_heredocs(t_cmd *cmd)
@@ -50,13 +48,33 @@ static int	_treat_heredocs(t_cmd *cmd)
 		redir = (t_redir *) ft_arr_get(&cmd->redirs, i);
 		if (redir->tp == redir_heredoc)
 		{
-			// redir->str = clean_redirect(&redir->str);
+			// redir->str = _clean_redirect(&redir->str);
 			if (cmd->_heredoc_fd != -1)
 				fd_close(&cmd->_heredoc_fd);
 			cmd->_heredoc_fd = open_file_hd(redir->str);
 			if (cmd->_heredoc_fd == -1)
 				return (0);
 		}
+	}
+	return (1);
+}
+
+static int	_treat_others_cont(t_cmd *cmd, t_redir *redir)
+{
+	if (redir->tp == redir_input)
+	{
+		if (!cmd_redir_input(cmd, redir))
+			return (0);
+	}
+	else if (redir->tp == redir_output)
+	{
+		if (!cmd_redir_output(cmd, redir))
+			return (0);
+	}
+	else if (redir->tp == redir_append)
+	{
+		if (!cmd_redir_append(cmd, redir))
+			return (0);
 	}
 	return (1);
 }
@@ -70,24 +88,11 @@ static int	_treat_others(t_cmd *cmd)
 	while (++i < cmd->redirs.nelem)
 	{
 		redir = (t_redir *) ft_arr_get(&cmd->redirs, i);
-		if (is_ambiguous(redir->str))
+		if (redir_ambiguous(redir->str))
 			return (0);
-		redir->str = clean_redirect(&redir->str);
-		if (redir->tp == redir_input)
-		{
-			if (!cmd_redir_input(cmd, redir))
-				return (0);
-		}
-		else if (redir->tp == redir_output)
-		{
-			if (!cmd_redir_output(cmd, redir))
-				return (0);
-		}
-		else if (redir->tp == redir_append)
-		{
-			if (!cmd_redir_append(cmd, redir))
-				return (0);
-		}
+		_clean_redirect(&redir->str);
+		if (!_treat_others_cont(cmd, redir))
+			return (0);
 	}
 	return (1);
 }
@@ -112,7 +117,6 @@ int	cmd_redir(t_cmd *cmd)
 	}
 	if (cmd->_input_or_heredoc)
 	{
-		assert(cmd->_input_fd != -1 || cmd->_heredoc_fd != -1);
 		if (cmd->_input_or_heredoc == redir_input)
 			fd_close(&cmd->_heredoc_fd);
 		else
@@ -120,7 +124,6 @@ int	cmd_redir(t_cmd *cmd)
 	}
 	if (cmd->_output_or_append)
 	{
-		assert(cmd->_output_fd != -1 || cmd->_append_fd != -1);
 		if (cmd->_output_or_append == redir_output)
 			fd_close(&cmd->_append_fd);
 		else

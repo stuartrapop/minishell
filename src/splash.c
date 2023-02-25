@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 00:42:04 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/24 09:15:49 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/25 10:00:23 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 void	splash(void)
 {
 	char	*p;
-	char	*uname_command;
-	char	*neofetch_command;
 
 	p = abspath_find("neofetch");
 	if (!p)
@@ -28,15 +26,17 @@ void	splash(void)
 		if (!p)
 			return ;
 		ft_free(p);
-		ft_printf("\e[1m");
-		uname_command = ft_strdup("uname -a");
-		interp(uname_command);
-		ft_printf("\e[0m");
+		if (!ft_strdup2("uname -a", &p))
+			enomem();
+		ft_putstr("\e[1m", STDOUT_FILENO);
+		interp(p);
+		ft_putstr("\e[0m", STDOUT_FILENO);
 	}
 	else
 	{
 		ft_free(p);
-		neofetch_command = ft_strdup("neofetch");
-		interp(neofetch_command);
+		if (!ft_strdup2("neofetch", &p))
+			enomem();
+		interp(p);
 	}
 }

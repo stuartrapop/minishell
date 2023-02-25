@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 17:43:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/23 15:48:40 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:29:14 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void	_exec_cmd(t_node *nd)
 	arg0 = make_arg0(cmd);
 	if (arg0 && cgrp->cmds.nelem == 1 && cmd_builtin(arg0) && !cgrp->_subshell)
 	{
-		ft_free(arg0);
 		g_shell->retval = exec_simple_builtin(cgrp, cmd);
 		return ;
 	}
@@ -52,7 +51,6 @@ static void	_exec_cmd(t_node *nd)
 		cmd = *(t_cmd **) ft_arr_get(&cgrp->cmds, i);
 		exec_cmd(cgrp, cmd, i);
 	}
-	ft_free(arg0);
 	waitpids(&cgrp->cmds);
 }
 

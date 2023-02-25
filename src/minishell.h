@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:46:58 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/22 17:20:12 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/25 19:20:49 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ typedef struct s_cmd
 	t_arr	args;
 	t_arr	redirs;
 	int		_expect;
-	int		_arg0_made;
+	char	*_arg0;
 	int		_input_or_heredoc;
 	int		_output_or_append;
 	int		_input_fd;
@@ -136,7 +136,9 @@ struct s_cmdgrp
 	int		_subshell;
 };
 
-/*helper for scan */
+/*
+ *	scan strings
+ */
 
 typedef struct s_scan
 {
@@ -180,6 +182,7 @@ typedef struct s_var
  */
 
 char		*abspath_find(const char *cmd);
+void		add_arg_to_full_command(t_arr *new_string, char *str);
 int			ast_check(const t_node *nd);
 int			builtin_cd(t_cmdgrp *cgrp, t_cmd *cmd);
 int			builtin_echo(t_cmdgrp *cgrp, t_cmd *cmd);
@@ -205,6 +208,7 @@ int			cmdgrp_add(t_cmdgrp *cgrp, t_token *tok);
 t_cmd		*cmdgrp_cmd(t_cmdgrp *cgrp);
 int			cmdgrp_del(t_cmdgrp **cgrp);
 t_cmdgrp	*cmdgrp_new(void);
+int			compare_hd(const char *line, const char *hd);
 int			enomem(void);
 char		*env_get(const t_arr *env, const char *varname);
 size_t		env_indexof(const t_arr *env, const char *varname);
@@ -215,6 +219,7 @@ void		exec(t_node *root);
 int			exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
 int			exec_cmd(t_cmdgrp *cgrp, t_cmd *cmd, size_t num);
 int			exec_simple_builtin(t_cmdgrp *cgrp, t_cmd *cmd);
+char		*expand_str(char *s);
 int			fatal(const char *title, const char *msg);
 int			fd_close(int *fd);
 int			finish(int exit_status, int verbose);
@@ -226,6 +231,8 @@ int			interp_args(int argc, char *argv[]);
 char		**last_command(void);
 char		*make_arg0(t_cmd *cmd);
 int			make_args(t_arr *args);
+char		*make_cmd(t_arr *args);
+void		make_redirs(t_cmd *cmd);
 int			node_del(t_node **nd);
 t_node		*node_new(const t_node *parent);
 void		node_remove(t_node *nd, t_node *child, t_node **root);
@@ -240,14 +247,16 @@ int			parse_logop(t_node **nd, t_token *tok, t_node **root);
 int			parse_paren(t_node **nd, t_token *tok, t_node **root);
 int			parse_undef(t_node **nd, t_token *tok);
 char		*ps1(void);
+int			redir_ambiguous(const char *str);
 void		redir_fini(void *redirect);
+char		*scan_cmd_arg(char **str, t_scan *scan);
+int			scan_quotes(char c, t_scan *scan);
 t_shell		*shell_new(char *environ[]);
 void		shell_reset(t_shell *sh);
 void		sig_mainproc(void);
 void		sig_remove(void);
 void		sig_subshell(void);
 void		splash(void);
-char		*string(char **s);
 void		termios_bs(int enable);
 void		termios_fini(void);
 void		termios_init(void);
@@ -260,14 +269,6 @@ int			var_init(t_var *var, const char *s);
 int			var_valid(const t_var *var);
 int			waitpids(const t_arr *cmds);
 int			wildcard(t_arr *args, size_t idx);
-char		*get_cmd_arg(char **str, t_scan *scan);
-void		split_full_command(char **command_string, t_arr *args);
-void		add_arg_to_full_command(t_arr *new_string, char *str);
-int			treat_quotes(char c, t_scan *scan);
-char		*make_full_command(t_arr *args);
-int			expand_redirs(t_cmd *cmd);
-char		*clean_redirect(char **str);
-char		*exp_env_str(char *fn);
 
 # ifndef NDEBUG
 

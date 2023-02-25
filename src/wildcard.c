@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:48:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/16 00:57:29 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/24 23:58:07 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static t_arr	*_wildcard(void)
 }
 
 //	substitute the '*' at index 'idx' with the list of files
+//	will return 0 if something goes wrong (read error etc)
 
 int	wildcard(t_arr *args, size_t idx)
 {

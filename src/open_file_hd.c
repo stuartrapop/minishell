@@ -6,30 +6,16 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:15:49 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/24 20:02:37 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/24 23:18:48 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static inline void	_create_pipe(int fds[])
+static void	_create_pipe(int fds[])
 {
 	if (pipe(fds) == -1)
 		fatal("pipe", strerror(errno));
-}
-
-static int	_comp_hd(const char *line, const char *hd)
-{
-	size_t	s1;
-	size_t	s2;
-
-	if (!ft_startswith(line, hd))
-		return (0);
-	if (ft_strlen2(line, &s1) == ft_strlen2(hd, &s2))
-		return (1);
-	if (s1 == s2 + 1 && ft_endswith(line, "\n"))
-		return (1);
-	return (0);
 }
 
 static int	_error(int fds[])
@@ -40,28 +26,22 @@ static int	_error(int fds[])
 	return (-1);
 }
 
-static inline char	*_gnl(void)
+static char	*_gnl(char **line)
 {
 	assert(errno == 0);
-	return (ft_getnextline(0));
+	*line = ft_getnextline(STDIN_FILENO);
+	return (*line);
 }
 
-static char	*expand_line(char **line)
+static void	_ctrl_d(char **line)
 {
-	char	*tmp;
-	char	*exp_line;
-
-	(*line)[ft_strlen(*line) - 1] = '\0';
-	tmp = exp_env_str(*line);
-	exp_line = ft_calloc(ft_strlen(tmp) + 2, sizeof(char));
-	ft_strccpy(exp_line, tmp, ft_strlen(tmp));
-	exp_line[ft_strlen(tmp)] = '\n';
-	ft_del(line);
-	ft_del(&tmp);
-	return (exp_line);
+	if (!ft_append(line, "\n"))
+		enomem();
+	ft_putchar('\n', STDOUT_FILENO);
 }
 
-//	signal interrupts cause read to fail
+//	signal interrupts cause read to fail (errno is then set).
+//	ctrl-d flushes the stream, so the line isnt always terminated by \n
 
 int	open_file_hd(const char *eof)
 {
@@ -71,24 +51,23 @@ int	open_file_hd(const char *eof)
 	_create_pipe(fds);
 	while (1)
 	{
-		ft_putstr("> ", 1);
-		line = _gnl();
-		if (!line)
+		ft_putstr("> ", STDOUT_FILENO);
+		if (!_gnl(&line))
 		{
-			ft_putstr("\n", 1);
+			ft_putchar('\n', STDOUT_FILENO);
 			if (errno)
 				return (_error(fds));
 			break ;
 		}
-		if (_comp_hd(line, eof))
-		{
-			ft_free(line);
+		if (compare_hd(line, eof))
 			break ;
-		}
-		line = expand_line(&line);
-		ft_putstr(line, fds[1]);
+		if (!ft_endswith(line, "\n"))
+			_ctrl_d(&line);
+		ft_putstr(expand_str(line), fds[1]);
 		ft_del(&line);
 	}
+	if (line)
+		ft_free(line);
 	fd_close(&fds[1]);
 	return (fds[0]);
 }

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 08:47:25 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/23 18:02:10 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:36:38 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ char	**last_command(void)
 
 static void	_add_history(const char *s)
 {
-	char	*arg;
-	char	**prev;
+	char		*arg;
+	static char	**prev;
 
-	prev = last_command();
+	if (!prev)
+		prev = last_command();
 	arg = ft_strip(s);
 	if (!arg)
 		enomem();

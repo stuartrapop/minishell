@@ -6,13 +6,13 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 21:22:10 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/23 16:45:34 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/25 19:24:11 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
-int	expand_arg_wildcards(t_arr *args)
+static int	_wildcards(t_arr *args)
 {
 	size_t	i;
 	char	*s;
@@ -31,35 +31,40 @@ int	expand_arg_wildcards(t_arr *args)
 	return (1);
 }
 
-char	*make_full_command(t_arr *args)
-{
-	t_arr		new_string;
-	size_t		i;
-	char		*full_command;
+//	empty the args array and refill with that command string
 
-	ft_arr_init(&new_string, 128, sizeof(char));
-	i = 0;
-	while (i < args->nelem)
+static void	_split_full_command(char *s, t_arr *args)
+{
+	t_scan	scan;
+	char	*new_arg;
+
+	ft_memset(&scan, 0, sizeof(t_scan));
+	ft_arr_fini(args, &ft_del);
+	if (!ft_arr_init(args, 1, sizeof(char *)))
+		enomem();
+	while (*s)
 	{
-		if (!((char **)args->data)[i])
-			break ;
-		add_arg_to_full_command(&new_string, ((char **)args->data)[i]);
-		if (i != args->nelem - 1)
-			ft_arr_append(&new_string, " ", 0);
-		i++;
+		if (ft_isspace(*s))
+			++s;
+		else
+		{
+			new_arg = scan_cmd_arg(&s, &scan);
+			if (!ft_arr_append(args, &new_arg, 0))
+				enomem();
+		}
 	}
-	full_command = ft_strdup((char *)new_string.data);
-	ft_arr_fini(&new_string, 0);
-	return (full_command);
 }
+
+//	returned value is not ignored...
 
 int	make_args(t_arr *args)
 {
-	char		*full_command;
+	char	*full_command;
 
-	full_command = make_full_command(args);
-	split_full_command(&full_command, args);
+	full_command = make_cmd(args);
+	_split_full_command(full_command, args);
 	ft_free(full_command);
-	expand_arg_wildcards(args);
+	if (!_wildcards(args))
+		return (0);
 	return (1);
 }

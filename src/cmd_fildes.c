@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 21:24:44 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/21 14:48:11 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/02/24 23:48:05 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static int	_cmd_fildes(t_cmdgrp *cgrp, t_cmd *command, size_t num)
 
 int	cmd_fildes(t_cmdgrp *cgrp, t_cmd *command, size_t num)
 {
-	expand_redirs(command);
+	make_redirs(command);
 	if (!cmd_redir(command))
 		return (0);
 	return (_cmd_fildes(cgrp, command, num));

@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 01:37:52 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 00:40:38 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/25 19:56:33 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	exec_builtin(t_cmdgrp *cgrp, t_cmd *cmd)
 	{"memusage", &builtin_memusage}, {"pwd", &builtin_pwd},
 	{"unset", &builtin_unset}, {0}};
 
-	assert(cmd->_arg0_made);
 	if (!make_args(&cmd->args))
 		return (1);
 	arg0 = *(char **) ft_arr_get(&cmd->args, 0);

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 02:17:03 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/14 15:06:49 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/25 19:32:58 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,11 @@ static int	_skip_spaces(const char **s)
 char	*tokenize(const char *s, t_token *tok)
 {
 	t_tokspec				*spec;
-	static const t_tokspec	tokspecs[] = {
-		{"&&", 2, tok_and},
-		{">>", 2, tok_append},
-		{"<<", 2, tok_heredoc},
-		{"||", 2, tok_or},
-		{"(", 1, tok_lparen},
-		{")", 1, tok_rparen},
-		{">", 1, tok_output},
-		{"<", 1, tok_input},
-		{"|", 1, tok_pipe},
-		{";", 1, tok_semicolon},
-		{"&", 1, tok_ampersand},
-		{0}
-	};
+	static const t_tokspec	tokspecs[] = {{"&&", 2, tok_and},
+	{">>", 2, tok_append}, {"<<", 2, tok_heredoc}, {"||", 2, tok_or},
+	{"(", 1, tok_lparen}, {")", 1, tok_rparen}, {">", 1, tok_output},
+	{"<", 1, tok_input}, {"|", 1, tok_pipe}, {";", 1, tok_semicolon},
+	{"&", 1, tok_ampersand}, {0}};
 
 	if (!_skip_spaces(&s))
 	{
