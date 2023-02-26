@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 05:11:05 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/15 17:39:52 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/26 15:23:04 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static void	_set_oldpwd(void)
 	if (!opwd)
 	{
 		if (!getcwd(path, PATH_MAX))
+		{
+			errno = 0;
 			return ;
+		}
 		opwd = path;
 	}
 	if (!env_set(&g_shell->env, "OLDPWD", opwd))
@@ -56,8 +59,7 @@ static int	_get_path(const t_cmd *cmd, char **res)
 	}
 	else
 		path = *p;
-	*res = ft_strdup(path);
-	if (!*res)
+	if (!ft_strdup2(path, res))
 		enomem();
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 05:11:05 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/15 17:22:14 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/26 15:29:52 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	builtin_pwd(t_cmdgrp *cgrp, t_cmd *cmd)
 	(void) cmd;
 	if (!getcwd(path, PATH_MAX))
 		return (1 + error("getcwd", strerror(errno)));
-	if (ft_printf("%s\n", path) != (int) ft_strlen(path) + 1)
-		return (1 + error("write", strerror(errno)));
+	ft_printf("%s\n", path);
 	return (0);
 }

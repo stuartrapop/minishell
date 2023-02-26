@@ -6,7 +6,7 @@
 /*   By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 05:11:05 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/17 02:32:21 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/26 15:28:22 by pmarquis         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	builtin_exec(t_cmdgrp *cgrp, t_cmd *cmd)
 
 	(void) cgrp;
 	p = ft_arr_get(&cmd->args, 1);
-	if (!p || !*p)
+	if (!p)
 		return (0);
 	if (!ft_strchr(*p, '/'))
 	{
@@ -29,7 +29,6 @@ int	builtin_exec(t_cmdgrp *cgrp, t_cmd *cmd)
 	}
 	else
 		abspath = *p;
-	execve(abspath, &((char *const *) cmd->args.data)[1],
-		(char *const *) g_shell->env.data);
+	execve(abspath, &((char *const *) cmd->args.data)[1], g_shell->env.data);
 	return (1 + error(*p, strerror(errno)));
 }
