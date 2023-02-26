@@ -6,11 +6,11 @@
 #    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/28 22:27:26 by pmarquis          #+#    #+#              #
-#    Updated: 2023/01/30 20:22:38 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/02/26 17:20:38 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all clean fclean mrproper re tests
+.PHONY: all clean fclean mrproper re
 
 # options
 
@@ -81,9 +81,6 @@ mrproper: fclean
 	rm -f cscope.* tags
 
 re: fclean all
-
-tests: $(NAME)
-	$(MAKE) -C $@ leaks
 
 ### deps
 $(OBJ): $(INC)

@@ -6,7 +6,7 @@
 #    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/18 00:29:02 by pmarquis          #+#    #+#              #
-#    Updated: 2022/12/26 08:01:38 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/02/26 17:22:36 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJ = $(patsubst %.c,%.o,$(SRC))
 CC = gcc
 
 ifeq ($(OPT_DEBUG),1)
-CFLAGS = -Wall -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Wextra -g -fsanitize=address -fno-omit-frame-pointer
 else
 CFLAGS = -Wall -Wextra -Werror
 endif
@@ -46,14 +46,11 @@ $(NAME): $(OBJ)
 
 clean:
 	rm -f *.o
-	$(MAKE) -C tests $@
 
 fclean: clean
 	rm -f $(NAME)
-	$(MAKE) -C tests $@
 
 mrproper: fclean
-	$(MAKE) -C tests $@
 
 re: fclean all
 

@@ -6,11 +6,11 @@
 #    By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/12 22:29:10 by pmarquis          #+#    #+#              #
-#    Updated: 2023/02/26 00:42:05 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/02/26 17:20:12 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all clean fclean re mrproper tests
+.PHONY: all clean fclean re mrproper
 
 # OPTIONS
 
@@ -89,9 +89,6 @@ mrproper: fclean
 	$(MAKE) -C arr $@
 	$(MAKE) -C gnl $@
 	$(MAKE) -C printf $@
-
-tests: $(NAME)
-	$(MAKE) -C $@
 
 ### deps
 $(OBJ): $(INC)

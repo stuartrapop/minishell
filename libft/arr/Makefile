@@ -6,11 +6,11 @@
 #    By: pmarquis <astrorigin@protonmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/22 22:03:28 by pmarquis          #+#    #+#              #
-#    Updated: 2023/01/30 20:21:34 by pmarquis         ###   lausanne.ch        #
+#    Updated: 2023/02/26 17:22:04 by pmarquis         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all clean fclean mrproper re tests
+.PHONY: all clean fclean mrproper re
 
 NAME = libftarr.a
 
@@ -53,20 +53,14 @@ $(NAME): $(OBJ)
 
 clean:
 	rm -f *.o
-	$(MAKE) -C tests $@
 
 fclean: clean
 	rm -f $(NAME)
-	$(MAKE) -C tests $@
 
 mrproper: fclean
 	rm -f cscope.* tags
-	$(MAKE) -C tests $@
 
 re: fclean all
-
-tests:
-	$(MAKE) -C $@
 
 ### deps
 $(OBJ): $(INC)
