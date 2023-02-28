@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 02:24:16 by pmarquis          #+#    #+#             */
-/*   Updated: 2023/02/25 20:03:12 by pmarquis         ###   lausanne.ch       */
+/*   Updated: 2023/02/28 14:54:14 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	_treat_heredocs(t_cmd *cmd)
 		redir = (t_redir *) ft_arr_get(&cmd->redirs, i);
 		if (redir->tp == redir_heredoc)
 		{
-			// redir->str = _clean_redirect(&redir->str);
 			if (cmd->_heredoc_fd != -1)
 				fd_close(&cmd->_heredoc_fd);
 			cmd->_heredoc_fd = open_file_hd(redir->str);
